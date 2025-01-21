@@ -1,0 +1,44 @@
+/* src/components/NextStep.css */
+.next-step {
+    text-align: center;
+    padding: 30px;
+    background-color: #01589A;
+    color: white;
+  }
+  
+  .next-step h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .next-step p {
+    font-size: 1rem;
+    margin-bottom: 40px;
+    color: #e0e0e0;
+    padding: 0 30%;
+  }
+  
+  .tech-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    padding: 0 30%;
+  }
+  
+  .tech-button {
+    background-color: transparent;
+    color: white;
+    border: 2px solid #007bff8e;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tech-button:hover {
+    background-color: #0056b3;
+    color: white;
+  }
+  

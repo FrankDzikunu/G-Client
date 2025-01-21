@@ -1,0 +1,41 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+  }
+  .logo {
+    display: flex;
+    margin-left: 5vw;
+  }
+  
+  .nav-links {
+    display: flex;
+    font-size: 2vmin;
+    list-style: none;
+    margin-right: 50vw;
+    color: #000000;
+    text-decoration: none;
+    gap: 20px;
+  }
+  
+  .nav-links li {
+    margin-right: 20px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: #000000;
+  }
+  
+  .login-button {
+    background-color: transparent;
+    color: #01589A;
+    border: 2px solid #01589A;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10vw;
+  }
+  

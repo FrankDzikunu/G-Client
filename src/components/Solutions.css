@@ -1,0 +1,74 @@
+/* src/components/Solutions.css */
+.solutions {
+    text-align: center;
+    padding: 50px;
+    background-color: #f9f9f9;
+  }
+  
+  .solutions h2 {
+    font-size: 2rem;
+    color: #000000;
+    margin-bottom: 20px;
+  }
+  
+  .solutions p {
+    font-size: 1rem;
+    color: #272727;
+    margin-bottom: 40px;
+  }
+  
+  .solutions-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0% 20%;
+  }
+  
+  .solution-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+    max-width: 400px;
+    max-height: 300px;
+    justify-items: contain;
+  }
+  
+  .solution-icon {
+    display: flex;
+    width: 70px;
+    height: 70px;
+    justify-self: left;
+    margin-bottom: 10px;
+  }
+  
+  .solution-card h3 {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  .solution-card p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  .price {
+    font-weight: bold;
+    color: #007bff;
+    font-size: 1.2rem;
+    margin-left: 0px;
+    
+  }
+  .price-i {
+    font-weight: normal;
+    color: #2e2e2e59;
+  }
+  
