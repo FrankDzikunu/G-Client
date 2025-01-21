@@ -84,10 +84,8 @@
     width: 100%;
     max-width: 700px;
     gap: 2.5rem;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
   .form-row {
@@ -117,6 +115,7 @@
     border-radius: 4px;
     font-size: 0.9rem;
     color: #495057;
+    background-color: #f8f9fa;
   }
   
   .input-container .icon {
@@ -131,7 +130,6 @@
   textarea {
     resize: none;
     width: 100%;
-    max-width: 630px;
   }
   
   input:focus,
@@ -151,19 +149,56 @@
     border-radius: 4px;
     cursor: pointer;
     text-align: center;
+    width: 100%;
   }
   
   .register-button:hover {
     background-color: #0056b3;
   }
   
-  @media screen and (max-width: 768px) {
+  @media (max-width: 768px) {
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.75rem;
+
+    }
+    
+  .input-container .icon {
+    left: 0.75rem;
+  }
+
+  .register-button {
+    width: 100%;
+    max-width: 100%;
+  }
+  
     .register-container {
       grid-template-columns: 1fr;
     }
   
     .form-row {
       flex-direction: column;
+      gap: 1.5rem;
     }
+    .register-form {
+      justify-self: center;
+      width: 100%;
+      gap: 1.5rem;
+      padding: 1rem;
+    }
+    .form-group {
+      width: 100%;
+      max-width: 380px;
+    }
+    textarea {
+      width: 405px;
+    }
+    .register-steps {
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+    }
+
   }
   

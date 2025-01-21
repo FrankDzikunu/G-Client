@@ -116,7 +116,9 @@ function Register() {
               </div>
             </div>
           </div>
+          <div className="form-group">
           <textarea placeholder="Description" rows="4" required></textarea>
+          </div>
           <button type="submit" className="register-button">Register</button>
         </form>
       </div>

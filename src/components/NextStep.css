@@ -42,3 +42,11 @@
     color: white;
   }
   
+  @media (max-width: 768px) {
+    .tech-grid {
+      padding: 0 10%;
+    }
+    .next-step p {
+      padding: 0 10%;
+    }
+  }

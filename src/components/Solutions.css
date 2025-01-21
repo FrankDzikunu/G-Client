@@ -71,4 +71,10 @@
     font-weight: normal;
     color: #2e2e2e59;
   }
+  @media (max-width: 768px) {
+    .solutions-grid {
+      margin: 0% 5%;
+      flex-direction: column;
+    }
+  }
   
