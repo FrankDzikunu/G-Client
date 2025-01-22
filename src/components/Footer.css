@@ -107,4 +107,25 @@
   .footer-back-to-top a:hover {
     text-decoration: underline;
   }
+  @media (max-width: 768px) {
+    .footer {
+      padding: 20px 20px;
+    }
+    .footer-content {
+      flex-direction: column;
   
+    }
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: left;
+    }
+    .footer-logo {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      display: flex;
+      width: 50px;
+      height: 50px;
+    }
+    
+  }

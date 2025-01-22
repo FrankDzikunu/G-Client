@@ -42,6 +42,18 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .login-button:hover {
+    background-color: #0056b3;
+    color: #fff;
+  }
+  
+  .login-button.active {
+    background-color: #0056b3; 
+    color: #fff;
+    border-color: #0056b3;
   }
   .hamburger {
     display: none;
@@ -56,6 +68,102 @@
     margin: 4px 0;
     transition: 0.4s;
   }
+  
+
+  .login-popup {
+    position: absolute;
+    top: 90px;
+    left: 80%;
+    transform: translateX(-50%);
+    width: 300px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+  
+  .login-popup h2 {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .google-login {
+    display: flex;
+    font-size: 1.1rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    background: #fff;
+    color: #0139b1;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
+  .google-login img {
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .input-group input {
+    width: 100%;
+    padding: 1px;
+    border: none;
+    background: none;
+    font-size: 1rem;
+  }
+  .signup-link {
+    text-decoration: underline;
+  }
+  .signup-link a {
+    color: #007bff;
+    text-decoration: underline;
+  }
+  
+  .input-group i {
+    margin-right: 10px;
+    color: #999999;
+  }
+  
+  .forgot-password {
+    display: block;
+    text-align: left;
+    margin: 20px;
+  }
+  .forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .login-submit {
+    width: 100%;
+    padding: 10px;
+    background: #01589A;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .login-popup p {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
 
   @media (min-width: 768px) and (max-width: 1200px) {
     .nav-links {
@@ -111,5 +219,9 @@
   
     .bar.open:nth-child(3) {
       transform: rotate(45deg) translate(-5px, -6px);
+    }
+    .login-popup {
+      top: 0;
+      left: 0;
     }
   }
