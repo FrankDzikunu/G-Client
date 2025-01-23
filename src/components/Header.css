@@ -2,8 +2,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
     background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   .logo {
     display: flex;
@@ -27,6 +28,11 @@
   .nav-links a {
     text-decoration: none;
     color: #000000;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover {
+    color: #0056b3;
   }
   
   .login-button {
@@ -45,16 +51,63 @@
     transition: background-color 0.3s, color 0.3s;
   }
 
-  .login-button:hover {
-    background-color: #0056b3;
-    color: #fff;
-  }
-  
-  .login-button.active {
-    background-color: #0056b3; 
-    color: #fff;
-    border-color: #0056b3;
-  }
+.login-button:hover,
+.login-button.active {
+  background-color: #0056b3;
+  color: #fff;
+  border-color: #0056b3;
+}
+
+/* User Dropdown */
+.user-dropdown {
+  position: relative;
+  left: 40vw;
+  text-wrap: nowrap;
+}
+.user-button {
+  background-color: transparent;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.6vmin;
+}
+.user-initials {
+  background-color: #0056b3;
+  color: #ffffffce;
+  border-radius: 50%;
+  padding: 10px 10px;
+  font-weight: bold;
+}
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  width: 150px;
+  z-index: 10;
+}
+.dropdown-item {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+}
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+  color: #0056b3;
+}
+.dropdown-item i {
+  color: #7c7c7c;
+}
+
   .hamburger {
     display: none;
     flex-direction: column;
@@ -67,6 +120,18 @@
     background-color: #333;
     margin: 4px 0;
     transition: 0.4s;
+  }
+
+  .bar.open:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+  }
+
+  .bar.open:nth-child(2) {
+    opacity: 0;
+  }
+
+  .bar.open:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
   }
   
 
@@ -102,6 +167,10 @@
     border-radius: 5px;
     margin-bottom: 15px;
     cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .google-login:hover {
+    background-color: #f0f0f0;
   }
   .google-login img {
     height: 30px;
@@ -121,11 +190,16 @@
   }
   .input-group input {
     width: 100%;
-    padding: 1px;
+    padding: 2px;
     border: none;
     background: none;
     font-size: 1rem;
   }
+  .input-group i {
+    margin-right: 10px;
+    color: #999999;
+  }
+  
   .signup-link {
     text-decoration: underline;
   }
@@ -133,10 +207,8 @@
     color: #007bff;
     text-decoration: underline;
   }
-  
-  .input-group i {
-    margin-right: 10px;
-    color: #999999;
+  .signup-link a:hover {
+    color: #0056b3;
   }
   
   .forgot-password {
@@ -148,6 +220,9 @@
     color: #007bff;
     text-decoration: none;
   }
+  .forgot-password a:hover {
+    text-decoration: underline;
+  }
   
   .login-submit {
     width: 100%;
@@ -157,6 +232,10 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .login-submit:hover {
+    background-color: #004080;
   }
   
   .login-popup p {
@@ -171,6 +250,10 @@
     }
     .login-button {
       left: 30vw;
+    }
+    .user-dropdown {
+      left: 20vw;
+      text-wrap: nowrap;
     }
   }
   @media (max-width: 768px) {
@@ -209,19 +292,15 @@
       display: flex;
     }
   
-    .bar.open:nth-child(1) {
-      transform: rotate(-45deg) translate(-5px, 6px);
-    }
-  
-    .bar.open:nth-child(2) {
-      opacity: 0;
-    }
-  
-    .bar.open:nth-child(3) {
-      transform: rotate(45deg) translate(-5px, -6px);
-    }
     .login-popup {
       top: 0;
       left: 0;
+    }
+    .user-dropdown {
+      left: 0;
+      display: flex;
+    }
+    .user-button {
+      font-size: 2.6vmin;
     }
   }

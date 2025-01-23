@@ -6,7 +6,11 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const popupRef = useRef(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Tracks login status
+  const [username, setUsername] = useState('John Doe'); // Example username
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown state
+  const loginPopupRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -20,51 +24,87 @@ function Header() {
     setShowPassword(!showPassword);
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    setIsLoggedIn(true);
+    setIsLoginOpen(false);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setIsDropdownOpen(false);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
+      if (loginPopupRef.current && !loginPopupRef.current.contains(event.target)) {
         setIsLoginOpen(false);
+      }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
       }
     };
 
-    if (isLoginOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isLoginOpen]);
+  }, []);
 
   return (
     <header className="header">
       <div className="logo">
         <Link to="/">
-          <img
-            src="/images/logo.png"
-            alt="client Logo"
-            className="logo"
-          />
+          <img src="/images/logo.png" alt="client Logo" className="logo" />
         </Link>
       </div>
       <nav className={`nav ${isMenuOpen ? 'open' : ''}`}>
         <ul className="nav-links">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/">Courses</Link></li>
           <li>
-            <button
-              className={`login-button ${isLoginOpen ? 'active' : ''}`}
-              onClick={toggleLogin}>
-              Login <i className="fas fa-sign-in-alt"></i>
-            </button>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/">Courses</Link>
+          </li>
+          <li>
+            {!isLoggedIn ? (
+              <button
+                className={`login-button ${isLoginOpen ? 'active' : ''}`}
+                onClick={toggleLogin}
+              >
+                Login <i className="fas fa-sign-in-alt"></i>
+              </button>
+            ) : (
+              <div className="user-dropdown">
+                <button className="user-button" onClick={toggleDropdown}>
+                  <span className="user-initials">JD</span> {username}{' '}
+                  <i className="fas fa-caret-down"></i>
+                </button>
+                {isDropdownOpen && (
+                  <div className="dropdown-menu" ref={dropdownRef}>
+                    <Link to="/portal" className="dropdown-item">
+                      <i className="fas fa-graduation-cap"></i> Portal
+                    </Link>
+                    <div className="dropdown-item" onClick={handleLogout}>
+                      <i className="fas fa-sign-out-alt"></i> Logout
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
             {isLoginOpen && (
-              <div className="login-popup" ref={popupRef}>
+              <div className="login-popup" ref={loginPopupRef}>
                 <h2>Login</h2>
                 <button className="google-login">
-                <img src="/images/google.png"alt="client Logo"/>Log in using Google
+                  <img src="/images/google.png" alt="Google Login" /> Log in using Google
                 </button>
                 <p>or</p>
-                <form>
+                <form onSubmit={handleLogin}>
                   <div className="input-group">
                     <i className="fas fa-envelope"></i>
                     <input type="email" placeholder="Email" required />
@@ -72,23 +112,28 @@ function Header() {
                   <div className="input-group">
                     <i className="fas fa-lock"></i>
                     <input
-                      type={showPassword ? "text" : "password"}
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="Password"
                       required
                     />
                     <i
-                      className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`}
+                      className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
                       onClick={togglePasswordVisibility}
-                      style={{ cursor: "pointer", marginLeft: "10px" }}
+                      style={{ cursor: 'pointer', marginLeft: '10px' }}
                     ></i>
                   </div>
                   <div className="forgot-password">
-                  <Link to="/forgot-password" >Forgot password?</Link>
+                    <Link to="/forgot-password">Forgot password?</Link>
                   </div>
-                  <button type="submit" className="login-submit">Login</button>
+                  <button type="submit" className="login-submit">
+                    Login
+                  </button>
                 </form>
-                < p className='signup-link' >
-                  Need to create an account? <Link className='signup' to="/signup">signup</Link>
+                <p className="signup-link">
+                  Need to create an account?{' '}
+                  <Link className="signup" to="/signup">
+                    Signup
+                  </Link>
                 </p>
               </div>
             )}
