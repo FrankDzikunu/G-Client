@@ -1,14 +1,14 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Header from './components/Header';
-import HeroSection from './components/HeroSection';
-import Solutions from './components/Cards';
-import NextStep from './components/NextStep';
-import Register from './components/Register';
-import Footer from './components/Footer';
-import Dashboard from './components/Dashboard';
-import ApplicationProfile from './components/ApplicationProfile';
+import Header from './components/Learner/Header';
+import HeroSection from './components/Learner/HeroSection';
+import Solutions from './components/Learner/Cards';
+import NextStep from './components/Learner/NextStep';
+import Register from './components/Learner/Register';
+import Footer from './components/Learner/Footer';
+import Dashboard from './components/Learner/Dashboard';
+import ApplicationProfile from './components/Learner/ApplicationProfile';
 
 function App() {
   return (
