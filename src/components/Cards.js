@@ -1,6 +1,6 @@
 // src/components/Solutions.js
 import React from 'react';
-import './Solutions.css';
+import './css/Cards.css';
 
 function Solutions() {
   const courses = [

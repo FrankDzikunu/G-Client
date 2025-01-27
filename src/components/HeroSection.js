@@ -1,6 +1,6 @@
 // src/components/HeroSection.js
 import React from 'react';
-import './HeroSection.css';
+import './css/HeroSection.css';
 
 function HeroSection() {
   return (

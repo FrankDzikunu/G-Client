@@ -1,6 +1,6 @@
 
 import React from "react";
-import "./ApplicationProfile.css";
+import "./css/ApplicationProfile.css";
 
 const ApplicationProfile = () => {
   return (

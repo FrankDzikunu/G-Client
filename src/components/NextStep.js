@@ -1,6 +1,6 @@
 // src/components/NextStep.js
 import React from 'react';
-import './NextStep.css';
+import './css/NextStep.css';
 
 function NextStep() {
   const technologies = [
