@@ -6,11 +6,21 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Tracks login status
-  const [username, setUsername] = useState('John Doe'); // Example username
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState(''); // Username from login
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const loginPopupRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  // Check local storage for login state on component mount
+  useEffect(() => {
+    const storedLoginState = localStorage.getItem('isLoggedIn');
+    const storedUsername = localStorage.getItem('username');
+    if (storedLoginState === 'true') {
+      setIsLoggedIn(true);
+      setUsername(storedUsername || 'John Doe');
+    }
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -30,13 +40,21 @@ function Header() {
 
   const handleLogin = (event) => {
     event.preventDefault();
+    const exampleUsername = 'John Doe'; // Replace with the actual username from backend
     setIsLoggedIn(true);
+    setUsername(exampleUsername);
     setIsLoginOpen(false);
+    // Save login state in local storage
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('username', exampleUsername);
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setIsDropdownOpen(false);
+    // Remove login state from local storage
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
   };
 
   useEffect(() => {
@@ -60,7 +78,7 @@ function Header() {
     <header className="header">
       <div className="logo">
         <Link to="/">
-          <img src="/images/logo.png" alt="client Logo" className="logo" />
+          <img src="/images/logo.png" alt="Client Logo" className="logo" />
         </Link>
       </div>
       <nav className={`nav ${isMenuOpen ? 'open' : ''}`}>
@@ -82,12 +100,12 @@ function Header() {
             ) : (
               <div className="user-dropdown">
                 <button className="user-button" onClick={toggleDropdown}>
-                  <span className="user-initials">JD</span> {username}{' '}
+                  <span className="user-initials">{username[0]}</span> {username}{' '}
                   <i className="fas fa-caret-down"></i>
                 </button>
                 {isDropdownOpen && (
                   <div className="dropdown-menu" ref={dropdownRef}>
-                    <Link to="/portal" className="dropdown-item">
+                    <Link to="/dashboard" className="dropdown-item">
                       <i className="fas fa-graduation-cap"></i> Portal
                     </Link>
                     <div className="dropdown-item" onClick={handleLogout}>

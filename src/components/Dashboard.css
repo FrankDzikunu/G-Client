@@ -1,0 +1,23 @@
+.dashboard-container {
+    display: flex;
+    align-items: center;
+    background-color: #01589A; 
+    height: 15vh;
+    padding: 20px 250px;
+    color: white;
+  }
+  .dashboard-content {
+    position: relative;
+    top: -40px;
+  }
+  
+  .dashboard-icon {
+    font-size: 1.5rem; /* Adjust icon size */
+    margin-right: 10px;
+  }
+  
+  .dashboard-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+  

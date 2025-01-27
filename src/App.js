@@ -7,6 +7,8 @@ import Solutions from './components/Solutions';
 import NextStep from './components/NextStep';
 import Register from './components/Register';
 import Footer from './components/Footer';
+import Dashboard from './components/Dashboard';
+import ApplicationProfile from './components/ApplicationProfile';
 
 function App() {
   return (
@@ -22,6 +24,15 @@ function App() {
                 <Solutions />
                 <NextStep />
                 <Register />
+              </>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <>
+                <Dashboard/>
+                <ApplicationProfile/>
               </>
             }
           />

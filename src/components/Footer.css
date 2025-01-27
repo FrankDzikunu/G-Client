@@ -1,11 +1,14 @@
 /* Footer.css */
 
 .footer {
+    position: relative;
+    bottom: 0;
+    margin-top: auto;
     background-color: #01589A;
     color: white;
     font-family: Arial, sans-serif;
     padding: 20px 250px;
-    position: relative;
+    
   }
   
   .footer-content {
