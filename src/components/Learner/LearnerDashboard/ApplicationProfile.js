@@ -1,6 +1,7 @@
 
 import React from "react";
 import "./css/ApplicationProfile.css";
+import { Link } from "react-router-dom";
 
 const ApplicationProfile = () => {
   return (
@@ -38,7 +39,7 @@ const ApplicationProfile = () => {
       </div>
       <div className="actions">
         <button className="action-button home">Home</button>
-        <button className="action-button new-application">Start new application</button>
+        <Link to="/startnewapplication" ><button className="action-button new-application">Start new application</button></Link>
       </div>
     </div>
   );

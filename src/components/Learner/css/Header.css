@@ -78,7 +78,7 @@
   background-color: #0056b3;
   color: #ffffffce;
   border-radius: 50%;
-  padding: 10px 10px;
+  padding: 10px 15px;
   font-weight: bold;
 }
 .dropdown-menu {
@@ -252,20 +252,26 @@
       left: 30vw;
     }
     .user-dropdown {
-      left: 20vw;
+      left: 40vw;
       text-wrap: nowrap;
+      font-size: 2.5vmin;
+    }
+    .user-button {
+      font-size: 2.6vmin;
     }
   }
   @media (max-width: 768px) {
+    .header {
+      height: 10vmin;
+    }
     .nav {
       display: none;
       flex-direction: column;
       position: absolute;
-      top: 60px;
+      top: 0;
       right: 0;
       background-color: white;
       width: 200px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     }
   
     .nav.open {
@@ -293,12 +299,14 @@
     }
   
     .login-popup {
-      top: 0;
-      left: 0;
+      top: 70px;
+      left: 250px;
     }
     .user-dropdown {
       left: 0;
       display: flex;
+      flex-direction: column;
+      z-index: 999;
     }
     .user-button {
       font-size: 2.6vmin;
