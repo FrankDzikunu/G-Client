@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
 const { getUserProfile, getAllUsers, deleteUser, updateUserRole } = require("../controllers/authController");
 const { authMiddleware, adminMiddleware } = require("../middlewares/authMiddleware");
+const { sendOtpEmail, verifyOtp } = require('../controllers/otpController');
 const User = require("../models/User");
 
 const router = express.Router();
@@ -84,5 +85,8 @@ router.get("/profile", authMiddleware, getUserProfile);
 router.get("/users", authMiddleware, adminMiddleware, getAllUsers);
 router.delete("/users/:id", authMiddleware, adminMiddleware, deleteUser);
 router.put("/users/:id", authMiddleware, adminMiddleware, updateUserRole);
+
+router.post('/send-otp', sendOtpEmail);
+router.post('/verify-otp', verifyOtp);
 
 module.exports = router;

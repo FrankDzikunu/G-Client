@@ -1,7 +1,6 @@
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken.js");
 
-
 // Get all users (Admin only)
 const getAllUsers = async (req, res) => {
   try {
@@ -48,22 +47,52 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
 // @desc    Login user & get token
 // @route   POST /api/users/login
 // @access  Public
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
+  const normalizedEmail = email.toLowerCase(); // Ensure consistency
 
-  const user = await User.findOne({ email });
+  console.log("Login attempt for email:", normalizedEmail);
+  console.log("Entered password:", password);
 
-  if (user && (await user.matchPassword(password))) {
-    generateToken(res, user._id);
-    res.json({ _id: user._id, name: user.username, email: user.email, role: user.role });
-  } else {
-    res.status(401).json({ message: "Invalid email or password" });
+  try {
+    const user = await User.findOne({ email: normalizedEmail });
+
+    if (!user) {
+      console.log("User not found in database.");
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // Log the stored hashed password for debugging
+    console.log("Stored hashed password:", user.password);
+
+    // Compare passwords
+    const isMatch = await user.matchPassword(password);
+    console.log("Password match result:", isMatch);
+
+    if (isMatch) {
+      const token = generateToken(user._id);
+      return res.status(200).json({
+        _id: user._id,
+        name: user.username,
+        email: user.email,
+        role: user.role,
+        token, // Include token for the frontend
+      });
+    } else {
+      console.log("Password mismatch for user:", normalizedEmail);
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
+
+
+
 
 // @desc    Get user profile
 // @route   GET /api/users/profile

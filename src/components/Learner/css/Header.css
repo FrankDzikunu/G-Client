@@ -296,6 +296,7 @@
   
     .hamburger {
       display: flex;
+      margin-right: 2vw;
     }
   
     .login-popup {
@@ -310,5 +311,9 @@
     }
     .user-button {
       font-size: 2.6vmin;
+    }
+    .logo {
+      margin-left: 1vw;
+      width: 100px;
     }
   }

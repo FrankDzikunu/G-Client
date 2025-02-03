@@ -10,21 +10,30 @@ import Footer from './components/Learner/Footer';
 import Dashboard from './components/Learner/LearnerDashboard/Dashboard';
 import ApplicationProfile from './components/Learner/LearnerDashboard/ApplicationProfile';
 import NewApllication from './components/Learner/LearnerDashboard/NewApplication';
+import AdminDashboard from './components/Admin/pages/AdminDashboard';
+import AdminRoute from './components/AdminRoute';
+import UserRoute from './components/UserRoute';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Header />
         <Routes>
+        <Route path="/admin" element={
+          <AdminRoute>
+          <AdminDashboard />
+          </AdminRoute>} />
           <Route
             path="/"
             element={
+
               <>
+                 <Header />
                 <HeroSection />
                 <Solutions />
                 <NextStep />
                 <Register />
+                <Footer />
               </>
             }
           />
@@ -32,8 +41,12 @@ function App() {
             path="/dashboard"
             element={
               <>
+              <UserRoute>
+                <Header />
                 <Dashboard/>
                 <ApplicationProfile/>
+                <Footer />
+              </UserRoute>
               </>
             }
           />
@@ -41,13 +54,16 @@ function App() {
             path="/startnewapplication"
             element={
               <>
+              <UserRoute>
+                <Header />
                 <Dashboard/>
                 <NewApllication/>
+                <Footer />
+              </UserRoute>
               </>
             }
           />
         </Routes>
-        <Footer />
       </div>
     </Router>
   );

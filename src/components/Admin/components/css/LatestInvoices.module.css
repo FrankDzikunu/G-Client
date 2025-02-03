@@ -1,0 +1,53 @@
+.latestInvoices {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left:auto ;
+    margin-right: 20px;
+    border: 10px solid #F5F5F5;
+  }
+  
+  .invoiceList {
+    margin-top: 10px;
+  }
+  
+  .invoiceItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .invoiceItem:last-child {
+    border-bottom: none;
+  }
+  
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .details {
+    flex: 1;
+    margin-left: 10px;
+  }
+  
+  .name {
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
+  
+  .course {
+    color: gray;
+    font-size: 14px;
+  }
+  
+  .amount {
+    font-weight: bold;
+    color: black;
+  }
+  

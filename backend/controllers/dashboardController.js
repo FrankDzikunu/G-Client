@@ -1,33 +1,72 @@
 const Learner = require("../models/Learner");
 const Course = require("../models/Course");
 
-// @desc    Get Dashboard Statistics
-// @route   GET /api/dashboard
-// @access  Private (Admin)
+// Existing function: Get Dashboard Statistics
 const getDashboardStats = async (req, res) => {
   try {
+    // Calculate total revenue from paid learners
     const totalRevenue = await Learner.aggregate([
       { $match: { paymentStatus: "Paid" } },
       { $group: { _id: null, total: { $sum: "$amountPaid" } } },
     ]);
 
-    const totalLearners = await Learner.countDocuments();
-    const totalCourses = await Course.countDocuments();
+    // If no paid learners, default totalRevenue to 0
+    const totalRevenueValue = totalRevenue[0]?.total || 0;
 
+    const totalLearners = await Learner.countDocuments();
+    const totalInvoices = await Learner.countDocuments({ paymentStatus: "Paid" }); // Calculate total invoices (paid learners)
+
+    // Fetch recent invoices for paid learners
     const recentInvoices = await Learner.find({ paymentStatus: "Paid" })
       .sort({ createdAt: -1 })
       .limit(5)
-      .select("name email amountPaid paymentStatus createdAt");
+      .populate("course", "name") // Populate course name
+      .select("name image amountPaid paymentStatus course");
+
+    // Fetch learners with pending payments
+    const pendingPayments = await Learner.find({ paymentStatus: { $ne: "Paid" } })
+      .select("name email amountDue paymentStatus");
 
     res.json({
-      totalRevenue: totalRevenue[0]?.total || 0,
+      totalRevenue: totalRevenueValue, // Use the default value
       totalLearners,
-      totalCourses,
-      recentInvoices,
+      totalInvoices, // Return totalInvoices instead of totalCourses
+      recentInvoices: recentInvoices.map(inv => ({
+        name: inv.name,
+        image: inv.image || "/default-avatar.png",
+        courseName: inv.course?.name || "Unknown",
+        amountPaid: inv.amountPaid,
+      })),
+      pendingPayments,
     });
+  } catch (error) {
+    console.error("Error fetching dashboard stats:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// New function: Get Recent Revenue (last 7 days, aggregated by day)
+const getRecentRevenue = async (req, res) => {
+  try {
+    const revenue = await Learner.aggregate([
+      {
+        $match: {
+          paymentStatus: "Paid",
+          createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          total: { $sum: "$amountPaid" },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+    res.json(revenue);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
 };
 
-module.exports = { getDashboardStats,};
+module.exports = { getDashboardStats, getRecentRevenue };

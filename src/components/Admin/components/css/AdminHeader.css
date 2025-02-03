@@ -1,0 +1,38 @@
+/* Container for the admin header */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+  }
+  
+  /* Title styling */
+  .admin-header-title h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #001529;
+  }
+  
+  /* User info styling */
+  .admin-header-user-info {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .admin-avatar {
+    margin-right: 10px;
+  }
+  
+  .admin-username {
+    font-size: 16px;
+    color: #001529;
+    margin-right: 5px;
+  }
+  
+  .admin-caret {
+    font-size: 12px;
+    color: #001529;
+  }
+  
