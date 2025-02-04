@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   DashboardOutlined,
   FileTextOutlined,
@@ -12,57 +12,47 @@ import {
 import '../css/Sidebar.css';
 
 const Sidebar = () => {
+  const location = useLocation();
+
+  const navItems = [
+    { path: "/admin", label: "Dashboard", icon: <DashboardOutlined /> },
+    { path: "/admin/invoices", label: "Invoices", icon: <FileTextOutlined /> },
+    { path: "/admin/learners", label: "Learners", icon: <TeamOutlined /> },
+    { path: "/admin/courses", label: "Courses", icon: <BookOutlined /> },
+    { path: "/admin/reports", label: "Reports", icon: <BarChartOutlined /> },
+  ];
+
   return (
     <div className="sidebar">
       <div className="sidebar-logo">
-        <Link to="/admin/dashboard">
+        <Link to="/admin">
           <img src="/images/logo.png" alt="Logo" />
         </Link>
       </div>
       <nav className="sidebar-nav">
         <ul>
-          <li>
-            <Link to="/admin/dashboard">
-              <DashboardOutlined className="sidebar-icon" />
-              <span>Dashboard</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/admin/invoices">
-              <FileTextOutlined className="sidebar-icon" />
-              <span>Invoices</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/admin/learners">
-              <TeamOutlined className="sidebar-icon" />
-              <span>Learners</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/admin/courses">
-              <BookOutlined className="sidebar-icon" />
-              <span>Courses</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/admin/reports">
-              <BarChartOutlined className="sidebar-icon" />
-              <span>Reports</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/admin/settings">
-              <SettingOutlined className="sidebar-icon" />
-              <span>Settings</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/logout">
-              <LogoutOutlined className="sidebar-icon" />
-              <span>Logout</span>
-            </Link>
-          </li>
+          {navItems.map((item) => (
+            <li key={item.path} className={location.pathname === item.path ? "active" : ""}>
+              <Link to={item.path}>
+                <span className="sidebar-icon">{item.icon}</span>
+                <span>{item.label}</span>
+              </Link>
+            </li>
+          ))}
+          <div className="sidebar-divider">
+            <li>
+              <Link to="/admin/settings">
+                <SettingOutlined className="sidebar-icon" />
+                <span>Settings</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/logout">
+                <LogoutOutlined className="sidebar-icon" />
+                <span>Logout</span>
+              </Link>
+            </li>
+          </div>
         </ul>
       </nav>
     </div>

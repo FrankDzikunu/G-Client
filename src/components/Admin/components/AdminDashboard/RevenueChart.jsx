@@ -30,10 +30,21 @@ const RevenueChart = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/dashboard/recent-revenue")
-      .then((response) => {
-        console.log("API Response:", response.data); // Debugging: Log the API response
+    const fetchRevenueData = async () => {
+      try {
+        // Retrieve token from localStorage
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found, user may not be authenticated.");
+          return;
+        }
+
+        const response = await axios.get("http://localhost:5000/api/admin/recent-revenue", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        // Debugging: Log the API response
+        console.log("API Response:", response.data);
 
         // Ensure response.data is an array
         const data = Array.isArray(response.data) ? response.data : [];
@@ -52,12 +63,14 @@ const RevenueChart = () => {
             },
           ],
         });
-        setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching revenue data:", error);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchRevenueData();
   }, []);
 
   const options = {

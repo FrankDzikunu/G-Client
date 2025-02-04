@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Invoice = require("../models/Invoice");
 
 // @desc    Get all invoices
@@ -5,8 +6,10 @@ const Invoice = require("../models/Invoice");
 // @access  Private (Admin)
 const getInvoices = async (req, res) => {
   try {
-    const invoices = await Invoice.find().populate("learner").populate("course");
-    res.json(invoices);
+    const invoices = await Invoice.find()
+      .populate("learner", "name email")
+      .populate("course", "title description");
+    res.status(200).json(invoices);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -16,10 +19,26 @@ const getInvoices = async (req, res) => {
 // @route   POST /api/invoices
 // @access  Private (Admin)
 const createInvoice = async (req, res) => {
-  const { learner, course, amountPaid, status } = req.body;
+  const { learner, course, amountPaid, status, email, avatar } = req.body;
 
   try {
-    const invoice = new Invoice({ learner, course, amountPaid, status });
+    if (!mongoose.Types.ObjectId.isValid(learner) || !mongoose.Types.ObjectId.isValid(course)) {
+      return res.status(400).json({ message: "Invalid learner or course ID" });
+    }
+
+    if (!amountPaid || isNaN(amountPaid)) {
+      return res.status(400).json({ message: "Amount paid must be a number" });
+    }
+
+    const invoice = new Invoice({
+      learner: mongoose.Types.ObjectId(learner),
+      course: mongoose.Types.ObjectId(course),
+      amountPaid: parseFloat(amountPaid),
+      status,
+      email,
+      avatar,
+    });
+
     await invoice.save();
     res.status(201).json(invoice);
   } catch (error) {
@@ -32,10 +51,17 @@ const createInvoice = async (req, res) => {
 // @access  Private (Admin)
 const getInvoice = async (req, res) => {
   try {
-    const invoice = await Invoice.findById(req.params.id).populate("learner").populate("course");
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid invoice ID" });
+    }
+
+    const invoice = await Invoice.findById(req.params.id)
+      .populate("learner", "name email")
+      .populate("course", "title description");
+
     if (!invoice) return res.status(404).json({ message: "Invoice not found" });
 
-    res.json(invoice);
+    res.status(200).json(invoice);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -46,8 +72,25 @@ const getInvoice = async (req, res) => {
 // @access  Private (Admin)
 const updateInvoice = async (req, res) => {
   try {
-    const invoice = await Invoice.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(invoice);
+    const { learner, course, amountPaid, status, email, avatar } = req.body;
+
+    const updatedData = {
+      learner: mongoose.Types.ObjectId(learner),
+      course: mongoose.Types.ObjectId(course),
+      amountPaid: parseFloat(amountPaid),
+      status,
+      email,
+      avatar,
+    };
+
+    const invoice = await Invoice.findByIdAndUpdate(req.params.id, updatedData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!invoice) return res.status(404).json({ message: "Invoice not found" });
+
+    res.status(200).json(invoice);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -58,8 +101,12 @@ const updateInvoice = async (req, res) => {
 // @access  Private (Admin)
 const deleteInvoice = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid invoice ID" });
+    }
+
     await Invoice.findByIdAndDelete(req.params.id);
-    res.json({ message: "Invoice deleted" });
+    res.status(200).json({ message: "Invoice deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

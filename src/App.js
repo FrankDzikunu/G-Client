@@ -13,6 +13,7 @@ import NewApllication from './components/Learner/LearnerDashboard/NewApplication
 import AdminDashboard from './components/Admin/pages/AdminDashboard';
 import AdminRoute from './components/AdminRoute';
 import UserRoute from './components/UserRoute';
+import AdminInvoices from './components/Admin/pages/AdminInvoices';
 
 function App() {
   return (
@@ -23,6 +24,13 @@ function App() {
           <AdminRoute>
           <AdminDashboard />
           </AdminRoute>} />
+        
+        <Route path="/admin/invoices" element={
+          <AdminRoute>
+          <AdminInvoices />
+          </AdminRoute>
+        } />
+          
           <Route
             path="/"
             element={

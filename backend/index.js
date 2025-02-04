@@ -36,4 +36,6 @@ app.use("/api/admin", adminRoutes);
 const dashboardRoutes = require("./routes/dashboardRoutes.js");
 app.use("/api/dashboard", dashboardRoutes);
 
+const invoicesRoutes = require('./routes/invoiceRoutes');
+app.use("/api/invoices", invoicesRoutes);
 

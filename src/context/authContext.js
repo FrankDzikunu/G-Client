@@ -5,6 +5,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState(null); // Add role state
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -12,10 +13,11 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          const { data } = await axios.get("http://localhost:5000/api/users/profile", {
+          const { data } = await axios.get("http://localhost:5000/api/auth/profile", {
             headers: { Authorization: `Bearer ${token}` },
           });
           setUser(data);
+          setUserRole(data.role); 
         } catch (error) {
           console.error("Error fetching user:", error);
           localStorage.removeItem("token");
@@ -28,7 +30,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
+    <AuthContext.Provider value={{ user, setUser, userRole, setUserRole, loading }}>
       {children}
     </AuthContext.Provider>
   );

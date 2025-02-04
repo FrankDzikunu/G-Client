@@ -54,9 +54,6 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   const normalizedEmail = email.toLowerCase(); // Ensure consistency
 
-  console.log("Login attempt for email:", normalizedEmail);
-  console.log("Entered password:", password);
-
   try {
     const user = await User.findOne({ email: normalizedEmail });
 
@@ -65,15 +62,13 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    // Log the stored hashed password for debugging
-    console.log("Stored hashed password:", user.password);
-
     // Compare passwords
     const isMatch = await user.matchPassword(password);
     console.log("Password match result:", isMatch);
 
     if (isMatch) {
-      const token = generateToken(user._id);
+      // Pass both the user id and role to the token generator.
+      const token = generateToken(user._id, user.role);
       return res.status(200).json({
         _id: user._id,
         name: user.username,

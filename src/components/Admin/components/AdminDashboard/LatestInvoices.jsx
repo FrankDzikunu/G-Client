@@ -8,8 +8,19 @@ const LatestInvoices = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/dashboard");
-        setInvoices(response.data.recentInvoices);
+        // Retrieve token from localStorage
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found, user may not be authenticated.");
+          return;
+        }
+
+        const response = await axios.get("http://localhost:5000/api/admin/latest-invoices", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        // Use a fallback to ensure invoices is always an array
+        setInvoices(response.data.recentInvoices || []);
       } catch (error) {
         console.error("Error fetching invoices:", error);
       }

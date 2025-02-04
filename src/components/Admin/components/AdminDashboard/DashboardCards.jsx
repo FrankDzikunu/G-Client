@@ -8,27 +8,40 @@ const DashboardCards = () => {
   const [stats, setStats] = useState({
     totalRevenue: 0,
     totalLearners: 0,
-    totalInvoices: 0, 
+    totalInvoices: 0,
     pendingPayments: 0,
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:5000/api/dashboard')
-      .then((response) => {
+    const fetchDashboardStats = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        console.warn("No token available. Redirect to login if required.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios.get("http://localhost:5000/api/admin/stats", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
         setStats({
           totalRevenue: response.data.totalRevenue || 0,
           totalLearners: response.data.totalLearners || 0,
-          totalInvoices: response.data.totalInvoices || 0, 
+          totalInvoices: response.data.totalInvoices || 0,
           pendingPayments: response.data.pendingPayments?.length || 0,
         });
-        setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching dashboard stats:", error);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchDashboardStats();
   }, []);
 
   if (loading) {
@@ -46,12 +59,12 @@ const DashboardCards = () => {
           <Card className="dashboard-card" title={<><DollarOutlined />&nbsp; &nbsp; Collected</>}>
             ${stats.totalRevenue.toFixed(2)}
           </Card>
-        </Col>        
+        </Col>
         <Col xs={24} sm={12} md={6}>
           <Card className="dashboard-card" title={<><ClockCircleOutlined />&nbsp; &nbsp; Pending</>}>
             {stats.pendingPayments}
           </Card>
-        </Col>        
+        </Col>
         <Col xs={24} sm={12} md={6}>
           <Card className="dashboard-card" title={<><FileTextOutlined />&nbsp; &nbsp; Total Invoices</>}>
             {stats.totalInvoices}

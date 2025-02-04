@@ -7,8 +7,8 @@ const { authMiddleware, adminMiddleware } = require("../middlewares/authMiddlewa
 router.get("/dashboard", authMiddleware, adminMiddleware, (req, res) => {
   res.json({ message: "Welcome to the Admin Dashboard!" });
 });
-router.get("/stats", authMiddleware, getDashboardStats); // Dashboard overview stats
-router.get("/recent-revenue", authMiddleware, getRecentRevenue); // Recent revenue data
-router.get("/latest-invoices", authMiddleware, getLatestInvoices); // Latest invoices
+router.get("/stats", authMiddleware, adminMiddleware, getDashboardStats); // Dashboard overview stats
+router.get("/recent-revenue", authMiddleware, adminMiddleware, getRecentRevenue); // Recent revenue data
+router.get("/latest-invoices", authMiddleware, adminMiddleware, getLatestInvoices); // Latest invoices
 
 module.exports = router;
