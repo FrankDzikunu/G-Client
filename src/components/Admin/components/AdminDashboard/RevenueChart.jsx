@@ -80,7 +80,7 @@ const RevenueChart = () => {
         position: "top",
       },
       title: {
-        display: true,
+        display: false,
         text: "Recent Revenue",
       },
     },
@@ -91,8 +91,11 @@ const RevenueChart = () => {
   }
 
   return (
-    <div className="revenue-chart">
-      <Bar data={chartData} options={options} />
+    <div>
+      <div className="chat-title"><h2>Recent Revenue</h2></div>
+        <div className="revenue-chart">
+          <Bar data={chartData} options={options} />
+        </div>
     </div>
   );
 };

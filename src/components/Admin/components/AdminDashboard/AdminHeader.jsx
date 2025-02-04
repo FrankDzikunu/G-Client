@@ -20,8 +20,6 @@ const AdminHeader = ({ onLogout }) => {
         });
 
         setUsername(response.data.username);
-        
-        console.log("Fetched username:", response.data.username);
       } catch (error) {
         console.error("Error fetching user info:", error);
       }
@@ -47,7 +45,6 @@ const AdminHeader = ({ onLogout }) => {
   return (
     <header className="admin-header">
       <div className="admin-header-title">
-        <h1>Admin Dashboard</h1>
       </div>
       <div className="admin-header-user">
         <Dropdown overlay={menu} trigger={['click']}>

@@ -8,6 +8,10 @@
     border: 10px solid #F5F5F5;
   }
   
+  .latastInvoices-titel {
+    margin-top: 0;
+    margin-bottom: 40px;
+  }
   .invoiceList {
     margin-top: 10px;
   }

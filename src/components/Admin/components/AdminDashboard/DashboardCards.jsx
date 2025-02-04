@@ -53,6 +53,11 @@ const DashboardCards = () => {
   }
 
   return (
+    <div>
+      <div className='dashboard-hedder'>
+        <h2>Dashboard</h2>
+        <p>Welcome back Admin</p>
+      </div>
     <div className="dashboard-cards">
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} md={6}>
@@ -77,6 +82,7 @@ const DashboardCards = () => {
         </Col>
       </Row>
     </div>
+  </div>
   );
 };
 

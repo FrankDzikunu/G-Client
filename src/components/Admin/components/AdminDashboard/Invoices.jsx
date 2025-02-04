@@ -32,7 +32,9 @@ const Invoices = () => {
 
   return (
     <div className="invoices-container">
+        <div className="invoices-hedden"><h2>Invoices</h2></div>
       <div className="invoices-header">
+        
         <div className="invoices-top">
             <div className="search-bar">
             <FaSearch className="search-icon" />

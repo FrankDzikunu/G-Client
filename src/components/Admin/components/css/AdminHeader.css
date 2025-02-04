@@ -5,8 +5,19 @@
     align-items: center;
     padding: 10px 20px;
     background-color: #fff;
+    height: 40px;
   }
-  
+  .dashboard-hedder {
+    margin-left: 20px;
+  }
+  .dashboard-hedder p {
+    margin-top: -10px;
+  }
+  .admin-header-user {
+    position: relative;
+    right: 20px;
+    top: 40px;
+  }
   /* Title styling */
   .admin-header-title h1 {
     margin: 0;
@@ -16,6 +27,7 @@
   
   /* User info styling */
   .admin-header-user-info {
+    background-color: #f1f1f1;
     display: flex;
     align-items: center;
     cursor: pointer;
