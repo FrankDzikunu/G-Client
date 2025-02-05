@@ -14,6 +14,8 @@ import AdminDashboard from './components/Admin/pages/AdminDashboard';
 import AdminRoute from './components/AdminRoute';
 import UserRoute from './components/UserRoute';
 import AdminInvoices from './components/Admin/pages/AdminInvoices';
+import AdminCourses from './components/Admin/pages/AdminCourses';
+import './App.css';
 
 function App() {
   return (
@@ -28,6 +30,12 @@ function App() {
         <Route path="/admin/invoices" element={
           <AdminRoute>
           <AdminInvoices />
+          </AdminRoute>
+        } />
+
+        <Route path="/admin/courses" element={
+          <AdminRoute>
+          <AdminCourses />
           </AdminRoute>
         } />
           

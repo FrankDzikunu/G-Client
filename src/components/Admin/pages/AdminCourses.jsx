@@ -3,7 +3,8 @@ import { Layout } from 'antd';
 import Sidebar from '../components/AdminDashboard/Sidebar';
 import AdminHeader from '../components/AdminDashboard/AdminHeader';
 import  './css/AdminDashboard.css';
-import Invoices from '../components/AdminDashboard/Invoices';
+import CreateCourses from '../components/AdminDashboard/CreateCourses';
+
 
 const { Sider, Content } = Layout;
 
@@ -16,7 +17,7 @@ const AdminDashboard = ({ username, onLogout }) => {
       <Layout>
         <AdminHeader username={username} onLogout={onLogout} />
         <Content className="admin-dashboard-content">
-          <Invoices />
+          <CreateCourses />
         </Content>
       </Layout>
     </Layout>

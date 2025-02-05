@@ -16,16 +16,28 @@ const getCourses = async (req, res) => {
 // @route   POST /api/courses
 // @access  Private (Admin)
 const createCourse = async (req, res) => {
-  const { name, price, duration, instructor } = req.body;
+  const { name, price, duration, instructor, stacks, description } = req.body;
+  const image = req.file ? req.file.path : null;
 
   try {
-    const course = new Course({ name, price, duration, instructor });
+    const course = new Course({
+      name,
+      price,
+      duration,
+      instructor,
+      stacks: Array.isArray(stacks) ? stacks : [stacks], 
+      description,
+      image,
+    });
+
     await course.save();
     res.status(201).json(course);
   } catch (error) {
+    console.error("Error creating course:", error);
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // @desc    Get single course
 // @route   GET /api/courses/:id
@@ -46,7 +58,8 @@ const getCourse = async (req, res) => {
 // @access  Private (Admin)
 const updateCourse = async (req, res) => {
   try {
-    const course = await Course.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedData = req.body;
+    const course = await Course.findByIdAndUpdate(req.params.id, updatedData, { new: true });
     res.json(course);
   } catch (error) {
     res.status(500).json({ message: error.message });

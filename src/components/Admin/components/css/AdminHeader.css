@@ -7,15 +7,10 @@
     background-color: #fff;
     height: 40px;
   }
-  .dashboard-hedder {
-    margin-left: 20px;
-  }
-  .dashboard-hedder p {
-    margin-top: -10px;
-  }
+
   .admin-header-user {
     position: relative;
-    right: 20px;
+    right: 40px;
     top: 40px;
   }
   /* Title styling */

@@ -11,7 +11,7 @@ function Register() {
     lastName: "",
     email: "",
     location: "",
-    module: "",
+    course: "",
     gender: "",
     disabled: "",
     contact: "",
@@ -120,8 +120,8 @@ function Register() {
             <div className="form-group">
               <div className="input-container">
                 <i className="fas fa-graduation-cap icon"></i>
-                <select name="module" value={formData.module} onChange={handleChange} required>
-                  <option value="">Choose module</option>
+                <select name="module" value={formData.course} onChange={handleChange} required>
+                  <option value="">Choose Course</option>
                   <option value="software-development">Software Development</option>
                   <option value="data-science">Data Science</option>
                   <option value="cloud-computing">Cloud Computing</option>

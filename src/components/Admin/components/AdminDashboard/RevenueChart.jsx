@@ -91,7 +91,7 @@ const RevenueChart = () => {
   }
 
   return (
-    <div>
+    <div className="revenue-chart-container">
       <div className="chat-title"><h2>Recent Revenue</h2></div>
         <div className="revenue-chart">
           <Bar data={chartData} options={options} />

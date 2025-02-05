@@ -1,8 +1,23 @@
+.dashboardstats {
+  width: 100%;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.dashboard-hedder {
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+.dashboard-hedder p {
+  margin-top: -20px;
+  text-align: left;
+  font-size: 1.1rem;
+}
 .dashboard-cards {
+  width: 100%;
   padding: 20px;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 40px;
 }
 
 .dashboard-card {
@@ -11,7 +26,7 @@
   text-align: center;
   padding: 0px 10px 10px 10px;
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
   font-family: 'Roboto', sans-serif;
 }
 

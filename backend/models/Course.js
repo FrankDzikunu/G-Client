@@ -4,9 +4,12 @@ const courseSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     price: { type: Number, required: true },
-    duration: { type: String, required: true }, // Example: "4 weeks"
+    duration: { type: String, required: true }, 
     instructor: { type: String, required: true },
-    learners: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Learners enrolled
+    learners: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], 
+    description: { type: String, required: true },
+    stacks: [{ type: String, required: true }], 
+    image: { type: String }, 
   },
   { timestamps: true }
 );

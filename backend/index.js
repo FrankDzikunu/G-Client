@@ -39,3 +39,10 @@ app.use("/api/dashboard", dashboardRoutes);
 const invoicesRoutes = require('./routes/invoiceRoutes');
 app.use("/api/invoices", invoicesRoutes);
 
+const courseRoutes = require('./routes/courseRoutes');
+app.use("/api/courses", courseRoutes);
+
+app.use("/api/register", require("./routes/registercourseRoutes"));
+app.use("/uploads", express.static("uploads"));
+
+

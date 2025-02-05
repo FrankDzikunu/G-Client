@@ -53,7 +53,7 @@ const DashboardCards = () => {
   }
 
   return (
-    <div>
+    <div className="dashboardstats">
       <div className='dashboard-hedder'>
         <h2>Dashboard</h2>
         <p>Welcome back Admin</p>
