@@ -11,7 +11,7 @@ const { Sider, Content } = Layout;
 const AdminCourses = ({ username, onLogout }) => {
   return (
     <Layout className="admin-dashboard-layout">
-      <Sider className="admin-dashboard-sider" width={350}>
+      <Sider className="admin-dashboard-sider" width={250}>
         <Sidebar />
       </Sider>
       <Layout>
