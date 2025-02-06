@@ -1,7 +1,9 @@
 .invoices-container {
     background: #fff;
-    padding: 20px;
+    padding: 20px 0 ;
     border-radius: 8px;
+    margin-left: 40px;
+    margin-right: 40px;
   }
   .invoices-hedden {
     margin-bottom: 40px;
@@ -20,7 +22,7 @@
     justify-content: space-between;
     flex: 1;
     flex-wrap: wrap;
-    height: auto;
+    height: 50px;
   }
   
   .search-bar {
@@ -54,6 +56,8 @@
     border-radius: 5px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    cursor: pointer;
     gap: 5px;
   }
   

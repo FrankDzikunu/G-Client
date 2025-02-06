@@ -8,13 +8,15 @@
   margin-bottom: 20px;
 }
 .dashboard-hedder p {
-  margin-top: -20px;
+  margin-top: -10px;
   text-align: left;
   font-size: 1.1rem;
 }
 .dashboard-cards {
+  margin-left: 20px;
+  margin-right: 0;
   width: 100%;
-  padding: 20px;
+  padding: 20px 0;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 40px;

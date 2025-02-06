@@ -120,7 +120,7 @@ const CoursesPage = () => {
 
   return (
     <div className="courses-container">
-        <div className="head-titel">
+        <div className="head-tit">
       <span>Courses</span><hr className="divider_vet" /><h2>Create Course</h2>
       </div>
       <form onSubmit={handleSubmit}>
@@ -241,7 +241,7 @@ const CoursesPage = () => {
             </div>
           </div>
     </div>
-        <div className="buttons">
+        <div className="buttonz">
           <button type="button" className="cancel-btn">
             Cancel
           </button>
