@@ -3,12 +3,12 @@ import { Layout } from 'antd';
 import Sidebar from '../components/AdminDashboard/Sidebar';
 import AdminHeader from '../components/AdminDashboard/AdminHeader';
 import  './css/AdminDashboard.css';
-import CreateCourses from '../components/AdminDashboard/CreateCourses';
+import Courses from '../components/AdminDashboard/Courses';
 
 
 const { Sider, Content } = Layout;
 
-const AdminDashboard = ({ username, onLogout }) => {
+const AdminCourses = ({ username, onLogout }) => {
   return (
     <Layout className="admin-dashboard-layout">
       <Sider className="admin-dashboard-sider" width={350}>
@@ -17,11 +17,11 @@ const AdminDashboard = ({ username, onLogout }) => {
       <Layout>
         <AdminHeader username={username} onLogout={onLogout} />
         <Content className="admin-dashboard-content">
-          <CreateCourses />
+          <Courses />
         </Content>
       </Layout>
     </Layout>
   );
 };
 
-export default AdminDashboard;
+export default AdminCourses;

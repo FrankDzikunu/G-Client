@@ -1,10 +1,11 @@
 
-import React, { useState,} from "react";
+import React, { useState, useEffect} from "react";
 import axios from "axios";
 import "./css/NewApplication.css";
 
 
 const NewApllication = () => {
+    const [courses, setCourses] = useState([]);
     const [formData, setFormData] = useState({
       firstName: "",
       lastName: "",
@@ -18,6 +19,17 @@ const NewApllication = () => {
       description: "",
       avatar: null,
     });
+
+      // Fetch courses from the backend
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/courses")
+      .then((response) => {
+        setCourses(response.data); 
+      })
+      .catch((error) => {
+        console.error("Error fetching courses:", error);
+      });
+  }, []);
 
       // Handle input changes
   const handleChange = (e) => {
@@ -89,17 +101,19 @@ const NewApllication = () => {
             </div>
           </div>
           <div className="form-row">
-            <div className="form-group">
-              <div className="input-container">
-                <i className="fas fa-graduation-cap icon"></i>
-                <select name="module" value={formData.module} onChange={handleChange} required>
-                  <option value="">Choose module</option>
-                  <option value="software-development">Software Development</option>
-                  <option value="data-science">Data Science</option>
-                  <option value="cloud-computing">Cloud Computing</option>
-                </select>
+              <div className="form-group">
+                <div className="input-container">
+                  <i className="fas fa-graduation-cap icon"></i>
+                  <select name="course" value={formData.course} onChange={handleChange} required>
+                    <option value="">Choose Course</option>
+                    {courses.map((course) => (
+                      <option key={course._id} value={course._id}>
+                        {course.name} - ${course.price}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-            </div>
             <div className="form-group">
               <div className="input-container">
                 <i className="fas fa-venus-mars icon"></i>

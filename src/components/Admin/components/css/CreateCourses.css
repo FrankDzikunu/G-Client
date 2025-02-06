@@ -167,6 +167,7 @@
     justify-self: right;
     gap: 20px;
     margin: 40px 0;
+    height: 40px;
   }
   
   .cancel-btn,

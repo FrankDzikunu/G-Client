@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "../../../context/authContext"; // Assuming you have AuthContext
+import { useAuth } from "../../../context/authContext"; 
 import "./css/Register.css";
 
 function Register() {
@@ -24,7 +24,7 @@ function Register() {
   useEffect(() => {
     axios.get("http://localhost:5000/api/courses")
       .then((response) => {
-        setCourses(response.data); // Assuming response.data is an array of courses
+        setCourses(response.data); 
       })
       .catch((error) => {
         console.error("Error fetching courses:", error);

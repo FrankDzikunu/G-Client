@@ -61,6 +61,9 @@
     gap: 5px;
   }
   
+  .create-invoice-btn:hover {
+    background-color: #0056b3;
+  }
   .invoices-table {
     width: 100%;
     border-collapse: collapse;

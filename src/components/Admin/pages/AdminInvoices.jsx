@@ -7,7 +7,7 @@ import Invoices from '../components/AdminDashboard/Invoices';
 
 const { Sider, Content } = Layout;
 
-const AdminDashboard = ({ username, onLogout }) => {
+const AdminInvoices = ({ username, onLogout }) => {
   return (
     <Layout className="admin-dashboard-layout">
       <Sider className="admin-dashboard-sider" width={350}>
@@ -23,4 +23,4 @@ const AdminDashboard = ({ username, onLogout }) => {
   );
 };
 
-export default AdminDashboard;
+export default AdminInvoices;
