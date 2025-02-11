@@ -45,28 +45,56 @@ function Register() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!user) {
       alert("You must be logged in to register for a course. Please log in or sign up.");
       return;
     }
-
+  
+    if (!formData.amount || !formData.course) {
+      alert("Please select a course and enter an amount.");
+      return;
+    }
+  
     try {
+      const token = localStorage.getItem("token"); 
+      if (!token) {
+        alert("Authorization error: No token found. Please log in again.");
+        return;
+      }
+  
       const formDataToSend = new FormData();
       Object.keys(formData).forEach((key) => {
-        formDataToSend.append(key, formData[key]);
+        if (key === "avatar") {
+          if (formData.avatar) {
+            formDataToSend.append("avatar", formData.avatar);
+          }
+        } else {
+          formDataToSend.append(key, formData[key]);
+        }
       });
-
-      await axios.post("http://localhost:5000/api/register", formDataToSend, {
-        headers: { "Content-Type": "multipart/form-data" },
+  
+      console.log("Final FormData Content:");
+      for (let pair of formDataToSend.entries()) {
+        console.log(pair[0] + ": " + pair[1]);
+      }
+  
+      await axios.post("http://localhost:5000/api/learners", formDataToSend, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
       });
-
+  
       alert("Registration successful!");
     } catch (error) {
-      console.error("Error registering:", error);
+      console.error("Error registering:", error.response?.data?.message || error.message);
       alert("Registration failed. Please try again.");
     }
   };
+  
+  
+  
 
   return (
     <section className="register">
@@ -139,6 +167,7 @@ function Register() {
                       </option>
                     ))}
                   </select>
+
                 </div>
               </div>
               <div className="form-group">
@@ -167,7 +196,7 @@ function Register() {
               <div className='form-group'>
                 <div className="input-container">
                   <i className="fas fa-phone icon"></i>
-                  <input type="text" name="contact" placeholder="Contact" value={formData.contact} onChange={handleChange} required />
+                  <input type="number" name="contact" placeholder="Contact" value={formData.contact} onChange={handleChange} required />
                 </div>
               </div>
             </div>
@@ -175,19 +204,19 @@ function Register() {
             <div className="form-group">
               <div className="input-container">
                 <i className="fas fa-image icon"></i>
-                <input type="file" name="avatar" onChange={handleFileChange} required />
+                <input type="file" name="avatar" onChange={handleFileChange} />
               </div>
             </div>
 
             <div className="form-group">
               <div className="input-container">
                 <i className="fas fa-dollar-sign icon"></i>
-                <input type="text" name="amount" placeholder="Amount" value={formData.amount} onChange={handleChange} required />
+                <input type="number" name="amount" placeholder="Amount" value={formData.amount} onChange={handleChange} required />
               </div>
             </div>
 
             <div className="form-group">
-              <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} rows="4" required />
+              <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} rows="4" />
             </div>
 
             <button type="submit" className="register-button">Register</button>
