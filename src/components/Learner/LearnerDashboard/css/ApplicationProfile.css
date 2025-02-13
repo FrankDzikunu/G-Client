@@ -8,13 +8,14 @@
     font-family: Arial, sans-serif;
     max-width: 900px;
     margin: 20px auto;
-    padding: 20px;
+    padding: 20px 50px;
     padding-bottom: calc(10vh);
     background-color: #fff;
   }
   .table_title {
     display: flex;
     text-align: left;
+    margin-bottom: 50px;
   }
   .table_title span {
     font-weight: lighter;
@@ -24,6 +25,10 @@
     display: flex;
     justify-content: space-between;
   }
+  .profile-link {
+    text-decoration: none;
+    color: #000;
+  }
   
   .profile-header .label {
     color: gray;
@@ -31,8 +36,8 @@
   }
   .divider_vert {
     border: none;
-    border-left: 1px solid #ddd;
-    margin: 20px 0;
+    border-left: 1px solid #c7c7c7;
+    margin: 10px 0;
   }
   .divider {
     border: none;

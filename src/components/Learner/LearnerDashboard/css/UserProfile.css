@@ -1,0 +1,80 @@
+
+  
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #01589A;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin-right: 20px;
+    overflow: hidden;
+  }
+  .profile-info {
+    display: flex;
+  }
+  .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .password-section {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .password-section input, .password-input {
+    display: flex;
+    width: 100%;
+    background-color: #f1f1f1;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .password-input {
+    width: 100%;
+  }
+  .password-icon {
+    color: #a7a7a7;
+    align-self: center;
+  }
+  .password-section button {
+    color: blue;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .profile-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    justify-content: left;
+    margin-top: 40px;
+  }
+  
+  .back-btn {
+    background: #ddd;
+    border: none;
+    padding: 8px 45px;
+    cursor: pointer;
+  }
+  
+  .edit-btn {
+    background: #01589A;
+    color: white;
+    border: none;
+    padding: 8px 45px;
+    cursor: pointer;
+  }
+  

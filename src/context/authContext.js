@@ -4,33 +4,46 @@ import axios from "axios";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  // Initialize token state from localStorage
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
   const [user, setUser] = useState(null);
-  const [userRole, setUserRole] = useState(null); // Add role state
+  const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Persist token changes in localStorage
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
+    }
+  }, [token]);
+
+  // Fetch user profile if token exists
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("token");
       if (token) {
         try {
           const { data } = await axios.get("http://localhost:5000/api/auth/profile", {
             headers: { Authorization: `Bearer ${token}` },
           });
           setUser(data);
-          setUserRole(data.role); 
+          setUserRole(data.role);
         } catch (error) {
-          console.error("Error fetching user:", error);
-          localStorage.removeItem("token");
+          console.error("Error fetching user:", error.response?.data?.message || error.message);
+          // Optionally, you might want to clear token if unauthorized
+          // setToken(null);
+          // setUser(null);
         }
       }
       setLoading(false);
     };
 
     fetchUser();
-  }, []);
+  }, [token]);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, userRole, setUserRole, loading }}>
+    <AuthContext.Provider value={{ token, setToken, user, setUser, userRole, setUserRole, loading }}>
       {children}
     </AuthContext.Provider>
   );

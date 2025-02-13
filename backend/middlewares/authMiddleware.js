@@ -13,17 +13,18 @@ const authMiddleware = (req, res, next) => {
   console.log("Extracted token:", token); // Debugging
 
   try {
-    console.log("JWT_SECRET:", process.env.JWT_SECRET); // Debugging
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded token:", decoded); // Debugging
+    console.log("Decoded token:", decoded);
 
     // Ensure the decoded token has the required fields
-    if (!decoded.userId || !decoded.role) { // Use `userId` instead of `id`
+    if (!decoded.userId || !decoded.role) {
       console.log("Token is missing required fields (userId or role).");
       return res.status(401).json({ message: "Invalid token" });
     }
 
-    req.user = decoded;
+    req.user = { userId: decoded.userId, role: decoded.role }; 
+
     next();
   } catch (error) {
     console.error("Token verification error:", error);

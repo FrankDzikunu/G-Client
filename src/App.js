@@ -16,6 +16,7 @@ import UserRoute from './components/UserRoute';
 import AdminInvoices from './components/Admin/pages/AdminInvoices';
 import AdminCreateCourses from './components/Admin/pages/AdminCreateCourses';
 import AdminCourses from './components/Admin/pages/AdminCourses';
+import UserProfile from './components/Learner/LearnerDashboard/UserProfile';
 
 import './App.css';
 
@@ -83,6 +84,19 @@ function App() {
                 <Dashboard/>
                 <NewApllication/>
                 <Footer />
+              </UserRoute>
+              </>
+            }
+          />
+            <Route
+            path="/profile"
+            element={
+              <>
+              <UserRoute>
+              <Header />
+              <Dashboard/>
+              <UserProfile />
+              <Footer />
               </UserRoute>
               </>
             }

@@ -7,7 +7,7 @@ const ApplicationProfile = () => {
   return (
     <div className="application-profile">
         <div className="table_title">
-            <h2>Application <span>&nbsp; Profile</span></h2>
+            <h2>Application <span>&nbsp; <Link to="/profile" className="profile-link">Profile</Link></span></h2>
         </div>
       <div className="profile-header">
         <div>
