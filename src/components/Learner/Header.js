@@ -4,13 +4,14 @@ import axios from 'axios';
 import './css/Header.css';
 import OTPModal from './OTPModal';
 import ForgotPasswordModal from './ForgotPasswordModal';
+import ResetPasswordModal from './ResetPasswordModal'; // Import the new Reset Password Modal
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isForgotOpen, setIsForgotOpen] = useState(false); // Controls Forgot Password Modal
   const [forgotEmail, setForgotEmail] = useState(""); // Email for forgot-password flow
-  const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] = useState(false); // To open new password modal (to be implemented later)
+  const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] = useState(false); // Controls Reset Password Modal
   const [showPassword, setShowPassword] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
@@ -134,15 +135,14 @@ function Header() {
       const cleanedOtp = otpCode.replace(/,/g, '');
       // If forgotEmail is set, we're in forgot-password flow.
       if (forgotEmail) {
-        const response = await axios.post('http://localhost:5000/api/auth/verify-otp', {
+        const response = await axios.post('http://localhost:5000/api/auth/verify-forgot-password-otp', {
           email: forgotEmail,
           otp: cleanedOtp
         });
         if (response.status === 200) {
           setIsOtpModalOpen(false);
-          alert('OTP verified successfully for password reset. New password modal will open.');
-          // Here, you would open the New Password Modal
-          setIsResetPasswordModalOpen(true);
+          alert('OTP verified successfully for password reset.');
+          setIsResetPasswordModalOpen(true); // Open Reset Password Modal
         } else {
           alert('Invalid OTP. Please try again.');
         }
@@ -156,12 +156,26 @@ function Header() {
           setIsOtpModalOpen(false);
           alert('Registration Successful! You can now log in.');
           navigate('/');
-        } else {
-          alert('Invalid OTP. Please try again.');
-        }
+        } 
       }
     } catch (error) {
       alert(error.response?.data?.message || 'OTP verification failed. Please try again.');
+    }
+  };
+
+  // Function to handle resetting password after OTP verification.
+  const handleResetPassword = async (newPassword) => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/reset-password", {
+        email: forgotEmail,
+        newPassword,
+      });
+      if (response.status === 200) {
+        alert("Password reset successfully! Please log in with your new password.");
+        setIsResetPasswordModalOpen(false);
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Password reset failed. Please try again.");
     }
   };
 
@@ -368,6 +382,16 @@ function Header() {
         openOTPModal={openOTPModal}
         setForgotEmail={setForgotEmail}
       />
+
+      {/* Reset Password Modal */}
+      {isResetPasswordModalOpen && (
+        <ResetPasswordModal
+          isOpen={isResetPasswordModalOpen}
+          onClose={() => setIsResetPasswordModalOpen(false)}
+          email={forgotEmail}
+          onSubmit={handleResetPassword}
+        />
+      )}
     </header>
   );
 }

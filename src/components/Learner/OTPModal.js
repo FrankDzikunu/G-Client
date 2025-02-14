@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./css/OTPModal.css";
+import ResetPasswordModal from "./ResetPasswordModal"; // Import the Reset Password Modal
 
 const OTPModal = ({ otpCode, setOtpCode, onSubmit, onClose, email }) => {
   const modalRef = useRef(null);
   const inputRefs = useRef([]); // Array of refs for each OTP input field
   const [otp, setOtp] = useState(Array(6).fill('')); // Initialize OTP as an array of 6 empty strings
+  const [isOtpVerified, setIsOtpVerified] = useState(false); // Track OTP verification state
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -39,6 +41,16 @@ const OTPModal = ({ otpCode, setOtpCode, onSubmit, onClose, email }) => {
     }
   };
 
+  // Handle OTP verification
+  const handleVerifyOtp = async () => {
+    const success = await onSubmit();
+    if (success) {
+      setIsOtpVerified(true); // OTP verified, trigger Reset Password Modal
+    } else {
+      alert("Invalid OTP. Please try again.");
+    }
+  };
+
   // Handle paste event for OTP
   const handlePaste = (e) => {
     e.preventDefault();
@@ -54,38 +66,44 @@ const OTPModal = ({ otpCode, setOtpCode, onSubmit, onClose, email }) => {
   };
 
   return (
-    <div className="otp-modal">
-      <div className="otp-container" ref={modalRef}>
-        <h2>OTP Verification</h2>
-        <p>
-          Verify your account using the six-digit code sent to <strong>{email}</strong>
-        </p>
-        <div className="otp-inputs">
-          {[...Array(6)].map((_, index) => (
-            <input
-              key={index}
-              type="text"
-              maxLength="1"
-              value={otp[index] || ''}
-              ref={(el) => (inputRefs.current[index] = el)} // Assign ref to each input field
-              onChange={(e) => handleOtpChange(index, e.target.value)}
-              onPaste={handlePaste}
-              onKeyDown={(e) => {
-                // Handle backspace key
-                if (e.key === 'Backspace' && !otp[index] && index > 0) {
-                  inputRefs.current[index - 1].focus();
-                }
-              }}
-            />
-          ))}
+    <>
+      {!isOtpVerified ? (
+        <div className="otp-modal">
+          <div className="otp-container" ref={modalRef}>
+            <h2>OTP Verification</h2>
+            <p>
+              Verify your account using the six-digit code sent to <strong>{email}</strong>
+            </p>
+            <div className="otp-inputs">
+              {[...Array(6)].map((_, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  maxLength="1"
+                  value={otp[index] || ''}
+                  ref={(el) => (inputRefs.current[index] = el)} // Assign ref to each input field
+                  onChange={(e) => handleOtpChange(index, e.target.value)}
+                  onPaste={handlePaste}
+                  onKeyDown={(e) => {
+                    // Handle backspace key
+                    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+                      inputRefs.current[index - 1].focus();
+                    }
+                  }}
+                />
+              ))}
+            </div>
+            <p className="resend">
+              Didn't get a code? <span className="resend-link">click to resend</span>
+            </p>
+            <button className="verify-btn" onClick={handleVerifyOtp}>Verify account ➤</button>
+            <button className="close-btn" onClick={onClose}>✖</button>
+          </div>
         </div>
-        <p className="resend">
-          Didn't get a code? <span className="resend-link">click to resend</span>
-        </p>
-        <button className="verify-btn" onClick={onSubmit}>Verify account ➤</button>
-        <button className="close-btn" onClick={onClose}>✖</button>
-      </div>
-    </div>
+      ) : (
+        <ResetPasswordModal isOpen={true} onClose={onClose} />
+      )}
+    </>
   );
 };
 

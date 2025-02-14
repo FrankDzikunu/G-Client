@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
 const { getUserProfile, getAllUsers, deleteUser, updateUserRole } = require("../controllers/authController");
 const { authMiddleware, adminMiddleware } = require("../middlewares/authMiddleware");
-const { sendOtpEmail, verifyOtp, sendForgotPasswordOtp } = require('../controllers/otpController');
+const { sendOtpEmail, verifyOtp, sendForgotPasswordOtp, verifyForgotPasswordOtp, resetPassword } = require('../controllers/otpController');
 const User = require("../models/User");
 
 const router = express.Router();
@@ -79,8 +79,10 @@ router.post(
   );
   
 
-  // Forgot Password Route (new)
+  // Forgot Password Route 
 router.post("/forgot-password", sendForgotPasswordOtp);
+router.post("/verify-forgot-password-otp", verifyForgotPasswordOtp);
+router.post("/reset-password", resetPassword);
 // Get User Profile (Protected Route)
 router.get("/profile", authMiddleware, getUserProfile);
 

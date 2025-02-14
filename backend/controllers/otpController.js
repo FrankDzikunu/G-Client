@@ -1,6 +1,6 @@
-// otpController.js
 const SibApiV3Sdk = require("sib-api-v3-sdk");
 const crypto = require("crypto");
+const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 
 // Initialize Sendinblue API
@@ -10,12 +10,12 @@ SibApiV3Sdk.ApiClient.instance.authentications["api-key"].apiKey =
 
 const OTP_EXPIRY_TIME = 10 * 60 * 1000; // 10 minutes
 
-// We'll use a shared in-memory store for OTPs (for production, use Redis or a DB)
+// In-memory OTP store (for production, use Redis or a DB)
 const otpStore = new Map();
 
 const generateOtp = () => crypto.randomInt(100000, 999999).toString();
 
-// Existing sendOtpEmail for signup (unchanged)
+// sendOtpEmail for signup remains unchanged
 const sendOtpEmail = async (req, res) => {
   const { email, username, password } = req.body;
 
@@ -52,7 +52,7 @@ const sendOtpEmail = async (req, res) => {
   }
 };
 
-// New function: sendForgotPasswordOtp
+// sendForgotPasswordOtp: for password reset flow
 const sendForgotPasswordOtp = async (req, res) => {
   const { email } = req.body;
   if (!email) return res.status(400).json({ message: "Email is required" });
@@ -87,7 +87,7 @@ const sendForgotPasswordOtp = async (req, res) => {
   }
 };
 
-// Existing verifyOtp (for signup) remains the same
+// Existing verifyOtp (for signup) remains unchanged
 const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
   const normalizedEmail = email.toLowerCase();
@@ -130,4 +130,65 @@ const verifyOtp = async (req, res) => {
   }
 };
 
-module.exports = { sendOtpEmail, verifyOtp, sendForgotPasswordOtp };
+// New function: verifyForgotPasswordOtp (only requires email and otp)
+const verifyForgotPasswordOtp = async (req, res) => {
+  const { email, otp } = req.body;
+  const normalizedEmail = email.toLowerCase();
+
+  console.log(`Verifying forgot password OTP for email: ${normalizedEmail}`);
+
+  const storedOtpData = otpStore.get(normalizedEmail);
+  if (!storedOtpData) {
+    return res.status(400).json({ message: "OTP expired or invalid" });
+  }
+
+  const { otp: storedOtp, expiryTime } = storedOtpData;
+
+  if (Date.now() > expiryTime) {
+    otpStore.delete(normalizedEmail);
+    return res.status(400).json({ message: "OTP expired" });
+  }
+
+  if (otp !== storedOtp) {
+    return res.status(400).json({ message: "Invalid OTP" });
+  }
+
+  // OTP verified successfully; remove it from the store
+  otpStore.delete(normalizedEmail);
+  console.log(`Forgot password OTP verified successfully for ${normalizedEmail}`);
+  res.status(200).json({ message: "OTP verified successfully" });
+};
+
+// Reset Password Endpoint
+const resetPassword = async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  if (!email || !newPassword) {
+    return res.status(400).json({ message: "Email and new password are required" });
+  }
+
+  const normalizedEmail = email.toLowerCase();
+
+  try {
+    // Check if user exists
+    const user = await User.findOne({ email: normalizedEmail });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // Update user password
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successfully. You can now log in." });
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = { sendOtpEmail, verifyOtp, sendForgotPasswordOtp, verifyForgotPasswordOtp, resetPassword };

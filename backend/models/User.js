@@ -15,6 +15,14 @@ const UserSchema = new mongoose.Schema(
 // Hash password before saving
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
+
+  // Prevent double hashing
+  if (
+    this.password.startsWith("$2a$") || this.password.startsWith("$2b$")
+  ) {
+    return next();
+  }
+
   try {
     console.log("Plaintext password before hashing:", this.password); // Debugging
     const salt = await bcrypt.genSalt(10);
@@ -24,6 +32,7 @@ UserSchema.pre("save", async function (next) {
     next(error);
   }
 });
+
 // Method to match password during login
 UserSchema.methods.matchPassword = async function (enteredPassword) {
   console.log("Entered password:", enteredPassword);
