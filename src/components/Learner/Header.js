@@ -3,10 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './css/Header.css';
 import OTPModal from './OTPModal';
+import ForgotPasswordModal from './ForgotPasswordModal';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isForgotOpen, setIsForgotOpen] = useState(false); // Controls Forgot Password Modal
+  const [forgotEmail, setForgotEmail] = useState(""); // Email for forgot-password flow
+  const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] = useState(false); // To open new password modal (to be implemented later)
   const [showPassword, setShowPassword] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
@@ -24,6 +28,7 @@ function Header() {
   const loginPopupRef = useRef(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const openOTPModal = () => setIsOtpModalOpen(true);
 
   useEffect(() => {
     const storedLoginState = localStorage.getItem('isLoggedIn');
@@ -50,6 +55,7 @@ function Header() {
   };
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const toggleForgotPassword = () => setIsForgotOpen(!isForgotOpen);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -58,7 +64,7 @@ function Header() {
       const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
   
       if (response.data.requiresOtp) {
-        setIsOtpModalOpen(true); // Show OTP modal if required
+        setIsOtpModalOpen(true);
         return;
       }
   
@@ -76,11 +82,7 @@ function Header() {
       setIsLoginOpen(false);
   
       // Redirect based on user role
-      if (role === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/');
-      }
+      navigate(role === 'admin' ? '/admin' : '/');
   
     } catch (error) {
       console.error(error);
@@ -88,8 +90,6 @@ function Header() {
       alert(errorMessage);
     }
   };
-
-  
 
   const handleSignup = async (event) => {
     event.preventDefault();
@@ -132,17 +132,33 @@ function Header() {
   const handleOtpSubmit = async () => {
     try {
       const cleanedOtp = otpCode.replace(/,/g, '');
-      const response = await axios.post('http://localhost:5000/api/auth/verify-otp', {
-        email: signupEmail,
-        otp: cleanedOtp
-      });
-
-      if (response.status === 201) {
-        setIsOtpModalOpen(false);
-        alert('Registration Successful! You can now log in.');
-        navigate('/');
+      // If forgotEmail is set, we're in forgot-password flow.
+      if (forgotEmail) {
+        const response = await axios.post('http://localhost:5000/api/auth/verify-otp', {
+          email: forgotEmail,
+          otp: cleanedOtp
+        });
+        if (response.status === 200) {
+          setIsOtpModalOpen(false);
+          alert('OTP verified successfully for password reset. New password modal will open.');
+          // Here, you would open the New Password Modal
+          setIsResetPasswordModalOpen(true);
+        } else {
+          alert('Invalid OTP. Please try again.');
+        }
       } else {
-        alert('Invalid OTP. Please try again.');
+        // Registration flow
+        const response = await axios.post('http://localhost:5000/api/auth/verify-otp', {
+          email: signupEmail,
+          otp: cleanedOtp
+        });
+        if (response.status === 201) {
+          setIsOtpModalOpen(false);
+          alert('Registration Successful! You can now log in.');
+          navigate('/');
+        } else {
+          alert('Invalid OTP. Please try again.');
+        }
       }
     } catch (error) {
       alert(error.response?.data?.message || 'OTP verification failed. Please try again.');
@@ -185,7 +201,7 @@ function Header() {
       <nav className={`nav ${isLoggedIn || isMenuOpen ? 'open' : ''}`}>
         <ul className="nav-links">
           {!isLoggedIn ? (
-            <ul className="nav-links">
+            <>
               <li>
                 <Link to="/">Home</Link>
               </li>
@@ -195,7 +211,7 @@ function Header() {
               <button className="login-button" onClick={toggleLogin}>
                 Login <i className="fas fa-sign-in-alt"></i>
               </button>
-            </ul>
+            </>
           ) : (
             <div className="user-dropdown">
               <button className="user-button" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
@@ -260,7 +276,9 @@ function Header() {
               </button>
             </div>
             <div className="forgot-password">
-              <Link to="/forgot-password">Forgot password?</Link>
+              <button className='forget-password' type="button" onClick={() => setIsForgotOpen(true)}>
+                Forgot password?
+              </button>
             </div>
             <button type="submit" className="login-submit">Login</button>
           </form>
@@ -270,7 +288,7 @@ function Header() {
         </div>
       )}
 
-{isSignupOpen && (
+      {isSignupOpen && (
         <div className="login-popup" ref={loginPopupRef}>
           <h2>Signup</h2>
           <button className="google-login">
@@ -332,16 +350,24 @@ function Header() {
         </div>
       )}
 
-        {isOtpModalOpen && (
-          <OTPModal
-            otpCode={otpCode}
-            setOtpCode={setOtpCode}
-            onSubmit={handleOtpSubmit}
-            onClose={() => setIsOtpModalOpen(false)}
-            email={signupEmail} // Pass the email to OTPModal
-          />
-        )}
+      {isOtpModalOpen && (
+        <OTPModal
+          otpCode={otpCode}
+          isOpen={isOtpModalOpen}
+          setOtpCode={setOtpCode}
+          onSubmit={handleOtpSubmit}
+          onClose={() => setIsOtpModalOpen(false)}
+          email={forgotEmail || signupEmail}
+        />
+      )}
 
+      {/* Forgot Password Modal */}
+      <ForgotPasswordModal
+        isOpen={isForgotOpen}
+        onClose={() => setIsForgotOpen(false)}
+        openOTPModal={openOTPModal}
+        setForgotEmail={setForgotEmail}
+      />
     </header>
   );
 }
