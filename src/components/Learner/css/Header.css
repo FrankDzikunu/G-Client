@@ -198,6 +198,13 @@
   .input-group i {
     margin-right: 10px;
     color: #999999;
+    border: none;
+    background-color: transparent;
+  }
+  .eye-icon {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
   }
   
   .signup-link {
@@ -215,12 +222,16 @@
     display: block;
     text-align: left;
     margin: 20px;
-  }
-  .forgot-password a {
-    color: #007bff;
     text-decoration: none;
   }
-  .forgot-password a:hover {
+  .forgot-password button {
+    background-color: transparent;
+    border: none;
+    color: #007bff;
+    font-size: 1rem;
+  }
+
+  .forgot-password :hover {
     text-decoration: underline;
   }
   

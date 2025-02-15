@@ -285,7 +285,7 @@ function Header() {
                 placeholder="Password"
                 required
               />
-              <button type="button" onClick={togglePasswordVisibility}>
+              <button className='eye-icon' type="button" onClick={togglePasswordVisibility}>
                 <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
               </button>
             </div>
@@ -339,7 +339,7 @@ function Header() {
                 placeholder="Password"
                 required
               />
-              <button type="button" onClick={togglePasswordVisibility}>
+              <button className='eye-icon' type="button" onClick={togglePasswordVisibility}>
                 <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
               </button>
             </div>
@@ -352,7 +352,7 @@ function Header() {
                 placeholder="Confirm Password"
                 required
               />
-              <button type="button" onClick={togglePasswordVisibility}>
+              <button className='eye-icon' type="button" onClick={togglePasswordVisibility}>
                 <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
               </button>
             </div>

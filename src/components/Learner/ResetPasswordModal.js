@@ -73,7 +73,7 @@ const ResetPasswordModal = ({ isOpen, onClose, email }) => {
             />
           </div>
 
-          <div className="input-group">
+          <div className="reset-input-group">
             <FaLock className="icon" />
             <input
               type="password"
