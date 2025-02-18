@@ -13,17 +13,15 @@ const AdminHeader = ({ onLogout }) => {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
-
-        const response = await axios.get("http://localhost:5000/api/auth/profile", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          
+        const response = await axios.get("http://localhost:5000/api/admin/profile", {
+          headers: { Authorization: `Bearer ${token}` },
         });
-
-        setUsername(response.data.username);
+        setUsername(response.data.name); // Use the returned name
       } catch (error) {
-        console.error("Error fetching user info:", error);
+        console.error("Error fetching user info:", error.response?.data?.message || error.message);
       }
     };
+    
 
     fetchUserInfo();
   }, []);

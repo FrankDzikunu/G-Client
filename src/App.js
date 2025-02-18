@@ -17,6 +17,10 @@ import AdminInvoices from './components/Admin/pages/AdminInvoices';
 import AdminCreateCourses from './components/Admin/pages/AdminCreateCourses';
 import AdminCourses from './components/Admin/pages/AdminCourses';
 import UserProfile from './components/Learner/LearnerDashboard/UserProfile';
+import AdminSettings from './components/Admin/pages/AdminSettings';
+import AdminLogin from './components/Admin/components/AdminLogin';
+import AdminSignup from './components/Admin/components/AdminSignup';
+import AdminCourseDetails from './components/Admin/pages/AdminCourseDetails';
 
 import './App.css';
 
@@ -25,6 +29,8 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
+        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/admin-signup" element={<AdminSignup />} />
         <Route path="/admin" element={
           <AdminRoute>
           <AdminDashboard />
@@ -45,6 +51,18 @@ function App() {
           <Route path="/admin/courses" element={
           <AdminRoute>
           <AdminCourses />
+          </AdminRoute>
+        } />
+
+          <Route path="/admin/settings" element={
+          <AdminRoute>
+          <AdminSettings />
+          </AdminRoute>
+        } />
+
+          <Route path="/admin/courses/:id" element={
+          <AdminRoute>
+          <AdminCourseDetails />
           </AdminRoute>
         } />
 

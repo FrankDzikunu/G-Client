@@ -69,7 +69,9 @@ const Courses = () => {
               <p>Duration:<div className="courses-data-value"> {course.duration}</div></p>
               <p>Instructor:<div className="courses-data-value"> {course.instructor}</div></p>
               <p>Learners:<div className="courses-data-value"> +{course.learners.length}</div></p>
+              <Link to={`/admin/courses/${course._id}`} >
               <button className="view-more-btn">View more →</button>
+              </Link>
             </div>
           </div>
         ))}

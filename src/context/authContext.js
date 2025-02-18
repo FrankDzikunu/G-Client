@@ -4,7 +4,6 @@ import axios from "axios";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  // Initialize token state from localStorage
   const [token, setToken] = useState(() => localStorage.getItem("token"));
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
@@ -24,16 +23,13 @@ export const AuthProvider = ({ children }) => {
     const fetchUser = async () => {
       if (token) {
         try {
-          const { data } = await axios.get("http://localhost:5000/api/auth/profile", {
+          const { data } = await axios.get("http://localhost:5000/api/users/profile", {
             headers: { Authorization: `Bearer ${token}` },
           });
           setUser(data);
           setUserRole(data.role);
         } catch (error) {
           console.error("Error fetching user:", error.response?.data?.message || error.message);
-          // Optionally, you might want to clear token if unauthorized
-          // setToken(null);
-          // setUser(null);
         }
       }
       setLoading(false);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import styles from '../css/LatestInvoices.css';
+import '../css/LatestInvoices.css';
 
 const LatestInvoices = () => {
   const [invoices, setInvoices] = useState([]);

@@ -253,6 +253,10 @@
     text-align: center;
     margin-top: 15px;
   }
+  .signup {
+    cursor: pointer;
+    color: #007bff;
+  }
   
 
   @media (min-width: 768px) and (max-width: 1200px) {
