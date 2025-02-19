@@ -89,16 +89,16 @@ const Invoices = () => {
                   className="learner-avatar"
                 /> {invoice.learner.firstName} {invoice.learner.lastName}
               </td>
-              <td>{invoice.learner.email}</td>
-              <td>${invoice.amountPaid.toFixed(2)}</td>
-              <td>{new Date(invoice.date).toLocaleDateString()}</td>
-              <td>
+              <td className="learner-cell" >{invoice.learner.email}</td>
+              <td className="learner-cell">${invoice.amountPaid.toFixed(2)}</td>
+              <td className="learner-cell">{new Date(invoice.date).toLocaleDateString()}</td>
+              <td className="learner-cell">
                 <span className={`status ${invoice.status.toLowerCase()}`}>
                   {invoice.status}
                 </span>
               </td>
-              <td>
-                <button className="edit-btn">
+              <td className="learner-cell">
+                <button className="learner-edit-btn">
                   <FaEdit />
                 </button>
                 <button className="delete-btn">

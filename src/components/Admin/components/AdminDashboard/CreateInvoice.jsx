@@ -77,17 +77,22 @@ const CreateInvoice = () => {
   };
 
   return (
-    <div className="create-invoice-container">
-      <h2 className="invoice-header">Create invoice</h2>
+    <div className="courses-container">
+        <div className="head-tit">
+      <span>Invoices</span><hr className="divider_vet" /><h2>Create Invoice</h2>
+      </div>
 
       {error && <p className="error-message">{error}</p>}
       {message && <p className="success-message">{message}</p>}
 
-      <form className="invoice-form" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
+        <div className="formdata">
         {/* Select Learner */}
-        <div className="form-group">
+        <div className="form-group-A">
+        <div className="input-container-A">
+        <div className="icon-input">
           <FontAwesomeIcon icon={faUser} className="input-icon" />
-          <select name="learner" value={invoice.learner} onChange={handleChange} required>
+          <select className="select-input" name="learner" value={invoice.learner} onChange={handleChange} required>
             <option value="">Select learner</option>
             {learners.map((learner) => (
               <option key={learner._id} value={learner._id}>
@@ -96,9 +101,13 @@ const CreateInvoice = () => {
             ))}
           </select>
         </div>
+        </div>
+        </div>
 
         {/* Amount in USD */}
-        <div className="form-group">
+        <div className="form-group-A">
+            <div className="input-container-A">
+        <div className="icon-input">
           <FontAwesomeIcon icon={faDollarSign} className="input-icon" />
           <input
             type="number"
@@ -108,10 +117,12 @@ const CreateInvoice = () => {
             placeholder="Enter amount in USD"
             required
           />
-        </div>
+        </div></div></div>
 
         {/* Collection Date */}
-        <div className="form-group">
+        <div className="form-group-A">
+            <div className="input-container-A">
+        <div className="icon-input">
           <FontAwesomeIcon icon={faCalendar} className="input-icon" />
           <input
             type="date"
@@ -120,20 +131,24 @@ const CreateInvoice = () => {
             onChange={handleChange}
             required
           />
-        </div>
+        </div></div></div>
 
         {/* Status */}
-        <div className="form-group">
+        <div className="form-group-A">
+            <div className="input-container-A">
+        <div className="icon-input">
           <FontAwesomeIcon icon={faClock} className="input-icon" />
-          <select name="status" value={invoice.status} onChange={handleChange} required>
+          <select className="select-input" name="status" value={invoice.status} onChange={handleChange} required>
             <option value="">Select status</option>
             <option value="paid">Paid</option>
             <option value="pending">Pending</option>
           </select>
-        </div>
+        </div></div></div>
 
         {/* Payment details */}
-        <div className="form-group">
+        <div className="form-group-A">
+            <div className="input-container-A">
+        <div className="icon-input">
           <FontAwesomeIcon icon={faPen} className="input-icon" />
           <input
             type="text"
@@ -142,7 +157,7 @@ const CreateInvoice = () => {
             onChange={handleChange}
             placeholder="Payment details"
           />
-        </div>
+        </div></div></div>
 
         <div className="invoice-actions">
           <button type="button" className="cancel-btn">
@@ -151,6 +166,7 @@ const CreateInvoice = () => {
           <button type="submit" className="create-btn" disabled={loading}>
             {loading ? "Creating..." : "Create invoice"}
           </button>
+        </div>
         </div>
       </form>
     </div>

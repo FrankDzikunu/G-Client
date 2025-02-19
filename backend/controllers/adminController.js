@@ -13,15 +13,36 @@ const jwt = require('jsonwebtoken');
 const getDashboardStats = async (req, res) => {
   try {
     // Aggregate total revenue from all invoices
-    const totalRevenue = await Invoice.aggregate([
-      { $match: { status: "paid" } },
+    const totalRevenueAgg = await Invoice.aggregate([
       { $group: { _id: null, total: { $sum: "$amountPaid" } } }
     ]);
-    // Sum the amountPaid for all invoices with status "pending"
-    const pendingRevenue = await Invoice.aggregate([
+    const totalRevenue = totalRevenueAgg[0]?.total || 0;
+
+    // Calculate pending revenue: compute (learner.amount - amountPaid) and sum these differences. 
+    const pendingRevenueAgg = await Invoice.aggregate([
       { $match: { status: "pending" } },
-      { $group: { _id: null, totalPending: { $sum: "$amountPaid" } } }
+      {
+        $lookup: {
+          from: "learners", 
+          localField: "learner",
+          foreignField: "_id",
+          as: "learnerData"
+        }
+      },
+      { $unwind: "$learnerData" },
+      {
+        $project: {
+          pendingAmount: { $subtract: [ "$learnerData.amount", "$amountPaid" ] }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalPending: { $sum: "$pendingAmount" }
+        }
+      }
     ]);
+    const pendingRevenue = pendingRevenueAgg[0]?.totalPending || 0;
     // Count total learners, courses, and invoices
     const totalLearners = await Learner.countDocuments();
     const totalCourses = await Course.countDocuments();
@@ -30,8 +51,8 @@ const getDashboardStats = async (req, res) => {
     const pendingPayments = await Invoice.countDocuments({ status: "pending" });
 
     res.json({
-      totalRevenue: totalRevenue[0]?.total || 0,
-      pendingRevenue: pendingRevenue[0]?.totalPending || 0,
+      totalRevenue,
+      pendingRevenue,
       totalLearners,
       totalCourses,
       totalInvoices,

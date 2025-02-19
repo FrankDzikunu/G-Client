@@ -1,44 +1,28 @@
-.create-invoice-container {
-    width: 100%;
-    max-width: 600px;
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-  }
+
   
-  .invoice-header {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
+
+  .icon-input input select{
+    border: none;
   }
-  
-  .invoice-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-group {
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-bottom: 15px;
-  }
-  
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 10px 35px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-  
   .input-icon {
     position: absolute;
     left: 10px;
     color: #666;
+    margin-right: 10px;
   }
-  
+  .select-input {
+    border: none;
+    margin: auto 20px;
+    width: 100vw;
+    color: #8d8d8d;
+  }
+  .select-input option {
+color: #000;
+  }
+  .input-icon select {
+    border: none;
+  }
+
   .invoice-actions {
     display: flex;
     justify-content: space-between;
