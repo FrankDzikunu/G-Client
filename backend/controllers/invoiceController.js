@@ -7,8 +7,7 @@ const Invoice = require("../models/Invoice");
 const getInvoices = async (req, res) => {
   try {
     const invoices = await Invoice.find()
-      .populate("learner", "name email")
-      .populate("course", "title description");
+      .populate("learner", "firstName lastName email avatar")
     res.status(200).json(invoices);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -19,11 +18,11 @@ const getInvoices = async (req, res) => {
 // @route   POST /api/invoices
 // @access  Private (Admin)
 const createInvoice = async (req, res) => {
-  const { learner, course, amountPaid, status, email, avatar } = req.body;
+  const { learner, amountPaid, status, date, paymentDetails, email } = req.body;
 
   try {
-    if (!mongoose.Types.ObjectId.isValid(learner) || !mongoose.Types.ObjectId.isValid(course)) {
-      return res.status(400).json({ message: "Invalid learner or course ID" });
+    if (!mongoose.Types.ObjectId.isValid(learner)) {
+      return res.status(400).json({ message: "Invalid learner ID" });
     }
 
     if (!amountPaid || isNaN(amountPaid)) {
@@ -31,12 +30,12 @@ const createInvoice = async (req, res) => {
     }
 
     const invoice = new Invoice({
-      learner: mongoose.Types.ObjectId(learner),
-      course: mongoose.Types.ObjectId(course),
+      learner: new mongoose.Types.ObjectId(learner),
       amountPaid: parseFloat(amountPaid),
       status,
+      date,
+      paymentDetails,
       email,
-      avatar,
     });
 
     await invoice.save();
@@ -56,8 +55,7 @@ const getInvoice = async (req, res) => {
     }
 
     const invoice = await Invoice.findById(req.params.id)
-      .populate("learner", "name email")
-      .populate("course", "title description");
+      .populate("learner", "email")
 
     if (!invoice) return res.status(404).json({ message: "Invoice not found" });
 
@@ -72,7 +70,7 @@ const getInvoice = async (req, res) => {
 // @access  Private (Admin)
 const updateInvoice = async (req, res) => {
   try {
-    const { learner, course, amountPaid, status, email, avatar } = req.body;
+    const { learner, course, amountPaid, status, email, paymentDetails } = req.body;
 
     const updatedData = {
       learner: mongoose.Types.ObjectId(learner),
@@ -80,7 +78,7 @@ const updateInvoice = async (req, res) => {
       amountPaid: parseFloat(amountPaid),
       status,
       email,
-      avatar,
+      paymentDetails,
     };
 
     const invoice = await Invoice.findByIdAndUpdate(req.params.id, updatedData, {

@@ -4,13 +4,13 @@ const invoiceSchema = new mongoose.Schema(
   {
     learner: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Learner",
       required: true,
     },
     course: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
-      required: true,
+      required: false,
     },
     amountPaid: {
       type: Number,
@@ -26,7 +26,7 @@ const invoiceSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    avatar: {
+    paymentDetails: {
       type: String,
     },
     email: {

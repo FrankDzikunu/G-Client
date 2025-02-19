@@ -74,7 +74,7 @@ const CourseDetails = () => {
   };
 
   return (
-    <div className="courses-container">
+    <div className="courses-container" style={{maxWidth: "920px"}}>
         <div className="Courses-heading"><h2><span><Link to="/admin/courses">Courses | </Link></span>details</h2></div>
       {/* Left Section: Course Card */}
       <div className="course-details-card"> 

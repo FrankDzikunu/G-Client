@@ -9,7 +9,7 @@ const DashboardCards = () => {
     totalRevenue: 0,
     totalLearners: 0,
     totalInvoices: 0,
-    pendingPayments: 0,
+    pendingRevenue: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -32,7 +32,7 @@ const DashboardCards = () => {
           totalRevenue: response.data.totalRevenue || 0,
           totalLearners: response.data.totalLearners || 0,
           totalInvoices: response.data.totalInvoices || 0,
-          pendingPayments: response.data.pendingPayments?.length || 0,
+          pendingRevenue: response.data.pendingRevenue || 0,
         });
       } catch (error) {
         console.error("Error fetching dashboard stats:", error);
@@ -61,22 +61,22 @@ const DashboardCards = () => {
     <div className="dashboard-cards">
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} md={6}>
-          <Card className="dashboard-card" title={<><DollarOutlined />&nbsp; &nbsp; Collected</>}>
+          <Card className="dashboard-card" title={<><DollarOutlined />&nbsp;&nbsp; Collected</>}>
             ${stats.totalRevenue.toFixed(2)}
           </Card>
         </Col>
         <Col xs={24} sm={12} md={6}>
-          <Card className="dashboard-card" title={<><ClockCircleOutlined />&nbsp; &nbsp; Pending</>}>
-            {stats.pendingPayments}
+          <Card className="dashboard-card" title={<><ClockCircleOutlined />&nbsp;&nbsp; Pending</>}>
+          ${stats.pendingRevenue.toFixed(2)}
           </Card>
         </Col>
         <Col xs={24} sm={12} md={6}>
-          <Card className="dashboard-card" title={<><FileTextOutlined />&nbsp; &nbsp; Total Invoices</>}>
+          <Card className="dashboard-card" title={<><FileTextOutlined />&nbsp;&nbsp; Total Invoices</>}>
             {stats.totalInvoices}
           </Card>
         </Col>
         <Col xs={24} sm={12} md={6}>
-          <Card className="dashboard-card" title={<><TeamOutlined />&nbsp; &nbsp; Total Learners</>}>
+          <Card className="dashboard-card" title={<><TeamOutlined />&nbsp;&nbsp; Total Learners</>}>
             {stats.totalLearners}
           </Card>
         </Col>

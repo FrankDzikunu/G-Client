@@ -21,6 +21,7 @@ import AdminSettings from './components/Admin/pages/AdminSettings';
 import AdminLogin from './components/Admin/components/AdminLogin';
 import AdminSignup from './components/Admin/components/AdminSignup';
 import AdminCourseDetails from './components/Admin/pages/AdminCourseDetails';
+import AdminCreateInvoice from './components/Admin/pages/AdminCreateInvoice';
 
 import './App.css';
 
@@ -45,6 +46,11 @@ function App() {
         <Route path="/admin/create-courses" element={
           <AdminRoute>
           <AdminCreateCourses />
+          </AdminRoute>
+        } />
+        <Route path="/admin/create-invoices" element={
+          <AdminRoute>
+          <AdminCreateInvoice />
           </AdminRoute>
         } />
           

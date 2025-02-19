@@ -12,23 +12,37 @@ const jwt = require('jsonwebtoken');
 // @access  Private (Admin)
 const getDashboardStats = async (req, res) => {
   try {
+    // Aggregate total revenue from all invoices
     const totalRevenue = await Invoice.aggregate([
+      { $match: { status: "paid" } },
       { $group: { _id: null, total: { $sum: "$amountPaid" } } }
     ]);
+    // Sum the amountPaid for all invoices with status "pending"
+    const pendingRevenue = await Invoice.aggregate([
+      { $match: { status: "pending" } },
+      { $group: { _id: null, totalPending: { $sum: "$amountPaid" } } }
+    ]);
+    // Count total learners, courses, and invoices
     const totalLearners = await Learner.countDocuments();
     const totalCourses = await Course.countDocuments();
+    const totalInvoices = await Invoice.countDocuments();
+    const paymentMade = await Invoice.countDocuments({ status: "paid" });
     const pendingPayments = await Invoice.countDocuments({ status: "pending" });
 
     res.json({
       totalRevenue: totalRevenue[0]?.total || 0,
+      pendingRevenue: pendingRevenue[0]?.totalPending || 0,
       totalLearners,
       totalCourses,
+      totalInvoices,
+      paymentMade,
       pendingPayments,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // @desc    Get recent revenue (last 7 days)
 // @route   GET /api/admin/recent-revenue
@@ -55,8 +69,12 @@ const getLatestInvoices = async (req, res) => {
     const latestInvoices = await Invoice.find()
       .sort({ createdAt: -1 })
       .limit(5)
-      .populate("learner")
-      .populate("course");
+      .populate({
+        path: "learner",
+        select: "firstName lastName email avatar course",
+        populate: { path: "course", select: "name" }
+      })
+      
     res.json(latestInvoices);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -88,7 +106,6 @@ const authAdmin = asyncHandler(async (req, res) => {
 // @route   GET /api/admin/profile
 // @access  Private (Admin Only)
 const getAdminProfile = asyncHandler(async (req, res) => {
-  console.log("Fetching profile for admin with id:", req.admin._id); // Debugging log
   const admin = await Admin.findById(req.admin._id);
   if (admin) {
     res.json({
@@ -108,7 +125,6 @@ const getAdminProfile = asyncHandler(async (req, res) => {
 const updateAdminProfile = asyncHandler(async (req, res) => {
   const admin = await Admin.findById(req.admin._id);
   if (admin) {
-    // Assume the frontend sends a combined name in req.body.name (or you can send firstName and lastName separately)
     if (req.body.name) {
       const nameParts = req.body.name.split(" ");
       admin.firstName = nameParts[0];
