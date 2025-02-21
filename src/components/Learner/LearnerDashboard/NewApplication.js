@@ -43,25 +43,46 @@ const NewApllication = () => {
     };
 
       // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const formDataToSend = new FormData();
-      Object.keys(formData).forEach((key) => {
-        formDataToSend.append(key, formData[key]);
-      });
-
-      await axios.post("http://localhost:5000/api/register", formDataToSend, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      alert("Registration successful!");
-    } catch (error) {
-      console.error("Error registering:", error);
-      alert("Registration failed. Please try again.");
-    }
-  };
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+      
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            alert("No token found. Please log in.");
+            return;
+          }
+          const formDataToSend = new FormData();
+          formDataToSend.append("firstName", formData.firstName);
+          formDataToSend.append("lastName", formData.lastName);
+          formDataToSend.append("email", formData.email);
+          formDataToSend.append("location", formData.location);
+          formDataToSend.append("course", formData.course);
+          formDataToSend.append("gender", formData.gender);
+          formDataToSend.append("disabled", formData.disabled);
+          formDataToSend.append("contact", formData.contact);
+          formDataToSend.append("amount", formData.amount);
+          formDataToSend.append("description", formData.description);
+          if (formData.avatar) {
+            formDataToSend.append("avatar", formData.avatar);
+          }
+      
+          await axios.post("http://localhost:5000/api/learners", formDataToSend, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+      
+          alert("Registration successful!");
+        } catch (error) {
+          console.error("Error registering:", error);
+          alert("Registration failed. Please try again.");
+        }
+      };
+      
+      
+      
 
   return (
     <div className="application-profile">
@@ -130,9 +151,9 @@ const NewApllication = () => {
                 <div className="input-container">
                     <i className="fas fa-wheelchair icon"></i> 
                     <select name="disabled" value={formData.disabled} onChange={handleChange} required>
-                        <option value="">Disabled</option>
-                        <option value="disabled1">Yes</option>
-                        <option value="disabled2">No</option>
+                    <option value="">Disabled</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
                     </select>
                 </div>
             </div>
@@ -154,7 +175,13 @@ const NewApllication = () => {
             <div className="form-group">
               <div className="input-container">
                 <i className="fas fa-dollar-sign icon"></i>
-                <input type="text" name="amount" placeholder="Amount" value={formData.amount} onChange={handleChange} required />
+                <input 
+                  type="text" 
+                  name="amount" 
+                  placeholder="Amount" 
+                  value={courses.find(c => c._id === formData.course)?.price || ""} 
+                  readOnly 
+                />
               </div>
             </div>
           </div>

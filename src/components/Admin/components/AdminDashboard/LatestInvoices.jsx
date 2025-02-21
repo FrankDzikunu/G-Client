@@ -17,8 +17,7 @@ const LatestInvoices = () => {
         const response = await axios.get("http://localhost:5000/api/admin/latest-invoices", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        // Response is directly an array of invoices
-        setInvoices(response.data);
+        setInvoices(response.data || []); // Ensure it's always an array
       } catch (error) {
         console.error("Error fetching invoices:", error);
       }
@@ -28,41 +27,42 @@ const LatestInvoices = () => {
 
   return (
     <div className="latest-invoices-container">
-      <div  className="latastInvoices-titel">
+      <div className="latastInvoices-titel">
         <h2>Latest Invoices</h2>
       </div>
       <div className="latestInvoices">
         <div className="invoiceList">
-          {invoices.map((invoice, index) => (
-            <div key={index} className="invoiceItem">
-              <img
-                src={
-                  invoice.learner && invoice.learner.avatar
-                    ? `http://localhost:5000/${invoice.learner.avatar.replace(/\\/g, "/")}`
-                    : "/default-avatar.png"
-                }
-                alt={
-                  invoice.learner
-                    ? `${invoice.learner.firstName} ${invoice.learner.lastName}`
-                    : "Invoice Avatar"
-                }
-                className="avatar"
-              />
-              <div className="details">
-                <p className="name">
-                  {invoice.learner 
-                    ? `${invoice.learner.firstName} ${invoice.learner.lastName}`
-                    : "Unknown Learner"}
-                </p>
-                <p className="course">
-                  {invoice.learner.course && invoice.learner.course.name
-                    ? invoice.learner.course.name
-                    : "No course"}
-                </p>
-              </div>
-              <p className="amount">${invoice.amountPaid.toFixed(2)}</p>
-            </div>
-          ))}
+          {invoices.length > 0 ? (
+            invoices.map((invoice, index) => {
+              const learner = invoice.learner || null;
+              const learnerName = learner
+                ? `${learner.firstName} ${learner.lastName}`
+                : "Unknown Learner";
+              const courseName =
+                learner && learner.course && learner.course.name
+                  ? learner.course.name
+                  : "No Course";
+              const avatarUrl =
+                learner && learner.avatar
+                  ? `http://localhost:5000/${learner.avatar.replace(/\\/g, "/")}`
+                  : "/default-avatar.png";
+
+              return (
+                <div key={invoice._id || index} className="invoiceItem">
+                  <img src={avatarUrl} alt={learnerName} className="avatar" />
+                  <div className="details">
+                    <p className="name">{learnerName}</p>
+                    <p className="course">{courseName}</p>
+                  </div>
+                  <p className="amount">
+                    ${invoice.amountPaid ? invoice.amountPaid.toFixed(2) : "0.00"}
+                  </p>
+                </div>
+              );
+            })
+          ) : (
+            <p className="no-invoices">No invoices available.</p>
+          )}
         </div>
       </div>
     </div>

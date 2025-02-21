@@ -131,8 +131,10 @@ const getAdminProfile = asyncHandler(async (req, res) => {
   if (admin) {
     res.json({
       _id: admin._id,
-      name: `${admin.firstName} ${admin.lastName}`,
+      firstName: admin.firstName,
+      lastName: admin.lastName,
       email: admin.email,
+      password: admin.password,
       profileImage: admin.profileImage,
     });
   } else {
@@ -170,21 +172,6 @@ const updateAdminProfile = asyncHandler(async (req, res) => {
     throw new Error("Admin not found");
   }
 });
-
-// Update profile picture
-const updateProfilePicture = async (req, res) => {
-  const adminId = req.admin._id;
-  try {
-    const admin = await Admin.findById(adminId);
-    if (!admin) return res.status(404).json({ message: "Admin not found" });
-
-    admin.profileImage = req.file.path;
-    await admin.save();
-    res.json({ message: "Profile picture updated", profileImage: admin.profileImage });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
-  }
-};
 
 // @desc    Register a new admin
 // @route   POST /api/admin/register
@@ -235,6 +222,36 @@ const registerAdmin = async (req, res) => {
   }
 };
 
+// Add updatePassword function
+const updatePassword = asyncHandler(async (req, res) => {
+  const admin = await Admin.findById(req.admin._id);
+  if (!admin) {
+    return res.status(404).json({ message: "Admin not found" });
+  }
+  if (!req.body.password) {
+    return res.status(400).json({ message: "Please provide a new password" });
+  }
+  const salt = await bcrypt.genSalt(10);
+  admin.password = await bcrypt.hash(req.body.password, salt);
+  await admin.save();
+  res.json({ message: "Password updated successfully" });
+});
+
+// If updateProfilePicture isn’t defined, ensure it is defined too:
+const updateProfilePicture = asyncHandler(async (req, res) => {
+  const admin = await Admin.findById(req.admin._id);
+  if (!admin) {
+    return res.status(404).json({ message: "Admin not found" });
+  }
+  // Ensure req.file exists and has a path property
+  if (!req.file || !req.file.path) {
+    return res.status(400).json({ message: "No file uploaded" });
+  }
+  admin.profileImage = req.file.path;
+  await admin.save();
+  res.json({ message: "Profile picture updated", profileImage: admin.profileImage });
+});
+
 module.exports = {
   getDashboardStats,
   getRecentRevenue,
@@ -244,4 +261,5 @@ module.exports = {
   getAdminProfile,
   updateAdminProfile,
   updateProfilePicture,
+  updatePassword,
 };

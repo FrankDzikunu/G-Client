@@ -85,16 +85,17 @@ const AdminProfile = () => {
   // Handle profile image upload
   const handleUploadImage = async () => {
     if (!newProfileImage) return;
-
+  
     const formData = new FormData();
     formData.append("profileImage", newProfileImage);
-
+    
+  
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put("http://localhost:5000/api/admin/upload-image", formData, {
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
       });
-
+  
       setAdmin({ ...admin, profileImage: response.data.profileImage });
       setMessage("Profile image updated!");
     } catch (error) {
@@ -151,7 +152,13 @@ const AdminProfile = () => {
         <div className="password-fields">
           <div className="password-input-group">
             <FaLock className="profile-icon" />
-            <input type={showCurrentPassword ? "text" : "password"} placeholder="Current password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required />
+            <input
+                type={showCurrentPassword ? "text" : "password"}
+                placeholder="Enter current password (******)"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                required
+              />
             <span onClick={() => setShowCurrentPassword(!showCurrentPassword)}>{showCurrentPassword ? <FaEyeSlash /> : <FaEye />}</span>
           </div>
           <div className="password-input-group">

@@ -25,12 +25,11 @@ const createLearner = async (req, res) => {
     gender,
     disabled,
     contact,
-    course,       // This is the course _id from the frontend
-    amount,       // This should be a number as a string (we convert it)
-    description,  // This maps directly to 'description'
+    course,       
+    amount,       
+    description,  
   } = req.body;
   
-  // If a file is uploaded, use its path; otherwise, avatar is null.
   const avatar = req.file ? req.file.path : null;
 
   try {
@@ -42,9 +41,9 @@ const createLearner = async (req, res) => {
       gender,
       disabled,
       contact,
-      course: course,            // Use "course" field as defined in the schema
-      amount: Number(amount),      // Use "amount" field as defined in the schema
-      description: description,    // Use "description" field as defined in the schema
+      course: course,            
+      amount: Number(amount),      
+      description: description,    
       avatar,
     });
 

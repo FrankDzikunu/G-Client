@@ -16,15 +16,17 @@ const AdminHeader = ({ onLogout }) => {
         const response = await axios.get("http://localhost:5000/api/admin/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setUsername(response.data.name); // Use the returned name
+        console.log("Admin Profile Data:", response.data); // Debugging
+        setUsername(`${response.data.firstName} ${response.data.lastName}`);
       } catch (error) {
         console.error("Error fetching user info:", error.response?.data?.message || error.message);
       }
     };
-    
-
+  
     fetchUserInfo();
   }, []);
+
+  
   const menu = (
     <Menu>
       <Menu.Item key="1" icon={<UserOutlined />}>

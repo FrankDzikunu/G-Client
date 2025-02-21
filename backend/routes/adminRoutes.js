@@ -1,29 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const { getDashboardStats, getRecentRevenue, getLatestInvoices, updateAdminProfile, updateProfilePicture, getAdminProfile, registerAdmin, authAdmin  } = require("../controllers/adminController");
+const multer = require("multer");
+const { getDashboardStats, getRecentRevenue, getLatestInvoices, updateAdminProfile, updateProfilePicture, getAdminProfile, registerAdmin, authAdmin, updatePassword } = require("../controllers/adminController");
 const { authMiddleware, adminMiddleware } = require("../middlewares/authMiddleware");
-const upload = require("../middlewares/uploadMiddleware");
+
+// Configure Multer for image uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname)
+});
+const upload = multer({ storage });
 
 // Example admin route
 router.get("/dashboard", authMiddleware, adminMiddleware, (req, res) => {
   res.json({ message: "Welcome to the Admin Dashboard!" });
 });
-router.get("/stats", authMiddleware, adminMiddleware, getDashboardStats); // Dashboard overview stats
-router.get("/recent-revenue", authMiddleware, adminMiddleware, getRecentRevenue); // Recent revenue data
-router.get("/latest-invoices", authMiddleware, adminMiddleware, getLatestInvoices); // Latest invoices
+router.get("/stats", authMiddleware, adminMiddleware, getDashboardStats);
+router.get("/recent-revenue", authMiddleware, adminMiddleware, getRecentRevenue);
+router.get("/latest-invoices", authMiddleware, adminMiddleware, getLatestInvoices);
 
-// Admin signup route
 router.post("/register", registerAdmin);
-
 router.post("/login", authAdmin);
-// Get admin profile
 router.get("/profile", authMiddleware, adminMiddleware, getAdminProfile);
 
 // Update admin profile (name, email, password)
-router.put("/profile", authMiddleware, adminMiddleware, upload.single("profileImage"), updateAdminProfile);
+router.put("/profile", authMiddleware, adminMiddleware, updateAdminProfile);
 
-// Update profile picture
-router.put("/profile-picture", authMiddleware, adminMiddleware, upload.single("profileImage"), updateProfilePicture);
-
+// Admin-specific routes
+router.put("/update-password", authMiddleware, updatePassword);
+router.put("/upload-image", authMiddleware, adminMiddleware, upload.single("profileImage"), updateProfilePicture);
 
 module.exports = router;

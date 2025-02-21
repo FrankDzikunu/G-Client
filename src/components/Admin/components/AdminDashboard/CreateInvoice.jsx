@@ -96,7 +96,7 @@ const CreateInvoice = () => {
             <option value="">Select learner</option>
             {learners.map((learner) => (
               <option key={learner._id} value={learner._id}>
-                {learner.lastName || learner.email || "Unknown Learner"}
+                {learner.firstName} {learner.lastName} ({learner.email})
               </option>
             ))}
           </select>

@@ -101,11 +101,12 @@ const loginUser = async (req, res) => {
 // Get user profile
 const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId); // Now using userId from middleware
-
+    console.log("Decoded token in getUserProfile:", req.user);
+    // Use req.user._id because your token payload contains _id
+    const user = await User.findById(req.user._id);
     if (user) {
       res.json({
-        userId: user.userId,
+        _id: user._id,
         name: user.username,
         email: user.email,
         role: user.role,
@@ -119,12 +120,13 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+
 const updatePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
     
-    // Find the user using the ID from the token 
-    const user = await User.findById(req.user.userId);
+    // Use req.user._id
+    const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -149,6 +151,7 @@ const updatePassword = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 // Logout user
 const logoutUser = (req, res) => {
