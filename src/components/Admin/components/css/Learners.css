@@ -1,5 +1,5 @@
 .learners-container {
-    background: #f8f9fa;
+    background: #ffffff;
     padding: 20px;
     border-radius: 8px;
   }
@@ -11,19 +11,46 @@
     margin-bottom: 20px;
   }
   
-  .search-bar {
-    width: 250px;
+
+  .Learners-search-bar {
+    display: flex;
+    align-items: center;
+    background: #f1f1f1;
+    padding: 8px;
+    width: 60vw;
+    border-radius: 5px;
+    border-bottom: #007bff 1px solid;
+    box-sizing: border-box;
+  }
+
+  .Learners-search-bar input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
   }
   
   .sort-dropdown {
-    width: 120px;
+    width: 10vw;
+    display: flex;
+    align-items: center;
+    background-color: #f1f1f1;
+    padding: 8px;
+    height: 100%;
+    border-radius: 5px;
+    border-bottom: #007bff 1px solid;
+    box-sizing: border-box;
   }
   
+  .Learner-table {
+    background: #f1f1f1;
+  }
   .create-btn {
-    background-color: #007bff;
+    background-color: #01589A;
     border-color: #007bff;
     display: flex;
     align-items: center;
+    height: 100%;
   }
   
   .create-btn:hover {
@@ -78,5 +105,9 @@
   
   .ant-pagination {
     text-align: center;
+    justify-self: center;
   }
   
+  .ant-sort-by {
+    background-color: transparent;
+  }

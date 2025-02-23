@@ -17,4 +17,6 @@ const LearnerSchema = new mongoose.Schema(
   { timestamps: true } 
 );
 
+LearnerSchema.index({ email: 1, course: 1 }, { unique: true });
+
 module.exports = mongoose.model("Learner", LearnerSchema);

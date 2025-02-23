@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "../css/Invoices.css";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FaSearch, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Invoices = () => {
   const [invoices, setInvoices] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const invoicesPerPage = 5;
+  const invoicesPerPage = 10;
 
   useEffect(() => {
     fetchInvoices();
@@ -24,6 +26,34 @@ const Invoices = () => {
     } catch (error) {
       console.error("Error fetching invoices:", error);
     }
+  };
+
+  // Confirmation and deletion for an invoice using SweetAlert2
+  const handleDeleteInvoice = (invoiceId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to delete this invoice. This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const token = localStorage.getItem("token");
+          await axios.delete(`http://localhost:5000/api/invoices/${invoiceId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          // Remove deleted invoice from state
+          setInvoices((prev) => prev.filter((invoice) => invoice._id !== invoiceId));
+          Swal.fire("Deleted!", "Invoice has been deleted.", "success");
+        } catch (error) {
+          console.error("Error deleting invoice:", error);
+          Swal.fire("Error!", "Invoice deletion failed. Please try again.", "error");
+        }
+      }
+    });
   };
 
   const filteredInvoices = invoices.filter((invoice) => {
@@ -58,7 +88,7 @@ const Invoices = () => {
           </div>
           <Link to="/admin/create-invoices">
             <button className="create-invoice-btn">
-              Create Invoice&ensp; <FaPlus />
+              Create Invoice &ensp; <FaPlus />
             </button>
           </Link>
         </div>
@@ -87,9 +117,10 @@ const Invoices = () => {
                   }
                   alt={invoice.learner.email}
                   className="learner-avatar"
-                /> {invoice.learner.firstName} {invoice.learner.lastName}
+                />{" "}
+                {invoice.learner.firstName} {invoice.learner.lastName}
               </td>
-              <td className="learner-cell" >{invoice.learner.email}</td>
+              <td className="learner-cell">{invoice.learner.email}</td>
               <td className="learner-cell">${invoice.amountPaid.toFixed(2)}</td>
               <td className="learner-cell">{new Date(invoice.date).toLocaleDateString()}</td>
               <td className="learner-cell">
@@ -99,10 +130,10 @@ const Invoices = () => {
               </td>
               <td className="learner-cell">
                 <button className="learner-edit-btn">
-                  <FaEdit />
+                   <EditOutlined className="action-icon edit-icon" />
                 </button>
-                <button className="delete-btn">
-                  <FaTrash />
+                <button className="delete-btn" onClick={() => handleDeleteInvoice(invoice._id)}>
+                <DeleteOutlined className="action-icon delete-icon"/>
                 </button>
               </td>
             </tr>
@@ -111,7 +142,7 @@ const Invoices = () => {
       </table>
 
       {/* Pagination */}
-      <div className="pagination">
+      <div className="invoices-pagination">
         <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}>&lt;</button>
         <span>
           {currentPage} of {Math.ceil(filteredInvoices.length / invoicesPerPage)} pages

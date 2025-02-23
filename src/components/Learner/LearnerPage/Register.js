@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "../../../context/authContext"; 
+import { useAuth } from "../../../context/authContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./css/Register.css";
 
 function Register() {
@@ -22,12 +24,14 @@ function Register() {
 
   // Fetch courses from the backend
   useEffect(() => {
-    axios.get("http://localhost:5000/api/courses")
+    axios
+      .get("http://localhost:5000/api/courses")
       .then((response) => {
-        setCourses(response.data); 
+        setCourses(response.data);
       })
       .catch((error) => {
         console.error("Error fetching courses:", error);
+        toast.error("Error fetching courses");
       });
   }, []);
 
@@ -45,66 +49,57 @@ function Register() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     if (!user) {
-      alert("You must be logged in to register for a course. Please log in or sign up.");
+      toast.error("You must be logged in to register for a course. Please log in or sign up.");
       return;
     }
-  
-    if (!formData.amount || !formData.course) {
-      alert("Please select a course and enter an amount.");
-      return;
-    }
-  
     try {
-      const token = localStorage.getItem("token"); 
+      const token = localStorage.getItem("token");
       if (!token) {
-        alert("Authorization error: No token found. Please log in again.");
+        toast.error("No token found. Please log in.");
         return;
       }
-  
       const formDataToSend = new FormData();
-      Object.keys(formData).forEach((key) => {
-        if (key === "avatar") {
-          if (formData.avatar) {
-            formDataToSend.append("avatar", formData.avatar);
-          }
-        } else {
-          formDataToSend.append(key, formData[key]);
-        }
-      });
-  
-      console.log("Final FormData Content:");
-      for (let pair of formDataToSend.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
+      formDataToSend.append("firstName", formData.firstName);
+      formDataToSend.append("lastName", formData.lastName);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("location", formData.location);
+      formDataToSend.append("course", formData.course);
+      formDataToSend.append("gender", formData.gender);
+      formDataToSend.append("disabled", formData.disabled);
+      formDataToSend.append("contact", formData.contact);
+      formDataToSend.append("amount", formData.amount);
+      formDataToSend.append("description", formData.description);
+      if (formData.avatar) {
+        formDataToSend.append("avatar", formData.avatar);
       }
-  
+
       await axios.post("http://localhost:5000/api/learners", formDataToSend, {
         headers: {
-          Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
-  
-      alert("Registration successful!");
+
+      toast.success("Registration successful!");
     } catch (error) {
-      console.error("Error registering:", error.response?.data?.message || error.message);
-      alert("Registration failed. Please try again.");
+      console.error("Error registering:", error);
+      toast.error("Registration failed. Please try again.");
     }
   };
-  
-  
-  
 
   return (
     <section className="register">
+      <ToastContainer position="top-right" autoClose={5000} />
       <div className="register-container">
         {/* Left-side content */}
         <div className="register-steps">
           <div className="step">
             <div>
               <h4>Sign up and Choose Your Course</h4>
-              <p>Create your account quickly with just your email or social media login, then explore a wide range.</p>
+              <p>
+                Create your account quickly with just your email or social media login, then explore a wide range.
+              </p>
             </div>
           </div>
           <div className="step">
@@ -129,13 +124,27 @@ function Register() {
               <div className="form-group">
                 <div className="input-container">
                   <i className="fas fa-user icon"></i>
-                  <input type="text" name="firstName" placeholder="First name" value={formData.firstName} onChange={handleChange} required />
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First name"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
               <div className="form-group">
                 <div className="input-container">
                   <i className="fas fa-user icon"></i>
-                  <input type="text" name="lastName" placeholder="Last name" value={formData.lastName} onChange={handleChange} required />
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last name"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
             </div>
@@ -143,13 +152,28 @@ function Register() {
               <div className="form-group">
                 <div className="input-container">
                   <i className="fas fa-envelope icon"></i>
-                  <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
               <div className="form-group">
                 <div className="input-container">
                   <i className="fas fa-map-marker-alt icon"></i>
-                  <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleChange} required />
+                  <input
+                    type="text"
+                    name="location"
+                    placeholder="Location"
+                    value={formData.location}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
             </div>
@@ -167,7 +191,6 @@ function Register() {
                       </option>
                     ))}
                   </select>
-
                 </div>
               </div>
               <div className="form-group">
@@ -193,33 +216,55 @@ function Register() {
                   </select>
                 </div>
               </div>
-              <div className='form-group'>
+              <div className="form-group">
                 <div className="input-container">
                   <i className="fas fa-phone icon"></i>
-                  <input type="number" name="contact" placeholder="Contact" value={formData.contact} onChange={handleChange} required />
+                  <input
+                    type="text"
+                    name="contact"
+                    placeholder="contact"
+                    pattern="^\+?([0-9]{1,3})[-. ]?([0-9]{3,5})[-. ]?([0-9]{4,9})$"
+                    value={formData.contact}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
             </div>
-
             <div className="form-group">
               <div className="input-container">
                 <i className="fas fa-image icon"></i>
-                <input type="file" name="avatar" onChange={handleFileChange} />
+                <input type="file" name="avatar" onChange={handleFileChange} required />
               </div>
             </div>
 
-            <div className="form-group">
-              <div className="input-container">
-                <i className="fas fa-dollar-sign icon"></i>
-                <input type="number" name="amount" placeholder="Amount" value={formData.amount} onChange={handleChange} required />
+            <div className="form-row">
+              <div className="form-group">
+                <div className="input-container">
+                  <i className="fas fa-dollar-sign icon"></i>
+                  <input
+                    type="text"
+                    name="amount"
+                    placeholder="Amount"
+                    value={courses.find((c) => c._id === formData.course)?.price || ""}
+                    readOnly
+                  />
+                </div>
               </div>
             </div>
-
             <div className="form-group">
-              <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} rows="4" />
+              <textarea
+                name="description"
+                placeholder="Description"
+                value={formData.description}
+                onChange={handleChange}
+                rows="4"
+              />
             </div>
 
-            <button type="submit" className="register-button">Register</button>
+            <button type="submit" className="register-button">
+              Register
+            </button>
           </form>
         </div>
       </div>

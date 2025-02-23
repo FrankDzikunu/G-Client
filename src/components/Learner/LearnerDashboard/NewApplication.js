@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect} from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./css/NewApplication.css";
 
 
@@ -28,6 +30,7 @@ const NewApllication = () => {
       })
       .catch((error) => {
         console.error("Error fetching courses:", error);
+       toast.error("Error fetching courses");
       });
   }, []);
 
@@ -49,7 +52,7 @@ const NewApllication = () => {
         try {
           const token = localStorage.getItem("token");
           if (!token) {
-            alert("No token found. Please log in.");
+           toast.error("No token found. Please log in.");
             return;
           }
           const formDataToSend = new FormData();
@@ -74,10 +77,10 @@ const NewApllication = () => {
             },
           });
       
-          alert("Registration successful!");
+         toast.success("Registration successful!");
         } catch (error) {
           console.error("Error registering:", error);
-          alert("Registration failed. Please try again.");
+         toast.error("Registration failed. Please try again.");
         }
       };
       
@@ -90,6 +93,7 @@ const NewApllication = () => {
             <h2>Application <span>&nbsp; Profile</span></h2>
         </div>
         <div>
+          <ToastContainer position="top-right" autoClose={5000} />
         <form className="registerform"  onSubmit={handleSubmit}>
           <h2>Start new application</h2>  
 
@@ -186,7 +190,7 @@ const NewApllication = () => {
             </div>
           </div>
           <div className="form-group">
-          <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} rows="4" required />
+          <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} rows="4"/>
           </div>
             <button type="submit" className="register-button">Register</button>
           </form>

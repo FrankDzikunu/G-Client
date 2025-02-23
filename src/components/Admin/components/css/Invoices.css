@@ -118,17 +118,17 @@
   .learner-edit-btn { color: #28a745; }
   .delete-btn { color: #dc3545; }
   
-  .pagination {
+  .invoices-pagination {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
   }
   
-  .pagination button {
-    background: #f1f1f1;
-    color: rgb(80, 79, 79);
+  .invoices-pagination button {
+    background: #ffffff;
+    color: #3d80fc;
     padding: 5px 10px;
-    border: none;
+    border: 1px solid #3d80fc;
     border-radius: 5px;
   }
   

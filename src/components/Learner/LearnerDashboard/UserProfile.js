@@ -84,17 +84,17 @@ const UserProfile = () => {
           <p>{user.email}</p>
         </div>
         </div>
-        <hr className="divider_vert" />
+        <hr className="divider_vertical" />
         <div >
           <p className="label">Location:</p> 
           <p>Kumasi</p>
         </div>
-        <hr className="divider_vert" />
+        <hr className="divider_vertical" />
         <div>
           <p className="label">Gender:</p> 
           <p>Male</p>
         </div>
-        <hr className="divider_vert" />
+        <hr className="divider_vertical" />
         <div>
           <p className="label">Phone:</p> 
           <p>+23341002402</p>

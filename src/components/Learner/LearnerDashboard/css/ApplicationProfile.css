@@ -34,8 +34,10 @@
     color: gray;
     font-size: 0.9em;
   }
-  .divider_vert {
+  .divider_vertical {
+
     border: none;
+    height: 70px;
     border-left: 1px solid #c7c7c7;
     margin: 10px 0;
   }
@@ -49,10 +51,19 @@
     display: flex;
     justify-content: left;
     gap: 30px;
-    margin: 20px;
+    margin: 20px 0;
     margin-bottom: 50px;
   }
   
+  .tool {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 2px;
+    font-size: 13px;
+    color: #01589A;
+    margin: 5px 0;
+    background-color: #ffffff;
+  }
   .tool-button {
     padding: 10px 20px;
     border: 1px solid transparent;

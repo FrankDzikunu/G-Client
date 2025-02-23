@@ -33,7 +33,7 @@ const upload = require("../multerConfig");
 
 // Use the correct endpoint for registration with avatar upload
 router.post("/", authMiddleware, upload.single("avatar"), createLearner);
-router.get("/", authMiddleware, adminMiddleware, getLearners);
+router.get("/", authMiddleware, getLearners);
 router.get("/:id", authMiddleware, getLearner);
 router.put("/:id", authMiddleware, adminMiddleware, upload.single("avatar"), updateLearner);
 router.delete("/:id", authMiddleware, deleteLearner);

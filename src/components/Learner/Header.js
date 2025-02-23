@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import './css/Header.css';
 import OTPModal from './OTPModal';
 import ForgotPasswordModal from './ForgotPasswordModal';
@@ -88,7 +90,7 @@ function Header() {
     } catch (error) {
       console.error(error);
       const errorMessage = error.response?.data?.message || 'Invalid email or password. Please try again.';
-      alert(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -96,7 +98,7 @@ function Header() {
     event.preventDefault();
 
     if (signupPassword !== signupConfirmPassword) {
-      alert('Passwords do not match');
+      toast.error('Passwords do not match');
       return;
     }
 
@@ -108,7 +110,7 @@ function Header() {
       });
 
       if (response.status === 300) {
-        alert('User already exists. Please log in instead.');
+        toast.error('User already exists. Please log in instead.');
         return;
       }
 
@@ -116,7 +118,7 @@ function Header() {
       setIsOtpModalOpen(true);
       setEmail(signupEmail);
     } catch (error) {
-      alert(error.response?.data?.message || 'Signup failed. Please try again.');
+      toast.error(error.response?.data?.message || 'Signup failed. Please try again.');
     }
   };
 
@@ -141,10 +143,10 @@ function Header() {
         });
         if (response.status === 200) {
           setIsOtpModalOpen(false);
-          alert('OTP verified successfully for password reset.');
+          toast.success('OTP verified successfully for password reset.');
           setIsResetPasswordModalOpen(true); // Open Reset Password Modal
         } else {
-          alert('Invalid OTP. Please try again.');
+          toast.error('Invalid OTP. Please try again.');
         }
       } else {
         // Registration flow
@@ -154,12 +156,12 @@ function Header() {
         });
         if (response.status === 201) {
           setIsOtpModalOpen(false);
-          alert('Registration Successful! You can now log in.');
+          toast.success('Registration Successful! You can now log in.');
           navigate('/');
         } 
       }
     } catch (error) {
-      alert(error.response?.data?.message || 'OTP verification failed. Please try again.');
+      toast.error(error.response?.data?.message || 'OTP verification failed. Please try again.');
     }
   };
 
@@ -171,11 +173,11 @@ function Header() {
         newPassword,
       });
       if (response.status === 200) {
-        alert("Password reset successfully! Please log in with your new password.");
+        toast.error("Password reset successfully! Please log in with your new password.");
         setIsResetPasswordModalOpen(false);
       }
     } catch (error) {
-      alert(error.response?.data?.message || "Password reset failed. Please try again.");
+      toast.error(error.response?.data?.message || "Password reset failed. Please try again.");
     }
   };
 
@@ -207,6 +209,7 @@ function Header() {
 
   return (
     <header className="header">
+      <ToastContainer />
       <div className="logo">
         <Link to="/">
           <img src="/images/logo.png" alt="Client Logo" className="logo" />
