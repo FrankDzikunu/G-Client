@@ -5,7 +5,7 @@ const Admin = require("../models/Admin");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
 const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 // @desc    Get dashboard statistics
 // @route   GET /api/admin/stats
@@ -64,7 +64,6 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
-
 // @desc    Get recent revenue (last 7 days)
 // @route   GET /api/admin/recent-revenue
 // @access  Private (Admin)
@@ -94,7 +93,7 @@ const getLatestInvoices = async (req, res) => {
         path: "learner",
         select: "firstName lastName email avatar course",
         populate: { path: "course", select: "name" }
-      })
+      });
       
     res.json(latestInvoices);
   } catch (error) {
@@ -115,7 +114,8 @@ const authAdmin = asyncHandler(async (req, res) => {
       name: `${admin.firstName} ${admin.lastName}`,
       email: admin.email,
       profileImage: admin.profileImage,
-      token: generateToken(admin._id, "admin"),  // Set role explicitly to "admin"
+      // Generate token with admin._id, admin.email, and role set explicitly to "admin"
+      token: generateToken(admin._id, admin.email, "admin"),
     });
   } else {
     res.status(401);
@@ -142,6 +142,7 @@ const getAdminProfile = asyncHandler(async (req, res) => {
     throw new Error("Admin not found");
   }
 });
+
 // @desc    Update admin profile
 // @route   PUT /api/admin/profile
 // @access  Private (Admin Only)
@@ -165,7 +166,8 @@ const updateAdminProfile = asyncHandler(async (req, res) => {
       name: `${updatedAdmin.firstName} ${updatedAdmin.lastName}`,
       email: updatedAdmin.email,
       profileImage: updatedAdmin.profileImage,
-      token: generateToken(updatedAdmin._id, "admin"),
+      // Generate token with updated admin email
+      token: generateToken(updatedAdmin._id, updatedAdmin.email, "admin"),
     });
   } else {
     res.status(404);
@@ -201,7 +203,7 @@ const registerAdmin = async (req, res) => {
 
     await newAdmin.save();
 
-    // Generate token
+    // Generate token for registration (optional: you might want to use generateToken here too)
     const token = jwt.sign({ id: newAdmin._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
@@ -237,13 +239,12 @@ const updatePassword = asyncHandler(async (req, res) => {
   res.json({ message: "Password updated successfully" });
 });
 
-// If updateProfilePicture isn’t defined, ensure it is defined too:
+// Update profile picture
 const updateProfilePicture = asyncHandler(async (req, res) => {
   const admin = await Admin.findById(req.admin._id);
   if (!admin) {
     return res.status(404).json({ message: "Admin not found" });
   }
-  // Ensure req.file exists and has a path property
   if (!req.file || !req.file.path) {
     return res.status(400).json({ message: "No file uploaded" });
   }

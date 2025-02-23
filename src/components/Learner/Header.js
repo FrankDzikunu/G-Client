@@ -1,19 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleLogin } from "@react-oauth/google";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './css/Header.css';
 import OTPModal from './OTPModal';
 import ForgotPasswordModal from './ForgotPasswordModal';
-import ResetPasswordModal from './ResetPasswordModal'; // Import the new Reset Password Modal
+import ResetPasswordModal from './ResetPasswordModal';
+import AuthPopup from './AuthPopup'; // Import the unified AuthPopup component
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isForgotOpen, setIsForgotOpen] = useState(false); // Controls Forgot Password Modal
-  const [forgotEmail, setForgotEmail] = useState(""); // Email for forgot-password flow
-  const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] = useState(false); // Controls Reset Password Modal
+  const [isForgotOpen, setIsForgotOpen] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
@@ -31,6 +33,7 @@ function Header() {
   const loginPopupRef = useRef(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+
   const openOTPModal = () => setIsOtpModalOpen(true);
 
   useEffect(() => {
@@ -62,33 +65,23 @@ function Header() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-  
     try {
       const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
-  
       if (response.data.requiresOtp) {
         setIsOtpModalOpen(true);
         return;
       }
-  
       const { name, role, token } = response.data;
-  
-      // Store necessary data in local storage
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('username', name);
       localStorage.setItem('userRole', role);
       localStorage.setItem('token', token);
-  
       setIsLoggedIn(true);
       setUsername(name);
       setUserRole(role);
       setIsLoginOpen(false);
-  
-      // Redirect based on user role
       navigate(role === 'admin' ? '/admin' : '/');
-  
     } catch (error) {
-      console.error(error);
       const errorMessage = error.response?.data?.message || 'Invalid email or password. Please try again.';
       toast.error(errorMessage);
     }
@@ -96,24 +89,20 @@ function Header() {
 
   const handleSignup = async (event) => {
     event.preventDefault();
-
     if (signupPassword !== signupConfirmPassword) {
       toast.error('Passwords do not match');
       return;
     }
-
     try {
       const response = await axios.post('http://localhost:5000/api/auth/send-otp', {
         username: signupUsername,
         email: signupEmail,
         password: signupPassword
       });
-
       if (response.status === 300) {
         toast.error('User already exists. Please log in instead.');
         return;
       }
-
       setIsSignupOpen(false);
       setIsOtpModalOpen(true);
       setEmail(signupEmail);
@@ -135,7 +124,6 @@ function Header() {
   const handleOtpSubmit = async () => {
     try {
       const cleanedOtp = otpCode.replace(/,/g, '');
-      // If forgotEmail is set, we're in forgot-password flow.
       if (forgotEmail) {
         const response = await axios.post('http://localhost:5000/api/auth/verify-forgot-password-otp', {
           email: forgotEmail,
@@ -144,12 +132,11 @@ function Header() {
         if (response.status === 200) {
           setIsOtpModalOpen(false);
           toast.success('OTP verified successfully for password reset.');
-          setIsResetPasswordModalOpen(true); // Open Reset Password Modal
+          setIsResetPasswordModalOpen(true);
         } else {
           toast.error('Invalid OTP. Please try again.');
         }
       } else {
-        // Registration flow
         const response = await axios.post('http://localhost:5000/api/auth/verify-otp', {
           email: signupEmail,
           otp: cleanedOtp
@@ -165,7 +152,6 @@ function Header() {
     }
   };
 
-  // Function to handle resetting password after OTP verification.
   const handleResetPassword = async (newPassword) => {
     try {
       const response = await axios.post("http://localhost:5000/api/auth/reset-password", {
@@ -261,110 +247,55 @@ function Header() {
         </div>
       )}
 
-      {isLoginOpen && (
-        <div className="login-popup" ref={loginPopupRef}>
-          <h2>Login</h2>
-          <button className="google-login">
-            <img src="/images/google.png" alt="Google Login" /> Log in using Google
-          </button>
-          <p>or</p>
-          <form onSubmit={handleLogin}>
-            <div className="input-group">
-              <i className="fas fa-envelope"></i>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-              />
-            </div>
-            <div className="input-group">
-              <i className="fas fa-lock"></i>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
-              <button className='eye-icon' type="button" onClick={togglePasswordVisibility}>
-                <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-              </button>
-            </div>
-            <div className="forgot-password">
-              <button className='forget-password' type="button" onClick={() => setIsForgotOpen(true)}>
-                Forgot password?
-              </button>
-            </div>
-            <button type="submit" className="login-submit">Login</button>
-          </form>
-          <p className="signup-link">
-            Need to create an account? <span className="signup" onClick={toggleSignup}>Signup</span>
-          </p>
-        </div>
-      )}
+      {(isLoginOpen || isSignupOpen) && (
+        <AuthPopup
+          isLoginOpen={isLoginOpen}
+          isSignupOpen={isSignupOpen}
+          loginPopupRef={loginPopupRef}
+          handleLogin={handleLogin}
+          handleSignup={handleSignup}
+          toggleSignup={toggleSignup}
+          toggleLogin={toggleLogin}
+          setEmail={setEmail}
+          setPassword={setPassword}
+          setSignupUsername={setSignupUsername}
+          setSignupEmail={setSignupEmail}
+          setSignupPassword={setSignupPassword}
+          setSignupConfirmPassword={setSignupConfirmPassword}
+          email={email}
+          password={password}
+          signupUsername={signupUsername}
+          signupEmail={signupEmail}
+          signupPassword={signupPassword}
+          signupConfirmPassword={signupConfirmPassword}
+          showPassword={showPassword}
+          togglePasswordVisibility={togglePasswordVisibility}
+          setIsForgotOpen={setIsForgotOpen}
 
-      {isSignupOpen && (
-        <div className="login-popup" ref={loginPopupRef}>
-          <h2>Signup</h2>
-          <button className="google-login">
-            <img src="/images/google.png" alt="Google Signup" /> Signup using Google
-          </button>
-          <p>or</p>
-          <form onSubmit={handleSignup}>
-            <div className="input-group">
-              <i className="fas fa-user"></i>
-              <input
-                type="text"
-                value={signupUsername}
-                onChange={(e) => setSignupUsername(e.target.value)}
-                placeholder="Username"
-                required
-              />
-            </div>
-            <div className="input-group">
-              <i className="fas fa-envelope"></i>
-              <input
-                type="email"
-                value={signupEmail}
-                onChange={(e) => setSignupEmail(e.target.value)}
-                placeholder="Email"
-                required
-              />
-            </div>
-            <div className="input-group">
-              <i className="fas fa-lock"></i>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={signupPassword}
-                onChange={(e) => setSignupPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
-              <button className='eye-icon' type="button" onClick={togglePasswordVisibility}>
-                <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-              </button>
-            </div>
-            <div className="input-group">
-              <i className="fas fa-lock"></i>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={signupConfirmPassword}
-                onChange={(e) => setSignupConfirmPassword(e.target.value)}
-                placeholder="Confirm Password"
-                required
-              />
-              <button className='eye-icon' type="button" onClick={togglePasswordVisibility}>
-                <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-              </button>
-            </div>
-            <button type="submit" className="login-submit">Register</button>
-          </form>
-          <p className="signup-link">
-            Already have an account? <span className="signup" onClick={toggleLogin}>Log in</span>
-          </p>
-        </div>
+          handleGoogleResponse={async (credentialResponse) => {
+            try {
+              const response = await fetch("http://localhost:5000/api/auth/google", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ credential: credentialResponse.credential }),
+              });
+              const data = await response.json();
+              console.log("Google auth data:", data);
+              localStorage.setItem("token", data.token);
+              localStorage.setItem("isLoggedIn", "true");
+              localStorage.setItem("username", data.name); // Save username here!
+              setIsLoggedIn(true);
+              setUsername(data.name);
+              setUserRole(data.role);
+              setIsLoginOpen(false);
+              navigate(data.role === 'admin' ? '/admin' : '/');
+            } catch (error) {
+              console.error("Google auth error:", error);
+              toast.error("Google auth error");
+            }
+          }}
+          
+        />
       )}
 
       {isOtpModalOpen && (
@@ -378,7 +309,6 @@ function Header() {
         />
       )}
 
-      {/* Forgot Password Modal */}
       <ForgotPasswordModal
         isOpen={isForgotOpen}
         onClose={() => setIsForgotOpen(false)}
@@ -386,7 +316,6 @@ function Header() {
         setForgotEmail={setForgotEmail}
       />
 
-      {/* Reset Password Modal */}
       {isResetPasswordModalOpen && (
         <ResetPasswordModal
           isOpen={isResetPasswordModalOpen}

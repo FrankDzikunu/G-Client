@@ -6,6 +6,7 @@ const { getUserProfile, getAllUsers, deleteUser, updateUserRole } = require("../
 const { authMiddleware, adminMiddleware } = require("../middlewares/authMiddleware");
 const { sendOtpEmail, verifyOtp, sendForgotPasswordOtp, verifyForgotPasswordOtp, resetPassword } = require('../controllers/otpController');
 const User = require("../models/User");
+const { googleLogin } = require("../controllers/googleAuthController");
 
 const router = express.Router();
 
@@ -93,5 +94,8 @@ router.put("/users/:id", authMiddleware, adminMiddleware, updateUserRole);
 
 router.post('/send-otp', sendOtpEmail);
 router.post('/verify-otp', verifyOtp);
+
+// POST /api/auth/google for Google login/signup
+router.post("/google", googleLogin);
 
 module.exports = router;
