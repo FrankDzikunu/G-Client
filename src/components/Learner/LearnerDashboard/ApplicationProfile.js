@@ -13,34 +13,29 @@ const ApplicationProfile = () => {
     const fetchApplicationProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        // Get all learner records
-        const response = await axios.get("http://localhost:5000/api/learners", {
+        // Get the learner profile directly (not an array)
+        const response = await axios.get("http://localhost:5000/api/learners/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        // Find the learner record whose email matches the logged-in user's email
-        const learnerProfile = response.data.find(
-          (learner) => learner.email.toLowerCase() === user.email.toLowerCase()
-        );
-        // If not found, set to null; else set the found object
-        setApplication(learnerProfile || null);
+  
+        // Set the application directly
+        setApplication(response.data || null);
       } catch (error) {
         console.error(
           "Error fetching application profile:",
           error.response?.data?.message || error.message
         );
-        // If there's an error, we also set null so we don't remain stuck in "Loading..."
         setApplication(null);
       }
     };
-
+  
     if (user && user.email) {
       fetchApplicationProfile();
     } else {
-      // If user is not logged in or has no email, we set null to show no-application UI
       setApplication(null);
     }
   }, [user]);
-
+  
   // If application is still undefined, show "Loading..."
   if (application === undefined) {
     return <div className="application-profile">Loading application profile...</div>;
@@ -62,17 +57,17 @@ const ApplicationProfile = () => {
         {/* No-application UI */}
         <div className="application-profile">
           <img
-            src="/path/to/no-application.png"  // Replace with your actual image path
+            src="/images/no-application.png"  // Replace with your actual image path
             alt="No Application"
             className="no-app-img"
           />
           <p className="no-app-text">!!! OOPs no application</p>
-          <div className="no-app-actions">
-            <button className="action-button back-button" onClick={() => navigate(-1)}>
-              Back
+          <div className="actions" style={{ justifyContent: "center", gap: "30px" }}>
+            <button className="action-button home" onClick={() => navigate(-1)}>
+              Home
             </button>
             <Link to="/startnewapplication">
-              <button className="action-button new-application-button">
+              <button className="action-button new-application">
                 Start new application
               </button>
             </Link>

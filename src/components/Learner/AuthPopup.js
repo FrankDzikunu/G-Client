@@ -1,6 +1,5 @@
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
-import { Link } from "react-router-dom";
 
 const AuthPopup = ({
   isLoginOpen,
@@ -32,7 +31,7 @@ const AuthPopup = ({
       {isLoginOpen && (
         <>
           <h2>Login</h2>
-          <div className="google-login">
+          <div>
             <GoogleLogin
               onSuccess={handleGoogleResponse}
               onError={() => console.log("Google login failed")}
@@ -91,7 +90,7 @@ const AuthPopup = ({
       {isSignupOpen && (
         <>
           <h2>Signup</h2>
-          <div className="google-login">
+          <div>
             <GoogleLogin
               onSuccess={handleGoogleResponse}
               onError={() => console.log("Google signup failed")}

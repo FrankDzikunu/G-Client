@@ -162,9 +162,8 @@
   
   .buttonz {
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     margin-top: 16px;
-    justify-self: right;
     gap: 20px;
     margin: 40px 0;
     height: 40px;

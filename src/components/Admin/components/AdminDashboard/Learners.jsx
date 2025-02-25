@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { Table, Input, Select, Button } from "antd";
 import { EyeOutlined, EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
@@ -172,9 +173,11 @@ const Learners = () => {
           <Option value="date">Date</Option>
         </Select>
         </div>
-        <Button type="primary" className="create-btn">
-          <PlusOutlined /> Create learner
-        </Button>
+        <Link to="/admin/create-learners">
+          <Button type="primary" className="create-btn">
+            <PlusOutlined /> Create learner
+          </Button>
+        </Link>
       </div>
     <div className="Learner-table">
       <Table

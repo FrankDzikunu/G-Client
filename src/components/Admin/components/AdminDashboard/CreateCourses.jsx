@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import "../css/CreateCourses.css";
 import { FaBook, FaDollarSign, FaUser, FaClock, FaGlobe, FaImage, FaPencilAlt } from "react-icons/fa";
 
@@ -216,9 +217,10 @@ const CoursesPage = () => {
         <div >
             <div className="form-group-A">
               <div className="input-container-A">
-              <div className="icon-input">
+              <div className="icon-input file-upload">
                 <FaImage />
                 <input type="file" name="image" accept="image/*" onChange={handleChange} />
+                <label>Upload image</label>
                 </div>
               </div>
             </div>
@@ -242,9 +244,11 @@ const CoursesPage = () => {
           </div>
     </div>
         <div className="buttonz">
+          <Link to="/admin/courses">
           <button type="button" className="cancel-btn">
             Cancel
           </button>
+          </Link>
           <button type="submit" className="submit-btn">
             Create Course
           </button>

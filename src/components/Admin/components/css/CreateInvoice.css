@@ -25,8 +25,9 @@ color: #000;
 
   .invoice-actions {
     display: flex;
-    justify-content: space-between;
     margin-top: 20px;
+    justify-content: right;
+    gap: 20px;
   }
   
   .cancel-btn {

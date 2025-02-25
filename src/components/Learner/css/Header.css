@@ -153,29 +153,6 @@
     margin-bottom: 15px;
   }
   
-  .google-login {
-    display: flex;
-    font-size: 1.1rem;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 10px;
-    background: #fff;
-    color: #0139b1;
-    border: 1px solid #007bff;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  .google-login:hover {
-    background-color: #f0f0f0;
-  }
-  .google-login img {
-    height: 30px;
-    width: 30px;
-    margin-right: 10px;
-  }
   
   .input-group {
     display: flex;

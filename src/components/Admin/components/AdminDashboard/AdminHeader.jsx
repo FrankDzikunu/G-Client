@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Dropdown, Avatar, Menu } from 'antd';
-import { DownOutlined, UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import { DownOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../css/AdminHeader.css';
@@ -30,13 +30,10 @@ const AdminHeader = ({ onLogout }) => {
   const menu = (
     <Menu>
       <Menu.Item key="1" icon={<UserOutlined />}>
-        <Link to="/admin/profile">Profile</Link>
-      </Menu.Item>
-      <Menu.Item key="2" icon={<SettingOutlined />}>
-        <Link to="/admin/settings">Settings</Link>
+        <Link to="/admin/settings">Profile</Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="3" icon={<LogoutOutlined />} onClick={onLogout}>
+      <Menu.Item key="2" icon={<LogoutOutlined />} onClick={onLogout}>
         Logout
       </Menu.Item>
     </Menu>

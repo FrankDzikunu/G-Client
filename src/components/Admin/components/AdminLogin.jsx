@@ -26,6 +26,7 @@ const AdminLogin = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.name);
       localStorage.setItem("userRole", "admin");
+      localStorage.setItem("isLoggedIn", "true");
 
       // Redirect to admin dashboard 
       navigate("/admin");

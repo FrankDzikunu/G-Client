@@ -23,6 +23,7 @@ import AdminSignup from './components/Admin/components/AdminSignup';
 import AdminCourseDetails from './components/Admin/pages/AdminCourseDetails';
 import AdminCreateInvoice from './components/Admin/pages/AdminCreateInvoice';
 import AdminLearners from './components/Admin/pages/AdminLearners';
+import AdminCreateLearner from './components/Admin/pages/AdminCreateLearner';
 
 import './App.css';
 
@@ -48,6 +49,12 @@ function App() {
         <Route path="/admin/create-courses" element={
           <AdminRoute>
           <AdminCreateCourses />
+          </AdminRoute>
+        } />
+
+          <Route path="/admin/create-learners" element={
+          <AdminRoute>
+          <AdminCreateLearner />
           </AdminRoute>
         } />
         <Route path="/admin/create-invoices" element={

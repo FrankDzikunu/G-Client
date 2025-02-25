@@ -3,8 +3,6 @@ const generateToken = require("../utils/generateToken.js");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-
-
 // Get all users (Admin only)
 const getAllUsers = async (req, res) => {
   try {
@@ -80,7 +78,8 @@ const loginUser = async (req, res) => {
     console.log("Password match result:", isMatch);
 
     if (isMatch) {
-      const token = generateToken(String(user._id), user.role);
+      // Updated: Pass user._id, user.email, and user.role to generateToken
+      const token = generateToken(user._id, user.email, user.role);
       return res.status(200).json({
         _id: user._id,
         name: user.username,
@@ -102,7 +101,7 @@ const loginUser = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     console.log("Decoded token in getUserProfile:", req.user);
-    // Use req.user._id because your token payload contains _id
+    // Use req.user._id because our auth middleware sets it from token's userId
     const user = await User.findById(req.user._id);
     if (user) {
       res.json({
@@ -120,7 +119,7 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-
+// Update password
 const updatePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
@@ -151,7 +150,6 @@ const updatePassword = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 
 // Logout user
 const logoutUser = (req, res) => {

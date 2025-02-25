@@ -91,7 +91,11 @@
     background-color: #fff0f0;
     color: #8b0000;
   }
-  
+  .no-app-text {
+    font-weight: bold;
+    text-align: center;
+    margin: 50px 0;
+  }
   .actions {
     display: flex;
     justify-content: left;

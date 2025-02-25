@@ -17,6 +17,7 @@ const LearnerDetailsModal = ({ visible, onClose, learner }) => {
       <div className="modal-header">
         <button className="close-btn" onClick={onClose}>✕</button>
       </div>
+      <div className="top-colour"></div>
       <div className="modal-content">
         <div className="profile-img-container">
           <img src={learner.avatar} alt="avatar" className="profile-img" />
@@ -25,14 +26,25 @@ const LearnerDetailsModal = ({ visible, onClose, learner }) => {
         <p className="learner-email">{learner.email}</p>
         <hr className="divider" />
 
-        <div className="learner-info">
-          <p><strong>Program:</strong> {learner.course?.name || "N/A"}</p>
-          <p><strong>Gender:</strong> {learner.gender}</p>
-          <p><strong>Contact:</strong> {learner.contact || "N/A"}</p>
-          <p><strong>Location:</strong> {learner.location || "N/A"}</p>
-          <p><strong>Paid:</strong> ${learner.amount.toFixed(2)}</p>
-          <p><strong>Bio:</strong> {learner.description || "N/A"}</p>
+
+        <div className="learnerinfo">
+        <div className="learnerinfo-grid">
+          <div className="learnerinfo-label">Program:</div>
+          <div className="learnerinfo-data">{learner.course?.name || "N/A"}</div>
+          <div className="learnerinfo-label">Gender:</div>
+          <div className="learnerinfo-data">{learner.gender}</div>
+          <div className="learnerinfo-label">Contact:</div>
+          <div className="learnerinfo-data">{learner.contact || "N/A"}</div>
+          <div className="learnerinfo-label">Location:</div>
+          <div className="learnerinfo-data">{learner.location || "N/A"}</div>
+          <div className="learnerinfo-label">Paid:</div>
+          <div className="learnerinfo-data">${learner.amount.toFixed(2)}</div>
+          <div className="learnerinfo-label">Bio:</div>
+          <div className="learnerinfo-data">{learner.description || "N/A"}</div>
         </div>
+      </div>
+
+
       </div>
     </Modal>
   );

@@ -4,7 +4,7 @@ const LearnerSchema = new mongoose.Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true , unique: true },
     location: { type: String, required: true },
     course: { type: mongoose.Schema.Types.ObjectId, ref: "Course", required: true },
     gender: { type: String, enum: ["male", "female"], required: true },

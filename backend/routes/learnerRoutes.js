@@ -7,6 +7,7 @@ const {
   getLearner,
   updateLearner,
   deleteLearner,
+  getLearnerProfile,
 } = require("../controllers/learnerController");
 const { authMiddleware, adminMiddleware } = require("../middlewares/authMiddleware");
 
@@ -30,12 +31,14 @@ const fileFilter = (req, file, cb) => {
 
 const upload = require("../multerConfig");
 
-
+router.get("/profile", authMiddleware, getLearnerProfile);
 // Use the correct endpoint for registration with avatar upload
 router.post("/", authMiddleware, upload.single("avatar"), createLearner);
-router.get("/", authMiddleware, getLearners);
+router.get("/", authMiddleware, adminMiddleware, getLearners);
 router.get("/:id", authMiddleware, getLearner);
 router.put("/:id", authMiddleware, adminMiddleware, upload.single("avatar"), updateLearner);
 router.delete("/:id", authMiddleware, deleteLearner);
+
+
 
 module.exports = router;

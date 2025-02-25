@@ -22,6 +22,14 @@ const Sidebar = () => {
     { path: "/admin/reports", label: "Reports", icon: <BarChartOutlined /> },
   ];
 
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userRole');
+    localStorage.setItem('forceLogout', Date.now());
+    window.location.href = '/admin-login';
+  };
+
   return (
     <div className="sidebar">
       <div className="sidebar-logo">
@@ -47,7 +55,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/logout">
+              <Link to="/logout" onClick={handleLogout}>
                 <LogoutOutlined className="sidebar-icon" />
                 <span>Logout</span>
               </Link>

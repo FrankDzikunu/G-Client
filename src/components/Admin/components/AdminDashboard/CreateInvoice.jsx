@@ -109,7 +109,7 @@ const CreateInvoice = () => {
             <div className="input-container-A">
         <div className="icon-input">
           <FontAwesomeIcon icon={faDollarSign} className="input-icon" />
-          <input
+          <input style={{marginLeft: '10px'}}
             type="number"
             name="amountPaid"
             value={invoice.amountPaid}
@@ -124,7 +124,7 @@ const CreateInvoice = () => {
             <div className="input-container-A">
         <div className="icon-input">
           <FontAwesomeIcon icon={faCalendar} className="input-icon" />
-          <input
+          <input style={{border:'none', marginLeft:'20px', color: '#666',}}
             type="date"
             name="date"
             value={invoice.date}
@@ -150,7 +150,7 @@ const CreateInvoice = () => {
             <div className="input-container-A">
         <div className="icon-input">
           <FontAwesomeIcon icon={faPen} className="input-icon" />
-          <input
+          <input style={{marginLeft: '20px'}}
             type="text"
             name="details"
             value={invoice.details}

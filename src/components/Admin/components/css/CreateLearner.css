@@ -1,0 +1,29 @@
+
+  .create-learner-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .file-upload {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .file-upload input {
+    display: none;
+  }
+  
+  .file-upload label {
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  
+  

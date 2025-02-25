@@ -106,10 +106,24 @@ const deleteLearner = async (req, res) => {
   }
 };
 
+const getLearnerProfile = async (req, res) => {
+  try {
+    // Use req.user.email (set by authMiddleware) to find the learner record
+    const learner = await Learner.findOne({ email: req.user.email }).populate("course");
+    if (!learner) {
+      return res.status(404).json({ message: "Learner profile not found" });
+    }
+    res.json(learner);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getLearners,
   createLearner,
   getLearner,
   updateLearner,
   deleteLearner,
+  getLearnerProfile,
 };
