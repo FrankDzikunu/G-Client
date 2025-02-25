@@ -23,16 +23,19 @@ const NewApllication = () => {
     });
 
       // Fetch courses from the backend
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/courses")
-      .then((response) => {
-        setCourses(response.data); 
-      })
-      .catch((error) => {
-        console.error("Error fetching courses:", error);
-       toast.error("Error fetching courses");
-      });
-  }, []);
+      const fetchCourses = async () => {
+        try {
+          const response = await axios.get("http://localhost:5000/api/courses");
+          setCourses(response.data);
+        } catch (error) {
+          console.error("Error fetching courses:", error);
+          toast.error("Error fetching courses");
+        }
+      };
+    
+      useEffect(() => {
+        fetchCourses();
+      }, []);
 
       // Handle input changes
   const handleChange = (e) => {
@@ -43,6 +46,20 @@ const NewApllication = () => {
     // Handle file upload
     const handleFileChange = (e) => {
       setFormData((prev) => ({ ...prev, avatar: e.target.files[0] }));
+    };
+
+      // Handle select changes; if course changes, update amount with course price
+    const handleSelectChange = (name, value) => {
+      if (name === "course") {
+        const selectedCourse = courses.find((course) => course._id === value);
+        setFormData((prev) => ({
+          ...prev,
+          course: value,
+          amount: selectedCourse ? selectedCourse.price : "",
+        }));
+      } else {
+        setFormData((prev) => ({ ...prev, [name]: value }));
+      }
     };
 
       // Handle form submission
@@ -78,6 +95,21 @@ const NewApllication = () => {
           });
       
          toast.success("Registration successful!");
+              // Reset form after successful submission
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            location: "",
+            course: "",
+            gender: "",
+            disabled: "",
+            contact: "",
+            amount: "",
+            description: "",
+            avatar: null,
+          });
+
         } catch (error) {
           console.error("Error registering:", error);
          toast.error("Registration failed. Please try again.");
@@ -129,7 +161,7 @@ const NewApllication = () => {
               <div className="form-group">
                 <div className="input-container">
                   <i className="fas fa-graduation-cap icon"></i>
-                  <select name="course" value={formData.course} onChange={handleChange} required>
+                  <select name="course" value={formData.course} onChange={(e) => handleSelectChange("course", e.target.value)} required>
                     <option value="">Choose Course</option>
                     {courses.map((course) => (
                       <option key={course._id} value={course._id}>
@@ -142,7 +174,7 @@ const NewApllication = () => {
             <div className="form-group">
               <div className="input-container">
                 <i className="fas fa-venus-mars icon"></i>
-                <select name="gender" value={formData.gender} onChange={handleChange} required>
+                <select name="gender" value={formData.gender} onChange={(e) => handleSelectChange("gender", e.target.value)} required>
                   <option value="">Gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -154,7 +186,7 @@ const NewApllication = () => {
             <div className="form-group">
                 <div className="input-container">
                     <i className="fas fa-wheelchair icon"></i> 
-                    <select name="disabled" value={formData.disabled} onChange={handleChange} required>
+                    <select name="disabled" value={formData.disabled} onChange={(e) => handleSelectChange("disabled", e.target.value)} required>
                     <option value="">Disabled</option>
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
@@ -183,7 +215,7 @@ const NewApllication = () => {
                   type="text" 
                   name="amount" 
                   placeholder="Amount" 
-                  value={courses.find(c => c._id === formData.course)?.price || ""} 
+                  value={formData.amount || ""}  
                   readOnly 
                 />
               </div>

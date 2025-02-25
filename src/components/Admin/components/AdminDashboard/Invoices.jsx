@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "../css/Invoices.css";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { FaSearch, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import { FaSearch, FaPlus, } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const Invoices = () => {
@@ -13,20 +13,19 @@ const Invoices = () => {
   const invoicesPerPage = 10;
 
   useEffect(() => {
+    const fetchInvoices = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:5000/api/invoices", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setInvoices(response.data);
+      } catch (error) {
+        console.error("Error fetching invoices:", error);
+      }
+    };
     fetchInvoices();
   }, []);
-
-  const fetchInvoices = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/api/invoices", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setInvoices(response.data);
-    } catch (error) {
-      console.error("Error fetching invoices:", error);
-    }
-  };
 
   // Confirmation and deletion for an invoice using SweetAlert2
   const handleDeleteInvoice = (invoiceId) => {
@@ -56,9 +55,12 @@ const Invoices = () => {
     });
   };
 
+  // Filter invoices 
   const filteredInvoices = invoices.filter((invoice) => {
-    const learnerName = `${invoice.learner.firstName || ""} ${invoice.learner.lastName || ""}`;
-    const learnerEmail = invoice.learner.email || "";
+    const learnerFirstName = invoice.learner?.firstName || "";
+    const learnerLastName = invoice.learner?.lastName || "";
+    const learnerEmail = invoice.learner?.email || "";
+    const learnerName = `${learnerFirstName} ${learnerLastName}`.trim();
     const searchLower = searchTerm.toLowerCase();
     return (
       learnerName.toLowerCase().includes(searchLower) ||
@@ -106,38 +108,53 @@ const Invoices = () => {
           </tr>
         </thead>
         <tbody>
-          {currentInvoices.map((invoice) => (
-            <tr key={invoice._id}>
-              <td className="learner-cell">
-                <img
-                  src={
-                    invoice.learner.avatar
-                      ? `http://localhost:5000/${invoice.learner.avatar.replace(/\\/g, "/")}`
-                      : "/default-avatar.png"
-                  }
-                  alt={invoice.learner.email}
-                  className="learner-avatar"
-                />{" "}
-                {invoice.learner.firstName} {invoice.learner.lastName}
-              </td>
-              <td className="learner-cell">{invoice.learner.email}</td>
-              <td className="learner-cell">${invoice.amountPaid.toFixed(2)}</td>
-              <td className="learner-cell">{new Date(invoice.date).toLocaleDateString()}</td>
-              <td className="learner-cell">
-                <span className={`status ${invoice.status.toLowerCase()}`}>
-                  {invoice.status}
-                </span>
-              </td>
-              <td className="learner-cell">
-                <button className="learner-edit-btn">
-                   <EditOutlined className="action-icon edit-icon" />
-                </button>
-                <button className="delete-btn" onClick={() => handleDeleteInvoice(invoice._id)}>
-                <DeleteOutlined className="action-icon delete-icon"/>
-                </button>
+          {currentInvoices.length > 0 ? (
+            currentInvoices.map((invoice) => {
+              const learner = invoice.learner;
+              const learnerName = learner
+                ? `${learner.firstName || ""} ${learner.lastName || ""}`.trim() || "Unknown Learner"
+                : "Unknown Learner";
+              const learnerEmail = learner?.email || "";
+              const courseName = learner?.course?.name || "No Course";
+              const avatarUrl = learner?.avatar
+                ? `http://localhost:5000/${learner.avatar.replace(/\\/g, "/")}`
+                : "/default-avatar.png";
+              return (
+                <tr key={invoice._id}>
+                  <td className="learner-cell">
+                    <img src={avatarUrl} alt={learnerEmail} className="learner-avatar" />{" "}
+                    {learnerName}
+                  </td>
+                  <td className="learner-cell">{learnerEmail}</td>
+                  <td className="learner-cell">
+                    ${invoice.amountPaid ? invoice.amountPaid.toFixed(2) : "0.00"}
+                  </td>
+                  <td className="learner-cell">
+                    {new Date(invoice.date).toLocaleDateString()}
+                  </td>
+                  <td className="learner-cell">
+                    <span className={`status ${invoice.status?.toLowerCase()}`}>
+                      {invoice.status}
+                    </span>
+                  </td>
+                  <td className="learner-cell">
+                    <button className="learner-edit-btn">
+                      <EditOutlined className="action-icon edit-icon" />
+                    </button>
+                    <button className="delete-btn" onClick={() => handleDeleteInvoice(invoice._id)}>
+                      <DeleteOutlined className="action-icon delete-icon" />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan="6" className="no-invoices">
+                No invoices available.
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
