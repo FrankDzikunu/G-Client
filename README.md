@@ -179,7 +179,8 @@ The frontend will run on `http://localhost:3000`, and the backend on `http://loc
 
 1. **Register / Login**  
    - Access the home page at `http://localhost:3000`.
-   - Register or login as a learner or admin.
+   - Register or login as a learner 
+   - If you want to login as an admin use `http://localhost:3000/admin-login`
 
 2. **Admin Dashboard**  
    - If logged in as admin, you can access the admin dashboard (e.g., `http://localhost:3000/admin`).
