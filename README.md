@@ -1,6 +1,3 @@
-
-
-```markdown
 # G Client
 
 **G Client** is an e-learning platform that enables users to register for technology-related courses and learn at their own pace. The platform also features an admin dashboard for managing courses and learners, as well as secure authentication and password reset functionality.
@@ -72,6 +69,8 @@ The project follows a monorepo-like structure, containing both the frontend and 
 <details>
   <summary>Click to view directory structure</summary>
 
+### Root Directory
+
 ```
 G-Client/
 ├── backend/
@@ -129,7 +128,7 @@ G-Client/
 ```bash
 git clone https://github.com/yourusername/G-Client.git
 cd G-Client
-```
+
 
 ### 2. Install Dependencies
 
