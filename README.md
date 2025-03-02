@@ -162,7 +162,7 @@ PORT=5000
 - **Backend**  
   ```bash
   cd backend
-  npm start
+  npm run dev
   ```
 - **Frontend**  
   In a separate terminal:
