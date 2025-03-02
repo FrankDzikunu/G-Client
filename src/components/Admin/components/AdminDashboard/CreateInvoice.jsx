@@ -11,7 +11,7 @@ const CreateInvoice = () => {
     amountPaid: "",
     date: "",
     status: "",
-    details: "", // We'll use this as paymentDetails
+    details: "", 
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -55,7 +55,7 @@ const CreateInvoice = () => {
           amountPaid: invoice.amountPaid,
           status: invoice.status,
           date: invoice.date,
-          paymentDetails: invoice.details, // changed field name here
+          paymentDetails: invoice.details, 
         },
         {
           headers: { Authorization: `Bearer ${token}` },

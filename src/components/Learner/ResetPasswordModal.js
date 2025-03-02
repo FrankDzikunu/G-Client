@@ -13,7 +13,6 @@ const ResetPasswordModal = ({ isOpen, onClose, email }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Ensure email is provided
     if (!email) {
       setError("Email is missing. Please try again.");
       return;

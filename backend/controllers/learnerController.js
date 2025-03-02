@@ -1,5 +1,5 @@
 const Learner = require("../models/Learner");
-const Course = require("../models/Course"); // Import the Course model
+const Course = require("../models/Course"); 
 
 // @desc    Get all learners
 // @route   GET /api/learners
@@ -77,7 +77,6 @@ const updateLearner = async (req, res) => {
   const learner = await Learner.findById(req.params.id);
 
   if (learner) {
-    // Note: Adjust field updates as necessary.
     learner.firstName = req.body.firstName || learner.firstName;
     learner.lastName = req.body.lastName || learner.lastName;
     learner.email = req.body.email || learner.email;
@@ -108,7 +107,6 @@ const deleteLearner = async (req, res) => {
 
 const getLearnerProfile = async (req, res) => {
   try {
-    // Use req.user.email (set by authMiddleware) to find the learner record
     const learner = await Learner.findOne({ email: req.user.email }).populate("course");
     if (!learner) {
       return res.status(404).json({ message: "Learner profile not found" });

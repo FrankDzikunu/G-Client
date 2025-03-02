@@ -7,7 +7,7 @@ import './css/Header.css';
 import OTPModal from './OTPModal';
 import ForgotPasswordModal from './ForgotPasswordModal';
 import ResetPasswordModal from './ResetPasswordModal';
-import AuthPopup from './AuthPopup'; // Import the unified AuthPopup component
+import AuthPopup from './AuthPopup'; 
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,7 +60,7 @@ function Header() {
   };
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleForgotPassword = () => setIsForgotOpen(!isForgotOpen);
+
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -224,10 +224,11 @@ function Header() {
                 <div className="dropdown-menu" ref={dropdownRef}>
                   <div 
                     className="dropdown-item"
-                    onClick={() => window.location.href = "/dashboard"}
+                    onClick={() => window.location.href = (userRole === "admin" ? "/admin" : "/dashboard")}
                   >
                     <i className="fas fa-graduation-cap"></i> Portal
                   </div>
+
                   <div className="dropdown-item" onClick={handleLogout}>
                     <i className="fas fa-sign-out-alt"></i> Logout
                   </div>
@@ -282,7 +283,7 @@ function Header() {
               console.log("Google auth data:", data);
               localStorage.setItem("token", data.token);
               localStorage.setItem("isLoggedIn", "true");
-              localStorage.setItem("username", data.name); // Save username here!
+              localStorage.setItem("username", data.name); 
               setIsLoggedIn(true);
               setUsername(data.name);
               setUserRole(data.role);

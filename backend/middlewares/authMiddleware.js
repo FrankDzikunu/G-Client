@@ -22,7 +22,6 @@ const authMiddleware = (req, res, next) => {
 
 const adminMiddleware = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
-    // For admin routes, assign req.admin = req.user so controllers can use it.
     req.admin = req.user;
     return next();
   }

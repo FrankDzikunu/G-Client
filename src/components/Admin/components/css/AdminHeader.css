@@ -1,4 +1,4 @@
-/* Container for the admin header */
+
 .admin-header {
     display: flex;
     justify-content: space-between;
@@ -16,7 +16,7 @@
     right: 40px;
     top: 40px;
   }
-  /* Title styling */
+
   .admin-header-title h1 {
     margin: 0;
     font-size: 24px;

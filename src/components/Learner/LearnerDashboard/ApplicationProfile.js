@@ -57,7 +57,7 @@ const ApplicationProfile = () => {
         {/* No-application UI */}
         <div className="application-profile">
           <img
-            src="/images/no-application.png"  // Replace with your actual image path
+            src="/images/no-application.png"  
             alt="No Application"
             className="no-app-img"
           />

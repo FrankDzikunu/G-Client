@@ -14,7 +14,6 @@ function HeroSection() {
         <button className="hero-button">Get Started</button>
       </div>
       <div className="hero-image">
-        {/* Replace `laptop.png` with your image file */}
         <img src='./images/laptop.png' alt="Laptop with hands" />
       </div>
     </section>

@@ -1,70 +1,243 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+```markdown
+# G Client
 
-In the project directory, you can run:
+**G Client** is an e-learning platform that enables users to register for technology-related courses and learn at their own pace. The platform also features an admin dashboard for managing courses and learners, as well as secure authentication and password reset functionality.
 
-### `npm start`
+## Table of Contents
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+  - [Backend](#backend)
+  - [Frontend](#frontend)
+- [Installation & Setup](#installation--setup)
+  - [1. Clone the Repository](#1-clone-the-repository)
+  - [2. Install Dependencies](#2-install-dependencies)
+  - [3. Set Up Environment Variables](#3-set-up-environment-variables)
+  - [4. Run the Application](#4-run-the-application)
+- [Usage](#usage)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+- [Author](#author)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+1. **User Registration & Login**  
+   - Users can create an account, log in, and manage their profile.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **Course Enrollment**  
+   - Learners can enroll in tech courses to access course materials.
 
-### `npm run build`
+3. **Admin Dashboard**  
+   - Admins can create, update, and delete courses.
+   - Admins can manage learner registrations.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. **Password Reset**  
+   - Secure password reset flow for users who have forgotten their passwords.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+5. **File Upload**  
+   - Users can upload profile pictures, and admins can manage course images.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+6. **Secure Routing**  
+   - Routes are protected for both learners and admins, ensuring data security.
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Tech Stack
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Frontend
+- **React.js**  
+- **CSS**  
+- **React Router** for client-side routing  
+- **Axios** for HTTP requests  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Backend
+- **Node.js** & **Express.js**  
+- **MongoDB** with **Mongoose**  
+- **JWT** (JSON Web Tokens) for authentication  
+- **multer** for file uploads  
+- **bcrypt.js** for password hashing
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Project Structure
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The project follows a monorepo-like structure, containing both the frontend and backend in one repository.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<details>
+  <summary>Click to view directory structure</summary>
 
-### Code Splitting
+```
+G-Client/
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── middlewares/
+│   ├── models/
+│   ├── routes/
+│   ├── uploads/
+│   ├── utils/
+│   ├── .env
+│   ├── index.js
+│   └── package.json
+└── src/
+    ├── components/
+    │   ├── Admin/
+    │   ├── Learner/
+    │   └── ...
+    ├── context/
+    ├── pages/
+    ├── css/
+    ├── index.js
+    ├── App.js
+    ├── App.css
+    └── package.json
+```
+</details>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Backend
 
-### Analyzing the Bundle Size
+- **`index.js`**: Entry point for the Node/Express server.  
+- **`controllers/`**: Contains logic for handling requests (e.g., user, admin, course controllers).  
+- **`middlewares/`**: Holds custom middleware (e.g., auth checks).  
+- **`models/`**: Mongoose models for MongoDB collections.  
+- **`routes/`**: Defines Express routes for various resources (e.g., `/api/users`, `/api/courses`).  
+- **`utils/`**: Utility functions like token generation, email sending, etc.  
+- **`uploads/`**: Stores uploaded files if configured to store locally.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Frontend
 
-### Making a Progressive Web App
+- **`src/`**: Main React application folder.  
+- **`components/`**: Reusable UI components (split into `Admin/` and `Learner/`).  
+- **`pages/`**: Higher-level pages or views.  
+- **`context/`**: Context API for global state management (e.g., `AuthContext`).  
+- **`css/`**: CSS files for styling.  
+- **`index.js`**: Entry point for the React app.  
+- **`App.js`**: Root component that defines routing and global layout.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## Installation & Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 1. Clone the Repository
 
-### Deployment
+```bash
+git clone https://github.com/yourusername/G-Client.git
+cd G-Client
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 2. Install Dependencies
 
-### `npm run build` fails to minify
+1. **Root / Frontend**  
+   ```bash
+   npm install
+   ```
+2. **Backend**  
+   ```bash
+   cd backend
+   npm install
+   cd ..
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 3. Set Up Environment Variables
+
+In the `backend/` folder, create a `.env` file with the following:
+
+```
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+PORT=5000
+```
+
+- **`MONGO_URI`**: Your MongoDB connection string.  
+- **`JWT_SECRET`**: A secret key for JWT token signing.  
+- **`PORT`**: The port for the Express server (default 5000).
+
+### 4. Run the Application
+
+- **Backend**  
+  ```bash
+  cd backend
+  npm start
+  ```
+- **Frontend**  
+  In a separate terminal:
+  ```bash
+  cd ..
+  npm start
+  ```
+
+The frontend will run on `http://localhost:3000`, and the backend on `http://localhost:5000`.
+
+---
+
+## Usage
+
+1. **Register / Login**  
+   - Access the home page at `http://localhost:3000`.
+   - Register or login as a learner or admin.
+
+2. **Admin Dashboard**  
+   - If logged in as admin, you can access the admin dashboard (e.g., `http://localhost:3000/admin`).
+   - Manage courses, view learners, and handle invoices.
+
+3. **Learner Registration**  
+   - Learners can view available courses, register, and pay for them.
+   - They can manage their profiles, reset passwords, and track progress.
+
+---
+
+## Testing
+
+the project is set up to use:
+
+- **Jest** & **React Testing Library** for frontend tests.
+- **Jest** or **Mocha** with **Supertest** for backend tests.
+
+To run any existing or future tests:
+
+```bash
+npm test
+```
+
+---
+
+## Deployment
+
+The app is not yet hosted. For deployment, you can consider platforms like:
+
+- **Netlify** or **Vercel** for the frontend.  
+- **Heroku** or **Railway** for the backend.
+
+---
+
+## Contributing
+
+1. **Fork** the repository.  
+2. **Create** a new branch: `git checkout -b feature-name`.  
+3. **Commit** changes: `git commit -m 'Add some feature'`.  
+4. **Push** to the branch: `git push origin feature-name`.  
+5. **Open** a pull request to discuss changes.
+
+---
+
+## License
+
+This project is not yet licensed. You can add a license of your choice (e.g., MIT) by creating a `LICENSE` file in the root directory.
+
+---
+
+## Author
+
+**Frank Dzikunu**  
+- [GitHub Profile](https://github.com/FrankDzikunu)  
+- Email: frankdzikunu50@gmail.com  
+
+---
+
+If you have any questions, feel free to reach out or open an issue in the repository. Happy learning!

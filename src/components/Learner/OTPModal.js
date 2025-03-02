@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./css/OTPModal.css";
-import ResetPasswordModal from "./ResetPasswordModal"; // Import the Reset Password Modal
+import ResetPasswordModal from "./ResetPasswordModal"; 
 
 const OTPModal = ({ otpCode, setOtpCode, onSubmit, onClose, email }) => {
   const modalRef = useRef(null);
-  const inputRefs = useRef([]); // Array of refs for each OTP input field
+  const inputRefs = useRef([]); 
   const [otp, setOtp] = useState(Array(6).fill('')); // Initialize OTP as an array of 6 empty strings
   const [isOtpVerified, setIsOtpVerified] = useState(false); // Track OTP verification state
 
@@ -81,7 +81,7 @@ const OTPModal = ({ otpCode, setOtpCode, onSubmit, onClose, email }) => {
                   type="text"
                   maxLength="1"
                   value={otp[index] || ''}
-                  ref={(el) => (inputRefs.current[index] = el)} // Assign ref to each input field
+                  ref={(el) => (inputRefs.current[index] = el)}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onPaste={handlePaste}
                   onKeyDown={(e) => {

@@ -1,4 +1,4 @@
-// src/components/Solutions.js
+
 import React from 'react';
 import './css/Cards.css';
 
@@ -9,7 +9,7 @@ function Solutions() {
       description:
         'Unlock your potential with comprehensive training in modern software development, from coding fundamentals to building complex applications.',
       price: '$300',
-      icon: "/images/mane.png", // You can replace this with an image if desired
+      icon: "/images/mane.png", 
     },
     {
       title: 'Data Science Mastery',

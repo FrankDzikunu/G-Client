@@ -101,7 +101,6 @@ const loginUser = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     console.log("Decoded token in getUserProfile:", req.user);
-    // Use req.user._id because our auth middleware sets it from token's userId
     const user = await User.findById(req.user._id);
     if (user) {
       res.json({
