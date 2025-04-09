@@ -195,33 +195,37 @@ textarea {
     max-width: 100%;
   }
   
-    .register-container {
-      grid-template-columns: 1fr;
-    }
-  
-    .form-row {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .register-form {
-      justify-self: center;
-      width: 100%;
-      gap: 1.5rem;
-      padding: 1rem;
-      box-sizing: border-box;
-      margin: 0 auto;
-    }
-    .form-group {
-      width: 100%;
-      max-width: 380px;
-    }
-    textarea {
-      width: 405px;
-    }
-    .register-steps {
-      margin-top: 3rem;
-      margin-bottom: 2rem;
-    }
-
+  .register-container {
+    grid-template-columns: 1fr;
   }
+
+  .form-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .register-form-container {
+    margin-right: 0;
+    margin-left: -1rem;
+  }
+  .register-form {
+    justify-self: center;
+    width: 100%;
+    gap: 1.5rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+  .form-group {
+    width: 100%;
+    max-width: 380px;
+  }
+  textarea {
+    width: 405px;
+  }
+  .register-steps {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+  }
+
+}
   
