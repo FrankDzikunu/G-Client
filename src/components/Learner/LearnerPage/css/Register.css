@@ -86,6 +86,7 @@
     gap: 2.5rem;
     background-color: #ffffff;
     padding: 2rem;
+    box-sizing: border-box;
   }
   
   .form-row {
@@ -93,6 +94,7 @@
     gap: 3rem;
     align-items: center;
     justify-content: space-between;
+    box-sizing: border-box;
   }
   
   .form-group {
@@ -200,6 +202,7 @@ textarea {
       width: 100%;
       gap: 1.5rem;
       padding: 1rem;
+      box-sizing: border-box;
     }
     .form-group {
       width: 100%;
