@@ -10,13 +10,22 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 
-// CORS Configuration (Allow only frontend to access)
+// CORS Configuration (Allow both frontend development and production URLs)
 const corsOptions = {
-  origin: "https://g-client-five.vercel.app", 
-  methods: ["GET", "POST", "PUT", "DELETE"], 
+  origin: function (origin, callback) {
+    // Allow localhost during development
+    if (origin === "http://localhost:3000" || origin === "https://g-client-five.vercel.app") {
+      callback(null, true); // Allow the request
+    } else {
+      callback(new Error("Not allowed by CORS")); // Reject the request
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
+
 app.use(cors(corsOptions));
+
 
 // Serve static files (for uploads)
 app.use("/uploads", express.static("uploads"));
