@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Dropdown, Avatar, Menu } from 'antd';
 import { DownOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 import '../css/AdminHeader.css';
 
 const AdminHeader = ({ onLogout }) => {
   const [username, setUsername] = useState('');
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -26,14 +27,25 @@ const AdminHeader = ({ onLogout }) => {
     fetchUserInfo();
   }, []);
 
-  
+  // This is the function that gets triggered when the user clicks logout
+  const handleLogout = () => {
+    // Clear user data from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('isLoggedIn');
+
+    // Optionally, redirect the user to the login page
+    navigate('/admin-login'); 
+  };
+
   const menu = (
     <Menu>
       <Menu.Item key="1" icon={<UserOutlined />}>
         <Link to="/admin/settings">Profile</Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="2" icon={<LogoutOutlined />} onClick={onLogout}>
+      <Menu.Item key="2" icon={<LogoutOutlined />} onClick={handleLogout}>
         Logout
       </Menu.Item>
     </Menu>
@@ -48,7 +60,6 @@ const AdminHeader = ({ onLogout }) => {
           <div className="admin-header-user-info">
             <Avatar size="large" icon={<UserOutlined />} className="admin-avatar" />
             <span className="admin-username">{username ? username : "Admin"}</span>
-
             <DownOutlined className="admin-caret" />
           </div>
         </Dropdown>
