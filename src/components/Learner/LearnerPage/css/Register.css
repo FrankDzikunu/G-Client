@@ -205,7 +205,7 @@ textarea {
   }
   .register-form-container {
     margin-right: 0;
-    margin-left: -1rem;
+    margin-left: -20px;
   }
   .register-form {
     justify-self: center;
