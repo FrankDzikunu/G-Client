@@ -13,10 +13,10 @@ const LatestInvoices = () => {
           console.error("No token found, user may not be authenticated.");
           return;
         }
-        const response = await axios.get("http://localhost:5000/api/admin/latest-invoices", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/latest-invoices`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setInvoices(response.data || []); // Ensure it's always an array
+        setInvoices(response.data || []); 
       } catch (error) {
         console.error("Error fetching invoices:", error);
       }

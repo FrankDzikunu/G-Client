@@ -29,7 +29,7 @@ const CreateLearner = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/courses");
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/courses`);
         setCourses(response.data);
       } catch (error) {
         console.error("Error fetching courses:", error);
@@ -87,7 +87,7 @@ const CreateLearner = () => {
       const token = localStorage.getItem("token");
 
       // Send POST request to your backend
-      const response = await axios.post("http://localhost:5000/api/learners", fd, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/learners`, fd, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

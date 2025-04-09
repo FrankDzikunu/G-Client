@@ -39,7 +39,7 @@ const RevenueChart = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:5000/api/admin/recent-revenue", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/recent-revenue`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

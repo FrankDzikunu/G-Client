@@ -22,7 +22,7 @@ const Learners = () => {
   useEffect(() => {
     const fetchLearners = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/learners", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/learners`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -91,7 +91,7 @@ const Learners = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:5000/api/learners/${learnerId}`, {
+          await axios.delete(`${process.env.REACT_APP_API_URL}/api/learners/${learnerId}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },

@@ -16,7 +16,7 @@ const Invoices = () => {
     const fetchInvoices = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/api/invoices", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/invoices`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setInvoices(response.data);
@@ -41,7 +41,7 @@ const Invoices = () => {
       if (result.isConfirmed) {
         try {
           const token = localStorage.getItem("token");
-          await axios.delete(`http://localhost:5000/api/invoices/${invoiceId}`, {
+          await axios.delete(`${process.env.REACT_APP_API_URL}/api/invoices/${invoiceId}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           // Remove deleted invoice from state

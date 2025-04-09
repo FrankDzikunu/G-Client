@@ -94,7 +94,7 @@ const CoursesPage = () => {
       }
   
       const response = await axios.post(
-        "http://localhost:5000/api/courses",
+        `${process.env.REACT_APP_API_URL}/api/courses`,
         formDataToSend,
         {
           headers: {

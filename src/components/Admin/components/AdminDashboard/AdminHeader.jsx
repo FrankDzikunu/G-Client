@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/AdminHeader.css';
 
-const AdminHeader = ({ onLogout }) => {
+const AdminHeader = () => {
   const [username, setUsername] = useState('');
   const navigate = useNavigate(); 
 
@@ -14,7 +14,7 @@ const AdminHeader = ({ onLogout }) => {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
-        const response = await axios.get("http://localhost:5000/api/admin/profile", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Admin Profile Data:", response.data); // Debugging

@@ -24,7 +24,7 @@ const DashboardCards = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:5000/api/admin/stats", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/stats`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

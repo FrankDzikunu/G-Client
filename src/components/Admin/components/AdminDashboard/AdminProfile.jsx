@@ -24,7 +24,7 @@ const AdminProfile = () => {
     const fetchAdminProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/api/admin/profile", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAdmin(response.data);
@@ -46,7 +46,7 @@ const AdminProfile = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        "http://localhost:5000/api/admin/profile",
+        `${process.env.REACT_APP_API_URL}/api/admin/profile`,
         { firstName: admin.firstName, lastName: admin.lastName, email: admin.email },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -68,7 +68,7 @@ const AdminProfile = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        "http://localhost:5000/api/admin/update-password",
+        `${process.env.REACT_APP_API_URL}/api/admin/update-password`,
         { currentPassword, newPassword },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -92,7 +92,7 @@ const AdminProfile = () => {
   
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.put("http://localhost:5000/api/admin/upload-image", formData, {
+      const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/admin/upload-image`, formData, {
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
       });
   
