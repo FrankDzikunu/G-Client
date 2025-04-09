@@ -31,7 +31,7 @@ const ResetPasswordModal = ({ isOpen, onClose, email }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/reset-password", {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/reset-password`, {
         email,
         newPassword,
       });

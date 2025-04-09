@@ -25,7 +25,7 @@ function Register() {
   // Fetch courses from the backend
   const fetchCourses = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/courses");
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/courses`);
       setCourses(response.data);
     } catch (error) {
       console.error("Error fetching courses:", error);
@@ -90,7 +90,7 @@ function Register() {
         formDataToSend.append("avatar", formData.avatar);
       }
 
-      await axios.post("http://localhost:5000/api/learners", formDataToSend, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/learners`, formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

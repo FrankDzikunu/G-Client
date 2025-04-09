@@ -14,7 +14,7 @@ const ApplicationProfile = () => {
       try {
         const token = localStorage.getItem("token");
         // Get the learner profile directly (not an array)
-        const response = await axios.get("http://localhost:5000/api/learners/profile", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/learners/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
   

@@ -65,7 +65,7 @@ function Header() {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/login`, { email, password });
       if (response.data.requiresOtp) {
         setIsOtpModalOpen(true);
         return;
@@ -93,7 +93,7 @@ function Header() {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/send-otp', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/send-otp`, {
         username: signupUsername,
         email: signupEmail,
         password: signupPassword
@@ -124,7 +124,7 @@ function Header() {
     try {
       const cleanedOtp = otpCode.replace(/,/g, '');
       if (forgotEmail) {
-        const response = await axios.post('http://localhost:5000/api/auth/verify-forgot-password-otp', {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/verify-forgot-password-otp`, {
           email: forgotEmail,
           otp: cleanedOtp
         });
@@ -136,7 +136,7 @@ function Header() {
           toast.error('Invalid OTP. Please try again.');
         }
       } else {
-        const response = await axios.post('http://localhost:5000/api/auth/verify-otp', {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/verify-otp`, {
           email: signupEmail,
           otp: cleanedOtp
         });
@@ -153,7 +153,7 @@ function Header() {
 
   const handleResetPassword = async (newPassword) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/reset-password", {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/reset-password`, {
         email: forgotEmail,
         newPassword,
       });
@@ -274,7 +274,7 @@ function Header() {
 
           handleGoogleResponse={async (credentialResponse) => {
             try {
-              const response = await fetch("http://localhost:5000/api/auth/google", {
+              const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/google`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ credential: credentialResponse.credential }),

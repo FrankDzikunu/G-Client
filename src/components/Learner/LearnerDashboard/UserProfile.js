@@ -20,7 +20,7 @@ const UserProfile = () => {
       }
 
       try {
-        const { data } = await axios.get("http://localhost:5000/api/users/profile", {
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(data);
@@ -45,7 +45,7 @@ const UserProfile = () => {
   
     try {
       await axios.put(
-        `http://localhost:5000/api/users/${user._id}/update-password`, 
+        `${process.env.REACT_APP_API_URL}/api/users/${user._id}/update-password`, 
         { oldPassword, newPassword },
         { headers: { Authorization: `Bearer ${token}` } }
       );
