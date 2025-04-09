@@ -147,7 +147,7 @@ function Register() {
         </div>
 
         {/* Right-side form */}
-        <div>
+        <div className="register-form-container">
           <h2>Register</h2>
           <form className="register-form" onSubmit={handleSubmit}>
             <div className="form-row">

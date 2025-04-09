@@ -77,7 +77,13 @@
     color: #666666;
     margin-left: 20px;
   }
-  
+  .register-form-container {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    box-sizing: border-box;
+  }
   .register-form {
     display: flex;
     flex-direction: column;
@@ -203,6 +209,7 @@ textarea {
       gap: 1.5rem;
       padding: 1rem;
       box-sizing: border-box;
+      margin: 0 auto;
     }
     .form-group {
       width: 100%;
