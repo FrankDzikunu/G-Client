@@ -117,7 +117,7 @@ const Invoices = () => {
               const learnerEmail = learner?.email || "";
               const courseName = learner?.course?.name || "No Course";
               const avatarUrl = learner?.avatar
-                ? `http://localhost:5000/${learner.avatar.replace(/\\/g, "/")}`
+                ? `${learner.avatar.replace(/\\/g, "/")}`
                 : "/default-avatar.png";
               return (
                 <tr key={invoice._id}>

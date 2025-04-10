@@ -74,7 +74,7 @@ const UserProfile = () => {
         <div className="profile-info">
         <div className="profile-avatar">
           {user.profileImage ? (
-            <img src={`http://localhost:5000/${user.profileImage}`} alt="Profile" />
+            <img src={`${user.profileImage}`} alt="Profile" />
           ) : (
             user.name?.charAt(0)
           )}

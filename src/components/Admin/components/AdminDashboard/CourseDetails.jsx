@@ -81,7 +81,7 @@ const CourseDetails = () => {
       <div className="coursecard">
         <div className="image-wraper">
         <img
-          src={image ? `http://localhost:5000/${image}` : "/default-course.png"}
+          src={image ? `${image}` : "/default-course.png"}
           alt={name}
           className="course-image"
         />

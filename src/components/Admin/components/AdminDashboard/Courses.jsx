@@ -59,7 +59,7 @@ const Courses = () => {
         {currentCourses.map((course) => (
           <div key={course._id} className="course-card">
             <img
-              src={`http://localhost:5000/${course.image}`}
+              src={course.image}
               alt={course.name}
               className="course-image"
             />

@@ -78,7 +78,7 @@ const CoursesPage = () => {
     e.preventDefault();
     const formDataToSend = new FormData();
     for (const key in formData) {
-      if (key === "image") {
+      if (key === "image" && formData[key]) {
         formDataToSend.append(key, formData[key]);
       } else if (key === "stacks") {
         formData[key].forEach((stack) => formDataToSend.append("stacks", stack));
@@ -88,7 +88,7 @@ const CoursesPage = () => {
     }
   
     try {
-      const token = localStorage.getItem("token"); // Ensure token is stored in localStorage
+      const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("No token found");
       }
@@ -99,11 +99,14 @@ const CoursesPage = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log("Course added:", response.data);
+  
+      const course = response.data;
+      console.log("Course added:", course);
+      // Ensure the image URL is being handled correctly
       setFormData({
         name: "",
         price: "",
@@ -113,10 +116,12 @@ const CoursesPage = () => {
         image: null,
         description: "",
       });
+  
     } catch (error) {
       console.error("Error adding course:", error.message);
     }
   };
+  
   
 
   return (

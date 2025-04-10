@@ -110,7 +110,7 @@ const AdminProfile = () => {
       <div className="profile-header">
         <span>
         <img src={admin.profileImage
-                      ? `http://localhost:5000/${admin.profileImage.replace(/\\/g, "/")}`
+                      ? `${admin.profileImage.replace(/\\/g, "/")}`
                       : "/default-avatar.png"
                   } alt="Profile" className="profile-pic" />
         <p>Profile picture</p>

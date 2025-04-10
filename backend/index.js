@@ -6,26 +6,27 @@ const path = require("path");
 
 const app = express();
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
+const allowedOrigins = [
+  "http://localhost:3000", // for local dev
+  "https://g-client-five.vercel.app", // your deployed frontend
+];
 
-// CORS Configuration (Allow both frontend development and production URLs)
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow localhost during development
-    if (origin === "http://localhost:3000" || origin === "https://g-client-five.vercel.app") {
-      callback(null, true); // Allow the request
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS")); // Reject the request
+      callback(new Error("Not allowed by CORS"));
     }
   },
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-app.use(cors(corsOptions));
-
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors(corsOptions)); 
 
 // Serve static files (for uploads)
 app.use("/uploads", express.static("uploads"));
@@ -46,7 +47,7 @@ mongoose
   })
   .catch((err) => {
     console.error("MongoDB Connection Error:", err);
-    process.exit(1); // Exit if connection fails
+    process.exit(1);
   });
 
 // Routes

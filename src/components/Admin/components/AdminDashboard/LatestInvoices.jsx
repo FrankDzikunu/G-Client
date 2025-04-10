@@ -43,7 +43,7 @@ const LatestInvoices = () => {
                   : "No Course";
               const avatarUrl =
                 learner && learner.avatar
-                  ? `http://localhost:5000/${learner.avatar.replace(/\\/g, "/")}`
+                  ? `${learner.avatar.replace(/\\/g, "/")}`
                   : "/default-avatar.png";
 
               return (

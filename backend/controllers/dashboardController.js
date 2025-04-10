@@ -52,21 +52,27 @@ const getRecentRevenue = async (req, res) => {
       {
         $match: {
           paymentStatus: "Paid",
-          createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
         },
       },
       {
         $group: {
-          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          _id: {
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+          },
           total: { $sum: "$amountPaid" },
         },
       },
-      { $sort: { _id: 1 } },
+      { $sort: { _id: -1 } }, // sort by date DESC (latest first)
+      { $limit: 7 }, // only last 7 revenue days
+      { $sort: { _id: 1 } }, // sort ASC for charts
     ]);
+
     res.json(revenue);
   } catch (error) {
+    console.error("Revenue Fetch Error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 module.exports = { getDashboardStats, getRecentRevenue };

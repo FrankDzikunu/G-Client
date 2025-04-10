@@ -32,7 +32,7 @@ const Learners = () => {
         const formattedLearners = response.data.map((learner) => ({
           ...learner,
           avatar: learner.avatar 
-            ? `http://localhost:5000/${learner.avatar.replace(/\\/g, "/")}` 
+            ? `${learner.avatar.replace(/\\/g, "/")}` 
             : "",
           courseName: learner.course?.name || "N/A",
           registrationDate: learner.createdAt 
