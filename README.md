@@ -225,14 +225,14 @@ The app is hosted on:
 ![Products](screenshots/learner-courses.png)
 
 ### 📄 admin courses page
-![admin courses](screenshots/learner-courses.png)
+![admin courses](screenshots/admin-courses.png)
 
 ### 📄 Dashboard
 ![Dashboard](screenshots/cart.png)
 
 ### 🔐 Auth Pages
 ![Login Page](screenshots/login.png)
-![Sign up Page](screenshots/register.png)
+![Sign up Page](screenshots/signup.png)
 
 ---
 
