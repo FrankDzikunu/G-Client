@@ -216,10 +216,11 @@ function Header() {
             </>
           ) : (
             <div className="user-dropdown">
-              <button className="user-button" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                <span className="user-initials">{username[0]}</span> {username}{' '}
-                <i className="fas fa-caret-down"></i>
-              </button>
+                <button className="user-button" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                  <span className="user-initials">{username ? username[0] : 'u'}</span> {username || 'User'}{' '}
+                  <i className="fas fa-caret-down"></i>
+                </button>
+
               {isDropdownOpen && (
                 <div className="dropdown-menu" ref={dropdownRef}>
                   <div 
