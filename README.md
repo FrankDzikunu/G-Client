@@ -127,7 +127,7 @@ G-Client/
 
 ```bash
 git clone https://github.com/FrankDzikunu/G-Client
-cd backend
+
 
 
 ### 2. Install Dependencies
