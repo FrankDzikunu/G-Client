@@ -126,13 +126,13 @@ G-Client/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/G-Client.git
-cd G-Client
+git clone https://github.com/FrankDzikunu/G-Client
+cd backend
 
 
 ### 2. Install Dependencies
 
-1. **Root / Frontend**  
+1. **Root /**  
    ```bash
    npm install
    ```
@@ -209,10 +209,10 @@ npm test
 
 ## Deployment
 
-The app is not yet hosted. For deployment, you can consider platforms like:
+The app is hosted on: 
 
-- **Netlify** or **Vercel** for the frontend.  
-- **Heroku** or **Railway** for the backend.
+- **Render** for the backend.  [g-client.onrender.com](https://g-client.onrender.com)
+- **Vercel** for the frontend.  [g-client-five.vercel.app"](https://g-client-five.vercel.app)
 
 ---
 
@@ -221,21 +221,18 @@ The app is not yet hosted. For deployment, you can consider platforms like:
 ### 🏠 Home Page
 ![Home Screenshot](screenshots/homepage.png)
 
-### 📄 Products
-![Products](screenshots/products.png)
+### 📄 public courses page
+![Products](screenshots/learner-courses.png)
 
-### 📄 Product Details
-![Product Details](screenshots/product-details.png)
+### 📄 admin courses page
+![admin courses](screenshots/learner-courses.png)
 
-### 🛒 Cart
-![Cart Page](screenshots/cart.png)
+### 📄 Dashboard
+![Dashboard](screenshots/cart.png)
 
 ### 🔐 Auth Pages
 ![Login Page](screenshots/login.png)
-![register Page](screenshots/register.png)
-
-### 🧍‍♂️ order detail view
-![Order detail](screenshots/order-detail.png)
+![Sign up Page](screenshots/register.png)
 
 ---
 

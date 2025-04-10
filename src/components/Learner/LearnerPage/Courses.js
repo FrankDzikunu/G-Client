@@ -80,7 +80,7 @@ const TopCourses = () => {
       </div>
 
         {/* Pagination Buttons */}
-        <div className="pagination">
+        <div className="pagination-container">
             {Array.from({ length: Math.ceil(filteredCourses.length / coursesPerPage) }, (_, i) => (
             <button
                 key={i + 1}
