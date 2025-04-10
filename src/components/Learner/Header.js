@@ -208,7 +208,7 @@ function Header() {
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/">Courses</Link>
+                <Link to="/courses">Courses</Link>
               </li>
               <button className="login-button" onClick={toggleLogin}>
                 Login <i className="fas fa-sign-in-alt"></i>

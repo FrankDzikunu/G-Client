@@ -24,6 +24,7 @@ import AdminCourseDetails from './components/Admin/pages/AdminCourseDetails';
 import AdminCreateInvoice from './components/Admin/pages/AdminCreateInvoice';
 import AdminLearners from './components/Admin/pages/AdminLearners';
 import AdminCreateLearner from './components/Admin/pages/AdminCreateLearner';
+import Courses from './components/Learner/LearnerPage/Courses';
 
 import './App.css';
 
@@ -101,6 +102,16 @@ function App() {
               </>
             }
           />
+            <Route
+            path="/courses"
+            element={
+              <>
+              <Header />
+              <Courses />
+              <Footer />
+              </>
+            }
+          />
           <Route
             path="/dashboard"
             element={
@@ -140,6 +151,7 @@ function App() {
               </>
             }
           />
+
         </Routes>
       </div>
     </Router>

@@ -216,13 +216,26 @@ The app is not yet hosted. For deployment, you can consider platforms like:
 
 ---
 
-## Contributing
+## 📸 Screenshots
 
-1. **Fork** the repository.  
-2. **Create** a new branch: `git checkout -b feature-name`.  
-3. **Commit** changes: `git commit -m 'Add some feature'`.  
-4. **Push** to the branch: `git push origin feature-name`.  
-5. **Open** a pull request to discuss changes.
+### 🏠 Home Page
+![Home Screenshot](screenshots/homepage.png)
+
+### 📄 Products
+![Products](screenshots/products.png)
+
+### 📄 Product Details
+![Product Details](screenshots/product-details.png)
+
+### 🛒 Cart
+![Cart Page](screenshots/cart.png)
+
+### 🔐 Auth Pages
+![Login Page](screenshots/login.png)
+![register Page](screenshots/register.png)
+
+### 🧍‍♂️ order detail view
+![Order detail](screenshots/order-detail.png)
 
 ---
 

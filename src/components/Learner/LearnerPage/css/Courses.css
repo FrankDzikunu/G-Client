@@ -1,0 +1,105 @@
+.top-courses-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: sans-serif;
+  }
+  .Courses-content {
+    text-align: center;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    margin-bottom: 30px;
+    background-color: #E6E6E6 ;
+  }
+  
+  .top-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+  
+  .courses-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .course-card {
+    flex: 1 1 300px;
+    max-height: 450px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: none;
+    text-align: center;
+    border: none;
+  }
+  
+  .course-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+  
+  .course-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .course-description {
+    font-size: 14px;
+    color: #444;
+    min-height: 48px;
+    margin-bottom: 12px;
+  }
+  
+  .course-rating-price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #444;
+  }
+  
+  .stars {
+    color: #f5a623;
+    font-size: 14px;
+  }
+  .rating {
+    font-size: 20px;
+    color: #444;
+  }
+  .price {
+    font-size: 20px;
+    font-weight: 500;
+    color: #444;
+    margin-left: 20px;
+    text-align: right;
+  }
+
+  .preview-button {
+    background-color: #005eb8;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 30px;
+  }
+  
+  .preview-button:hover {
+    background-color: #004a94;
+  }
+  
