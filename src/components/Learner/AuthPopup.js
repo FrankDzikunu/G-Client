@@ -37,6 +37,7 @@ const AuthPopup = ({
             <GoogleLogin
               onSuccess={handleGoogleResponse}
               onError={() => console.log("Google login failed")}
+              className="custom-google-btn" 
             />
           </div>
           <p>or</p>
@@ -96,7 +97,7 @@ const AuthPopup = ({
           <GoogleLogin
               onSuccess={handleGoogleResponse}
               onError={() => console.log("Google login failed")}
-              className="custom-google-btn" // Add a custom class name
+              className="custom-google-btn" 
             />
           </div>
           <p>or</p>
