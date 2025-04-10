@@ -273,6 +273,7 @@ function Header() {
           setIsForgotOpen={setIsForgotOpen}
 
           handleGoogleResponse={async (credentialResponse) => {
+            console.log("Google Credential Response:", credentialResponse);
             try {
               const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/google`, {
                 method: "POST",
