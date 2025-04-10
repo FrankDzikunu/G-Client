@@ -1,7 +1,6 @@
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 
-import "./AuthPopup.css";
 
 const AuthPopup = ({
   isLoginOpen,
