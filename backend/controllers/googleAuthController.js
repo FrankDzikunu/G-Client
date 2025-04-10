@@ -16,24 +16,25 @@ const googleLogin = async (req, res) => {
 
     let user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
-      const randomPassword = Math.random().toString(36).slice(-8);
       user = new User({
         username: name,
         email: email.toLowerCase(),
-        password: randomPassword,
+        password: Math.random().toString(36).slice(-8), // generate a random password
         role: "user", // explicitly set role as user
         profileImage: picture,
       });
       await user.save();
+      console.log("New user created:", user);
     } else {
       // Ensure the user document has the correct email and role
       user.email = email.toLowerCase();
-      user.role = "user";
+      user.role = user.role || "user";
       await user.save();
+      console.log("Existing user updated:", user);
     }
 
     // Force the role to "user" regardless of what is in user.role
-    const token = generateToken(user._id, user.email, "user");
+    const token = generateToken(user._id, user.email, user.role);
 
     return res.json({
       _id: user._id,
