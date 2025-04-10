@@ -1,6 +1,8 @@
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 
+import "./AuthPopup.css";
+
 const AuthPopup = ({
   isLoginOpen,
   isSignupOpen,
@@ -91,9 +93,10 @@ const AuthPopup = ({
         <>
           <h2>Signup</h2>
           <div>
-            <GoogleLogin
+          <GoogleLogin
               onSuccess={handleGoogleResponse}
-              onError={() => console.log("Google signup failed")}
+              onError={() => console.log("Google login failed")}
+              className="custom-google-btn" // Add a custom class name
             />
           </div>
           <p>or</p>
